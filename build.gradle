@@ -6,6 +6,10 @@ plugins {
 version = project.mod_version
 group = project.maven_group
 
+base {
+    archivesName = project.archives_base_name
+}
+
 repositories {
 	// Add repositories to retrieve artifacts from in here.
 	// You should only use this when depending on other mods because
@@ -18,11 +22,10 @@ loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-		"modid" {
-			sourceSet sourceSets.main
-			sourceSet sourceSets.client
-		}
-	}
+    "atlas-core" {
+        sourceSet sourceSets.main
+    }
+}
 }
 
 dependencies {
@@ -33,6 +36,8 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	include implementation("org.postgresql:postgresql:42.7.4")
 }
 
 processResources {
