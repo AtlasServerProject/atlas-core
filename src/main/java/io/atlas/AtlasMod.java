@@ -4,6 +4,7 @@ import io.atlas.bootstrap.AtlasBootstrap;
 import io.atlas.commands.BalanceCommand;
 import io.atlas.commands.AtlasCommand;
 import io.atlas.commands.AddMoneyCommand;
+import io.atlas.commands.RankCommand;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
     AtlasCommand.register(dispatcher);
     BalanceCommand.register(dispatcher);
     AddMoneyCommand.register(dispatcher);
+    RankCommand.register(dispatcher);
 });
 
         LOGGER.info("Comando /atlas registrado.");

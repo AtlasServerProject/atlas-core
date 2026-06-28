@@ -8,9 +8,44 @@ import java.util.*;
 
 public class RankRepository {
 
+    public Optional<UUID> findPlayerUuidByUsername(String username) {
+        String sql = "SELECT uuid FROM players WHERE LOWER(username) = LOWER(?)";
+
+        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(sql)) {
+            statement.setString(1, username);
+
+            try (ResultSet result = statement.executeQuery()) {
+                return result.next()
+                        ? Optional.of((UUID) result.getObject("uuid"))
+                        : Optional.empty();
+            }
+        } catch (SQLException exception) {
+            throw new RuntimeException("Erro ao buscar jogador pelo nome.", exception);
+        }
+    }
+
+    public void assignRank(UUID playerUuid, long rankId) {
+        String sql = """
+                INSERT INTO player_ranks (player_id, rank_id, assigned_at, expires_at, active)
+                SELECT p.id, ?, NOW(), NULL, true
+                FROM players p
+                WHERE p.uuid = ?
+                ON CONFLICT (player_id, rank_id)
+                DO UPDATE SET assigned_at = NOW(), expires_at = NULL, active = true
+                """;
+
+        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(sql)) {
+            statement.setLong(1, rankId);
+            statement.setObject(2, playerUuid);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("Erro ao atribuir rank ao jogador.", exception);
+        }
+    }
+
     public List<Rank> findAllRanks() {
         String sql = """
-                SELECT id, identifier, display_name, prefix, priority, is_staff
+                SELECT id, identifier, display_name, prefix, color, priority, is_staff
                 FROM ranks
                 WHERE enabled = true
                 ORDER BY priority DESC
@@ -27,6 +62,7 @@ public class RankRepository {
                         result.getString("identifier"),
                         result.getString("display_name"),
                         result.getString("prefix"),
+                        result.getString("color"),
                         result.getInt("priority"),
                         result.getBoolean("is_staff")
                 ));
@@ -65,7 +101,7 @@ public class RankRepository {
 
     public List<Rank> findRanksByPlayerUuid(UUID uuid) {
         String sql = """
-                SELECT r.id, r.identifier, r.display_name, r.prefix, r.priority, r.is_staff
+                SELECT r.id, r.identifier, r.display_name, r.prefix, r.color, r.priority, r.is_staff
                 FROM player_ranks pr
                 INNER JOIN ranks r ON r.id = pr.rank_id
                 INNER JOIN players p ON p.id = pr.player_id
@@ -88,6 +124,7 @@ public class RankRepository {
                             result.getString("identifier"),
                             result.getString("display_name"),
                             result.getString("prefix"),
+                            result.getString("color"),
                             result.getInt("priority"),
                             result.getBoolean("is_staff")
                     ));

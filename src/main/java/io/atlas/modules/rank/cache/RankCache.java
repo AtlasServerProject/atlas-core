@@ -10,12 +10,12 @@ public class RankCache {
     private final Map<Long, Rank> ranksById = new HashMap<>();
 
     public void put(Rank rank) {
-        ranksByIdentifier.put(rank.getIdentifier(), rank);
+        ranksByIdentifier.put(normalize(rank.getIdentifier()), rank);
         ranksById.put(rank.getId(), rank);
     }
 
     public Optional<Rank> getByIdentifier(String identifier) {
-        return Optional.ofNullable(ranksByIdentifier.get(identifier));
+        return Optional.ofNullable(ranksByIdentifier.get(normalize(identifier)));
     }
 
     public Optional<Rank> getById(long id) {
@@ -29,5 +29,9 @@ public class RankCache {
     public void clear() {
         ranksByIdentifier.clear();
         ranksById.clear();
+    }
+
+    private String normalize(String identifier) {
+        return identifier.toUpperCase(Locale.ROOT);
     }
 }

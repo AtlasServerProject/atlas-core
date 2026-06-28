@@ -6,6 +6,7 @@ public class Rank {
     private final String identifier;
     private final String displayName;
     private final String prefix;
+    private final String color;
     private final int priority;
     private final boolean staff;
 
@@ -13,6 +14,7 @@ public class Rank {
                 String identifier,
                 String displayName,
                 String prefix,
+                String color,
                 int priority,
                 boolean staff) {
 
@@ -20,6 +22,7 @@ public class Rank {
         this.identifier = identifier;
         this.displayName = displayName;
         this.prefix = prefix;
+        this.color = color;
         this.priority = priority;
         this.staff = staff;
     }
@@ -38,6 +41,10 @@ public class Rank {
 
     public String getPrefix() {
         return prefix;
+    }
+
+    public String getColor() {
+        return color;
     }
 
     public int getPriority() {
