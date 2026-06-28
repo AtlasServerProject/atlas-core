@@ -3,8 +3,8 @@ package io.atlas.commands;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import io.atlas.modules.rank.RankModule;
+import io.atlas.modules.rank.service.PlayerDisplayService;
 import io.atlas.modules.rank.service.RankService;
-import io.atlas.modules.rank.service.TabService;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -17,7 +17,7 @@ public class RankCommand {
 
     private static final Set<String> CONSOLE_NAMES = Set.of("server", "rcon");
     private static final RankService rankService = RankModule.getRankService();
-    private static final TabService tabService = new TabService(rankService);
+    private static final PlayerDisplayService displayService = RankModule.getDisplayService();
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
@@ -58,7 +58,7 @@ public class RankCommand {
 
         ServerPlayer target = source.getServer().getPlayerList().getPlayerByName(username);
         if (target != null) {
-            tabService.updatePlayer(target);
+            displayService.updatePlayer(target);
         }
 
         source.sendSuccess(
