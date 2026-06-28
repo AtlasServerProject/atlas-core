@@ -43,6 +43,59 @@ public class RankRepository {
         }
     }
 
+    public void removeRank(UUID playerUuid, long rankId) {
+        String sql = """
+                UPDATE player_ranks pr
+                SET active = false
+                FROM players p
+                WHERE pr.player_id = p.id
+                AND p.uuid = ?
+                AND pr.rank_id = ?
+                """;
+
+        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(sql)) {
+            statement.setObject(1, playerUuid);
+            statement.setLong(2, rankId);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("Erro ao remover rank do jogador.", exception);
+        }
+    }
+
+    public void addPermission(long rankId, String permission) {
+        String sql = """
+                INSERT INTO rank_permissions (rank_id, permission, enabled)
+                VALUES (?, ?, true)
+                ON CONFLICT (rank_id, permission)
+                DO UPDATE SET enabled = true
+                """;
+
+        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(sql)) {
+            statement.setLong(1, rankId);
+            statement.setString(2, permission);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("Erro ao adicionar permissão ao rank.", exception);
+        }
+    }
+
+    public void removePermission(long rankId, String permission) {
+        String sql = """
+                UPDATE rank_permissions
+                SET enabled = false
+                WHERE rank_id = ?
+                AND permission = ?
+                """;
+
+        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(sql)) {
+            statement.setLong(1, rankId);
+            statement.setString(2, permission);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("Erro ao remover permissão do rank.", exception);
+        }
+    }
+
     public List<Rank> findAllRanks() {
         String sql = """
                 SELECT id, identifier, display_name, prefix, color, priority, is_staff

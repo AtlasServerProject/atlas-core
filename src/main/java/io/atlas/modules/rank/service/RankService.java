@@ -70,6 +70,54 @@ public class RankService {
         return RankAssignmentResult.SUCCESS;
     }
 
+    public RankAssignmentResult removeRank(String username, String rankIdentifier) {
+        Optional<Rank> rank = cache.getByIdentifier(rankIdentifier);
+        if (rank.isEmpty()) {
+            return RankAssignmentResult.RANK_NOT_FOUND;
+        }
+
+        Optional<UUID> playerUuid = repository.findPlayerUuidByUsername(username);
+        if (playerUuid.isEmpty()) {
+            return RankAssignmentResult.PLAYER_NOT_FOUND;
+        }
+
+        repository.removeRank(playerUuid.get(), rank.get().getId());
+        return RankAssignmentResult.SUCCESS;
+    }
+
+    public RankAssignmentResult addPermission(String rankIdentifier, String permission) {
+        Optional<Rank> rank = cache.getByIdentifier(rankIdentifier);
+        if (rank.isEmpty()) {
+            return RankAssignmentResult.RANK_NOT_FOUND;
+        }
+
+        repository.addPermission(rank.get().getId(), permission);
+        loadRanks();
+        return RankAssignmentResult.SUCCESS;
+    }
+
+    public RankAssignmentResult removePermission(String rankIdentifier, String permission) {
+        Optional<Rank> rank = cache.getByIdentifier(rankIdentifier);
+        if (rank.isEmpty()) {
+            return RankAssignmentResult.RANK_NOT_FOUND;
+        }
+
+        repository.removePermission(rank.get().getId(), permission);
+        loadRanks();
+        return RankAssignmentResult.SUCCESS;
+    }
+
+    public List<Rank> getAllRanks() {
+        return cache.getAll().stream()
+                .sorted(Comparator.comparingInt(Rank::getPriority).reversed())
+                .toList();
+    }
+
+    public Optional<PlayerRankInfo> getPlayerRankInfo(String username) {
+        return repository.findPlayerUuidByUsername(username)
+                .map(uuid -> new PlayerRankInfo(username, getPlayerRanks(uuid)));
+    }
+
     public boolean hasPermission(UUID uuid, String permission) {
         for (Rank rank : getPlayerRanks(uuid)) {
             Set<String> permissions =
@@ -105,5 +153,8 @@ public class RankService {
         SUCCESS,
         PLAYER_NOT_FOUND,
         RANK_NOT_FOUND
+    }
+
+    public record PlayerRankInfo(String username, List<Rank> ranks) {
     }
 }
