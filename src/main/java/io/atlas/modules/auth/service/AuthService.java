@@ -156,9 +156,18 @@ public class AuthService {
     }
 
     public boolean isAuthenticated(UUID playerUuid) {
-        return cache.get(playerUuid)
-                .map(AuthSessionState::authenticated)
-                .orElse(false);
+        Optional<AuthSessionState> currentState = cache.get(playerUuid);
+        if (currentState.isEmpty() || !currentState.get().authenticated()) {
+            return false;
+        }
+
+        LocalDateTime expiresAt = currentState.get().session().expiresAt();
+        if (expiresAt != null && !expiresAt.isAfter(LocalDateTime.now())) {
+            expireSession(currentState.get());
+            return false;
+        }
+
+        return true;
     }
 
     public void shutdown() {
@@ -179,6 +188,23 @@ public class AuthService {
             AtlasMod.LOGGER.error("Hash de autenticação inválido para uma conta.");
             return false;
         }
+    }
+
+    private void expireSession(AuthSessionState state) {
+        AuthSession session = state.session();
+        repository.closeSession(session.id());
+        cache.put(new AuthSessionState(
+                new AuthSession(
+                        session.id(),
+                        session.playerUuid(),
+                        session.ipAddress(),
+                        false,
+                        session.loginAt(),
+                        session.expiresAt()
+                ),
+                state.registered(),
+                state.premium()
+        ));
     }
 
     public enum RegistrationResult {
