@@ -38,6 +38,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
 	include implementation("org.postgresql:postgresql:42.7.4")
+	include implementation("org.mindrot:jbcrypt:0.4")
 }
 
 processResources {
