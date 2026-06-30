@@ -4,6 +4,7 @@ import io.atlas.AtlasMod;
 import io.atlas.modules.player.cache.PlayerCache;
 import io.atlas.modules.player.model.PlayerProfile;
 import io.atlas.modules.player.repository.PlayerRepository;
+import io.atlas.modules.auth.service.PremiumLoginService;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -14,6 +15,10 @@ public class PlayerService {
     private final PlayerCache cache = new PlayerCache();
 
     public void loadPlayer(UUID uuid, String username) {
+
+        if (PremiumLoginService.isVerified(uuid)) {
+            repository.promotePremiumIdentity(uuid, username);
+        }
 
         Optional<PlayerProfile> optional = repository.findByUuid(uuid);
 

@@ -13,9 +13,14 @@ public class AuthConnectionListener {
                         handler.player.getIpAddress()
             );
 
-            Component message = authService.isRegistered(handler.player.getUUID())
-                    ? Component.literal("§eUse §f/login <senha> §epara autenticar.")
-                    : Component.literal("§eUse §f/register <senha> <confirmacao> §epara registrar.");
+            Component message;
+            if (authService.isAuthenticated(handler.player.getUUID())) {
+                message = Component.literal("§aConta Premium reconhecida. Login automático concluído.");
+            } else if (authService.isRegistered(handler.player.getUUID())) {
+                message = Component.literal("§eUse §f/login <senha> §epara autenticar.");
+            } else {
+                message = Component.literal("§eUse §f/register <senha> <confirmacao> §epara registrar.");
+            }
             handler.player.sendSystemMessage(message);
         });
 

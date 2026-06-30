@@ -3,7 +3,8 @@
   "package": "io.atlas.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "CommandSourceStackMixin"
+    "CommandSourceStackMixin",
+    "ServerLoginPacketListenerImplMixin"
   ],
   "injectors": {
     "defaultRequire": 1

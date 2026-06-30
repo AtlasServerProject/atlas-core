@@ -14,6 +14,8 @@ import java.util.UUID;
 
 public class AuthRepository {
 
+    private static final String PREMIUM_PASSWORD_SENTINEL = "!premium";
+
     public Optional<AuthAccount> findAccountByPlayerUuid(UUID playerUuid) {
         String sql = """
                 SELECT a.id, a.player_id, p.uuid, a.password_hash, a.last_ip,
@@ -50,6 +52,34 @@ public class AuthRepository {
             return statement.executeUpdate() == 1;
         } catch (SQLException exception) {
             throw new RuntimeException("Erro ao criar conta de autenticação.", exception);
+        }
+    }
+
+    public void ensurePremiumAccount(UUID playerUuid, String ipAddress) {
+        String sql = """
+                INSERT INTO auth_accounts (
+                    player_id, password_hash, last_ip,
+                    is_premium, is_verified, last_login
+                )
+                SELECT id, ?, ?, true, true, NOW()
+                FROM players
+                WHERE uuid = ?
+                ON CONFLICT (player_id) DO UPDATE
+                SET is_premium = true,
+                    is_verified = true,
+                    last_ip = EXCLUDED.last_ip,
+                    last_login = NOW()
+                """;
+
+        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(sql)) {
+            statement.setString(1, PREMIUM_PASSWORD_SENTINEL);
+            statement.setString(2, ipAddress);
+            statement.setObject(3, playerUuid);
+            if (statement.executeUpdate() != 1) {
+                throw new IllegalStateException("Jogador Premium não encontrado.");
+            }
+        } catch (SQLException exception) {
+            throw new RuntimeException("Erro ao persistir conta Premium.", exception);
         }
     }
 

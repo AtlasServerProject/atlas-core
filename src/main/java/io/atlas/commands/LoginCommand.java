@@ -38,6 +38,7 @@ public class LoginCommand {
             case NOT_REGISTERED -> Component.literal("§cConta não registrada. Use /register.");
             case ALREADY_AUTHENTICATED -> Component.literal("§eVocê já está autenticado.");
             case INVALID_PASSWORD -> Component.literal("§cSenha incorreta.");
+            case PREMIUM_ACCOUNT -> Component.literal("§eContas Premium autenticam automaticamente.");
             case SESSION_NOT_FOUND -> Component.literal("§cSua sessão ainda não foi carregada.");
         };
 

@@ -2,6 +2,7 @@ package io.atlas.modules.auth.service;
 
 import io.atlas.AtlasMod;
 import io.atlas.modules.auth.cache.AuthSessionCache;
+import io.atlas.modules.auth.service.PremiumLoginService;
 import io.atlas.modules.auth.model.AuthAccount;
 import io.atlas.modules.auth.model.AuthSession;
 import io.atlas.modules.auth.model.AuthSessionState;
@@ -34,6 +35,11 @@ public class AuthService {
     }
 
     public void loadPlayer(UUID playerUuid, String ipAddress) {
+        boolean premiumVerified = PremiumLoginService.isVerified(playerUuid);
+        if (premiumVerified) {
+            repository.ensurePremiumAccount(playerUuid, ipAddress);
+        }
+
         Optional<AuthAccount> account = repository.findAccountByPlayerUuid(playerUuid);
         AuthSession session = repository.createSession(playerUuid, ipAddress);
 
@@ -43,6 +49,10 @@ public class AuthService {
                 account.map(AuthAccount::premium).orElse(false)
         ));
 
+        if (premiumVerified) {
+            authenticate(playerUuid, ipAddress);
+        }
+
         AtlasMod.LOGGER.info("Sessão de autenticação criada para {}.", playerUuid);
     }
 
@@ -51,6 +61,7 @@ public class AuthService {
                 repository.closeSession(state.session().id())
         );
         cache.remove(playerUuid);
+        PremiumLoginService.clear(playerUuid);
     }
 
     public RegistrationResult register(
@@ -102,6 +113,10 @@ public class AuthService {
 
         if (currentState.get().authenticated()) {
             return LoginResult.ALREADY_AUTHENTICATED;
+        }
+
+        if (currentState.get().premium()) {
+            return LoginResult.PREMIUM_ACCOUNT;
         }
 
         Optional<AuthAccount> account = repository.findAccountByPlayerUuid(playerUuid);
@@ -220,6 +235,7 @@ public class AuthService {
         NOT_REGISTERED,
         ALREADY_AUTHENTICATED,
         INVALID_PASSWORD,
+        PREMIUM_ACCOUNT,
         SESSION_NOT_FOUND
     }
 }
