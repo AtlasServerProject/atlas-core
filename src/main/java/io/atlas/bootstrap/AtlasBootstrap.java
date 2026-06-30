@@ -3,6 +3,7 @@ package io.atlas.bootstrap;
 import io.atlas.AtlasMod;
 import io.atlas.module.ModuleManager;
 import io.atlas.modules.auth.AuthModule;
+import io.atlas.modules.admin.AdminModule;
 import io.atlas.modules.database.DatabaseModule;
 import io.atlas.modules.chat.ChatModule;
 import io.atlas.modules.economy.EconomyModule;
@@ -26,6 +27,7 @@ public class AtlasBootstrap {
         moduleManager.register(new EconomyModule());
         moduleManager.register(new PlayerModule());
         moduleManager.register(new AuthModule());
+        moduleManager.register(new AdminModule());
 
         // Inicialização
         moduleManager.enableModules();
