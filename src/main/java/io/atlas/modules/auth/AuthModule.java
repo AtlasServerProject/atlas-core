@@ -5,6 +5,7 @@ import io.atlas.module.AtlasModule;
 import io.atlas.modules.auth.listener.AuthConnectionListener;
 import io.atlas.modules.auth.listener.AuthMovementListener;
 import io.atlas.modules.auth.service.AuthMovementLockService;
+import io.atlas.modules.auth.service.AuthProtectionService;
 import io.atlas.modules.auth.service.AuthService;
 
 public class AuthModule implements AtlasModule {
@@ -12,9 +13,15 @@ public class AuthModule implements AtlasModule {
     private static final AuthService authService = new AuthService();
     private static final AuthMovementLockService movementLockService =
             new AuthMovementLockService(authService);
+    private static final AuthProtectionService protectionService =
+            new AuthProtectionService(authService);
 
     public static AuthService getAuthService() {
         return authService;
+    }
+
+    public static AuthProtectionService getProtectionService() {
+        return protectionService;
     }
 
     @Override
