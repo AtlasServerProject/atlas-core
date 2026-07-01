@@ -9,6 +9,7 @@ import io.atlas.modules.chat.ChatModule;
 import io.atlas.modules.economy.EconomyModule;
 import io.atlas.modules.player.PlayerModule;
 import io.atlas.modules.rank.RankModule;
+import io.atlas.modules.lobby.LobbyModule;
 
 public class AtlasBootstrap {
 
@@ -26,6 +27,7 @@ public class AtlasBootstrap {
         moduleManager.register(new ChatModule());
         moduleManager.register(new EconomyModule());
         moduleManager.register(new PlayerModule());
+        moduleManager.register(new LobbyModule());
         moduleManager.register(new AuthModule());
         moduleManager.register(new AdminModule());
 
