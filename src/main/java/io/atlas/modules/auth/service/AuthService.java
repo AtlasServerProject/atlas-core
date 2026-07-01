@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
 public class AuthService {
@@ -185,6 +186,36 @@ public class AuthService {
         return true;
     }
 
+    public LogoutResult logout(UUID playerUuid) {
+        Optional<AuthSessionState> currentState = cache.get(playerUuid);
+        if (currentState.isEmpty()) {
+            return LogoutResult.SESSION_NOT_FOUND;
+        }
+
+        if (!currentState.get().authenticated()) {
+            return LogoutResult.ALREADY_LOGGED_OUT;
+        }
+
+        expireSession(currentState.get());
+        return currentState.get().premium()
+                ? LogoutResult.PREMIUM_RECONNECT_REQUIRED
+                : LogoutResult.SUCCESS;
+    }
+
+    public List<ExpiredSession> expireSessions() {
+        LocalDateTime now = LocalDateTime.now();
+        return cache.getAll().stream()
+                .filter(AuthSessionState::authenticated)
+                .filter(state -> state.session().expiresAt() != null)
+                .filter(state -> !state.session().expiresAt().isAfter(now))
+                .map(state -> {
+                    expireSession(state);
+                    AtlasMod.LOGGER.info("Sessão de autenticação expirada para {}.", state.playerUuid());
+                    return new ExpiredSession(state.playerUuid(), state.premium());
+                })
+                .toList();
+    }
+
     public void shutdown() {
         cache.getAll().forEach(state -> repository.closeSession(state.session().id()));
         cache.clear();
@@ -237,5 +268,15 @@ public class AuthService {
         INVALID_PASSWORD,
         PREMIUM_ACCOUNT,
         SESSION_NOT_FOUND
+    }
+
+    public enum LogoutResult {
+        SUCCESS,
+        PREMIUM_RECONNECT_REQUIRED,
+        ALREADY_LOGGED_OUT,
+        SESSION_NOT_FOUND
+    }
+
+    public record ExpiredSession(UUID playerUuid, boolean premium) {
     }
 }

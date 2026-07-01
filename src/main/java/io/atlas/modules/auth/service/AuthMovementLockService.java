@@ -104,9 +104,17 @@ public class AuthMovementLockService {
     }
 
     private void sendReminder(ServerPlayer player) {
-        Component message = authService.isRegistered(player.getUUID())
-                ? Component.literal("§eUse §f/login <senha> §epara liberar seu movimento.")
-                : Component.literal("§eUse §f/register <senha> <confirmacao> §epara começar.");
+        Component message = authService.getSession(player.getUUID())
+                .map(state -> {
+                    if (state.premium()) {
+                        return Component.literal("§eReconecte para autenticar sua conta Premium.");
+                    }
+                    if (state.registered()) {
+                        return Component.literal("§eUse §f/login <senha> §epara liberar seu movimento.");
+                    }
+                    return Component.literal("§eUse §f/register <senha> <confirmacao> §epara começar.");
+                })
+                .orElse(Component.literal("§eAguarde o carregamento da sua sessão."));
         player.displayClientMessage(message, true);
     }
 }

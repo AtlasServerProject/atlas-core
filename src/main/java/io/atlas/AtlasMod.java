@@ -7,6 +7,7 @@ import io.atlas.commands.AddMoneyCommand;
 import io.atlas.commands.RankCommand;
 import io.atlas.commands.RegisterCommand;
 import io.atlas.commands.LoginCommand;
+import io.atlas.commands.LogoutCommand;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import org.slf4j.Logger;
@@ -28,6 +29,7 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
     RankCommand.register(dispatcher);
     RegisterCommand.register(dispatcher);
     LoginCommand.register(dispatcher);
+    LogoutCommand.register(dispatcher);
 });
 
         LOGGER.info("Comando /atlas registrado.");
