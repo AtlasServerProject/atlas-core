@@ -20,8 +20,8 @@ public class AuthWelcomeService {
     }
 
     public void send(ServerPlayer player) {
-        Component title = Component.literal("Seja bem-vindo ao Atlas Cobblemon")
-                .withStyle(ChatFormatting.GREEN, ChatFormatting.BOLD);
+        Component title = Component.literal("Bem-vindo ao Atlas")
+                .withStyle(ChatFormatting.GREEN);
         Component subtitle = subtitleFor(player);
 
         player.connection.send(new ClientboundSetTitlesAnimationPacket(
