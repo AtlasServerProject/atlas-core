@@ -9,6 +9,7 @@ import io.atlas.modules.auth.service.AuthMovementLockService;
 import io.atlas.modules.auth.service.AuthProtectionService;
 import io.atlas.modules.auth.service.AuthService;
 import io.atlas.modules.auth.service.AuthSessionExpiryService;
+import io.atlas.modules.auth.service.AuthWelcomeService;
 
 public class AuthModule implements AtlasModule {
 
@@ -17,6 +18,8 @@ public class AuthModule implements AtlasModule {
             new AuthMovementLockService(authService);
     private static final AuthSessionExpiryService sessionExpiryService =
             new AuthSessionExpiryService(authService);
+    private static final AuthWelcomeService welcomeService =
+            new AuthWelcomeService(authService);
     private static final AuthProtectionService protectionService =
             new AuthProtectionService(authService);
 
@@ -35,7 +38,7 @@ public class AuthModule implements AtlasModule {
 
     @Override
     public void enable() {
-        AuthConnectionListener.register(authService);
+        AuthConnectionListener.register(authService, welcomeService);
         AuthSessionExpiryListener.register(sessionExpiryService);
         AuthMovementListener.register(movementLockService);
         AtlasMod.LOGGER.info("Authentication Manager iniciado.");

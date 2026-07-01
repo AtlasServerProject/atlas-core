@@ -1,12 +1,16 @@
 package io.atlas.modules.auth.listener;
 
 import io.atlas.modules.auth.service.AuthService;
+import io.atlas.modules.auth.service.AuthWelcomeService;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.network.chat.Component;
 
 public class AuthConnectionListener {
 
-    public static void register(AuthService authService) {
+    public static void register(
+            AuthService authService,
+            AuthWelcomeService welcomeService
+    ) {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             authService.loadPlayer(
                         handler.player.getUUID(),
@@ -22,6 +26,7 @@ public class AuthConnectionListener {
                 message = Component.literal("§eUse §f/register <senha> <confirmacao> §epara registrar.");
             }
             handler.player.sendSystemMessage(message);
+            welcomeService.send(handler.player);
         });
 
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
