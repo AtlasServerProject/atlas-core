@@ -6,6 +6,7 @@ import com.cobblemon.mod.common.api.events.entity.SpawnEvent;
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.server.MinecraftServer;
 
 public class LobbyPokemonSpawnService {
 
@@ -35,6 +36,14 @@ public class LobbyPokemonSpawnService {
             loadSubscription.unsubscribe();
             loadSubscription = null;
         }
+    }
+
+    public void tick(MinecraftServer server) {
+        server.overworld().getAllEntities().forEach(entity -> {
+            if (entity instanceof PokemonEntity) {
+                entity.discard();
+            }
+        });
     }
 
     private boolean isAuthLobby(Level world) {

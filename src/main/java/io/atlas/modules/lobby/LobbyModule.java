@@ -6,6 +6,7 @@ import io.atlas.modules.lobby.listener.LobbyProtectionListener;
 import io.atlas.modules.lobby.service.LobbyProtectionService;
 import io.atlas.modules.lobby.service.LobbyPokemonSpawnService;
 import io.atlas.modules.rank.RankModule;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 
 public class LobbyModule implements AtlasModule {
 
@@ -23,6 +24,7 @@ public class LobbyModule implements AtlasModule {
     public void enable() {
         LobbyProtectionListener.register(protectionService);
         pokemonSpawnService.enable();
+        ServerTickEvents.END_SERVER_TICK.register(pokemonSpawnService::tick);
         AtlasMod.LOGGER.info("Proteção do Auth Lobby iniciada.");
     }
 
