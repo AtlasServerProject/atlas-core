@@ -1,6 +1,7 @@
 package io.atlas.modules.auth.listener;
 
 import io.atlas.modules.auth.service.AuthService;
+import io.atlas.modules.auth.service.AuthLobbySpawnService;
 import io.atlas.modules.auth.service.AuthWelcomeService;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.network.chat.Component;
@@ -9,9 +10,11 @@ public class AuthConnectionListener {
 
     public static void register(
             AuthService authService,
+            AuthLobbySpawnService spawnService,
             AuthWelcomeService welcomeService
     ) {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            spawnService.teleportToSpawn(handler.player, server);
             authService.loadPlayer(
                         handler.player.getUUID(),
                         handler.player.getIpAddress()
