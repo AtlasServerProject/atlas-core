@@ -50,16 +50,17 @@ public class RankSyncService {
         visualStates.keySet().retainAll(onlinePlayers);
     }
 
-    private record VisualState(long rankId, String prefix, String color) {
+    private record VisualState(long rankId, String prefix, String color, int priority) {
 
         private static VisualState from(Optional<Rank> rank) {
             return rank
                     .map(value -> new VisualState(
                             value.getId(),
                             value.getPrefix(),
-                            value.getColor()
+                            value.getColor(),
+                            value.getPriority()
                     ))
-                    .orElseGet(() -> new VisualState(0, "", ""));
+                    .orElseGet(() -> new VisualState(0, "", "", 0));
         }
     }
 }

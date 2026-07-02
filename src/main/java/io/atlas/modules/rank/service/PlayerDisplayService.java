@@ -8,11 +8,14 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.scores.PlayerTeam;
 import net.minecraft.world.scores.Team;
 
+import java.util.Locale;
 import java.util.Optional;
 
 public class PlayerDisplayService {
 
-    private static final String TEAM_PREFIX = "atlas_rank_";
+    private static final String TEAM_PREFIX = "aR";
+    private static final String UNRANKED_TEAM = "zz_atlas_player";
+    private static final int MAX_SORT_PRIORITY = 99_999_999;
 
     private final RankService rankService;
     private final RankFormatter formatter;
@@ -31,7 +34,7 @@ public class PlayerDisplayService {
         String scoreboardName = player.getScoreboardName();
 
         if (highestRank.isEmpty()) {
-            removeFromAtlasTeam(scoreboard, scoreboardName);
+            scoreboard.addPlayerToTeam(scoreboardName, getOrCreateUnrankedTeam(scoreboard));
             return;
         }
 
@@ -39,15 +42,8 @@ public class PlayerDisplayService {
         scoreboard.addPlayerToTeam(scoreboardName, team);
     }
 
-    private void removeFromAtlasTeam(ServerScoreboard scoreboard, String scoreboardName) {
-        PlayerTeam currentTeam = scoreboard.getPlayersTeam(scoreboardName);
-        if (currentTeam != null && currentTeam.getName().startsWith(TEAM_PREFIX)) {
-            scoreboard.removePlayerFromTeam(scoreboardName, currentTeam);
-        }
-    }
-
     private PlayerTeam getOrCreateTeam(ServerScoreboard scoreboard, Rank rank) {
-        String teamName = TEAM_PREFIX + rank.getId();
+        String teamName = teamName(rank);
         PlayerTeam team = scoreboard.getPlayerTeam(teamName);
 
         if (team == null) {
@@ -60,5 +56,29 @@ public class PlayerDisplayService {
         team.setColor(formatter.resolveTeamColor(rank));
         team.setNameTagVisibility(Team.Visibility.ALWAYS);
         return team;
+    }
+
+    private PlayerTeam getOrCreateUnrankedTeam(ServerScoreboard scoreboard) {
+        PlayerTeam team = scoreboard.getPlayerTeam(UNRANKED_TEAM);
+        if (team == null) {
+            team = scoreboard.addPlayerTeam(UNRANKED_TEAM);
+        }
+        team.setPlayerPrefix(Component.empty());
+        team.setNameTagVisibility(Team.Visibility.ALWAYS);
+        return team;
+    }
+
+    private String teamName(Rank rank) {
+        int normalizedPriority = Math.max(0, Math.min(MAX_SORT_PRIORITY, rank.getPriority()));
+        int sortOrder = MAX_SORT_PRIORITY - normalizedPriority;
+        long rankId = Math.floorMod(rank.getId(), 1_000_000L);
+
+        return String.format(
+                Locale.ROOT,
+                "%s%08d%06d",
+                TEAM_PREFIX,
+                sortOrder,
+                rankId
+        );
     }
 }
