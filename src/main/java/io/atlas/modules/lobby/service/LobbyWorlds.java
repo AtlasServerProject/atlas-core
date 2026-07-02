@@ -20,7 +20,7 @@ public final class LobbyWorlds {
     }
 
     public static boolean isEmerald(Level level) {
-        return level.dimension() == EMERALD;
+        return level.dimension().equals(EMERALD);
     }
 
     public static boolean isLobby(Level level) {

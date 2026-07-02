@@ -43,7 +43,10 @@ public class LobbyPokemonSpawnService {
 
     public void enable() {
         spawnSubscription = CobblemonEvents.POKEMON_ENTITY_SPAWN.subscribe(event -> {
-            if (!isAllowed(event.getEntity())) {
+            Level targetLevel = event.getSpawnablePosition() != null
+                    ? event.getSpawnablePosition().getWorld()
+                    : event.getEntity().level();
+            if (!isAllowed(event.getEntity(), targetLevel)) {
                 event.cancel();
             }
         });
@@ -84,7 +87,10 @@ public class LobbyPokemonSpawnService {
     }
 
     private boolean isAllowed(PokemonEntity pokemon) {
-        Level level = pokemon.level();
+        return isAllowed(pokemon, pokemon.level());
+    }
+
+    private boolean isAllowed(PokemonEntity pokemon, Level level) {
         if (LobbyWorlds.isAuth(level)) {
             return false;
         }
