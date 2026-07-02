@@ -8,20 +8,48 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.MinecraftServer;
 
+import java.util.Set;
+
 public class LobbyPokemonSpawnService {
+
+    private static final Set<String> EMERALD_ALLOWED_SPECIES = Set.of(
+            "bidoof",
+            "bunnelby",
+            "caterpie",
+            "fletchling",
+            "goldeen",
+            "hoothoot",
+            "lechonk",
+            "lillipup",
+            "magikarp",
+            "patrat",
+            "pidgey",
+            "pidove",
+            "pikipek",
+            "rattata",
+            "rookidee",
+            "sentret",
+            "skwovet",
+            "starly",
+            "tarountula",
+            "weedle",
+            "wurmple",
+            "yungoos",
+            "zigzagoon"
+    );
 
     private ObservableSubscription<SpawnEvent<PokemonEntity>> spawnSubscription;
     private ObservableSubscription<PokemonEntityLoadEvent> loadSubscription;
 
     public void enable() {
         spawnSubscription = CobblemonEvents.POKEMON_ENTITY_SPAWN.subscribe(event -> {
-            if (isAuthLobby(event.getEntity().level())) {
+            if (!isAllowed(event.getEntity())) {
                 event.cancel();
             }
         });
 
         loadSubscription = CobblemonEvents.POKEMON_ENTITY_LOAD.subscribe(event -> {
-            if (isAuthLobby(event.getPokemonEntity().level())) {
+            if (!isAllowed(event.getPokemonEntity())) {
                 event.cancel();
             }
         });
@@ -44,9 +72,30 @@ public class LobbyPokemonSpawnService {
                 entity.discard();
             }
         });
+
+        var emerald = server.getLevel(LobbyWorlds.EMERALD);
+        if (emerald != null) {
+            emerald.getAllEntities().forEach(entity -> {
+                if (entity instanceof PokemonEntity pokemon && !isAllowed(pokemon)) {
+                    pokemon.discard();
+                }
+            });
+        }
     }
 
-    private boolean isAuthLobby(Level world) {
-        return world.dimension() == Level.OVERWORLD;
+    private boolean isAllowed(PokemonEntity pokemon) {
+        Level level = pokemon.level();
+        if (LobbyWorlds.isAuth(level)) {
+            return false;
+        }
+        if (!LobbyWorlds.isEmerald(level)) {
+            return true;
+        }
+
+        String species = pokemon.getPokemon()
+                .getSpecies()
+                .getResourceIdentifier()
+                .getPath();
+        return EMERALD_ALLOWED_SPECIES.contains(species);
     }
 }

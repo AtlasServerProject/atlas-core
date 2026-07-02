@@ -1,9 +1,9 @@
 package io.atlas.modules.auth.service;
 
+import io.atlas.modules.lobby.service.LobbyWorlds;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.level.Level;
 
 public class AuthDamageProtectionService {
 
@@ -22,6 +22,6 @@ public class AuthDamageProtectionService {
     }
 
     private boolean isLobby(ServerPlayer player) {
-        return player.level().dimension() == Level.OVERWORLD;
+        return LobbyWorlds.isLobby(player.level());
     }
 }
