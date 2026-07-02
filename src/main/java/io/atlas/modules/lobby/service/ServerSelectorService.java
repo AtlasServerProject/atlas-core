@@ -31,9 +31,10 @@ public class ServerSelectorService {
             Registries.DIMENSION,
             ResourceLocation.fromNamespaceAndPath("atlas", "emerald")
     );
-    private static final double EMERALD_X = 988.5;
-    private static final double EMERALD_Y = 176.0;
+    private static final double EMERALD_X = 975.5;
+    private static final double EMERALD_Y = 179.0;
     private static final double EMERALD_Z = 1573.5;
+    private static final float EMERALD_YAW = -90.0F;
 
     private final AuthService authService;
     private int ticks;
@@ -141,7 +142,7 @@ public class ServerSelectorService {
                 EMERALD_X,
                 EMERALD_Y,
                 EMERALD_Z,
-                0.0F,
+                EMERALD_YAW,
                 0.0F
         );
         serverPlayer.displayClientMessage(
