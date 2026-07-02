@@ -8,6 +8,7 @@ import io.atlas.commands.RankCommand;
 import io.atlas.commands.RegisterCommand;
 import io.atlas.commands.LoginCommand;
 import io.atlas.commands.LogoutCommand;
+import io.atlas.commands.SpawnCommand;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import org.slf4j.Logger;
@@ -30,6 +31,7 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
     RegisterCommand.register(dispatcher);
     LoginCommand.register(dispatcher);
     LogoutCommand.register(dispatcher);
+    SpawnCommand.register(dispatcher);
 });
 
         LOGGER.info("Comando /atlas registrado.");
