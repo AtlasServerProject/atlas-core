@@ -10,6 +10,7 @@ import java.util.UUID;
 public class AuthAttemptLimiter {
 
     public static final int MAX_FAILED_ATTEMPTS = 5;
+    public static final Duration FAILURE_WINDOW = Duration.ofMinutes(10);
     public static final Duration LOCK_DURATION = Duration.ofMinutes(5);
 
     private final Map<UUID, AttemptState> attempts = new HashMap<>();
@@ -30,21 +31,28 @@ public class AuthAttemptLimiter {
     }
 
     public synchronized boolean recordFailure(UUID playerUuid) {
+        Instant now = Instant.now();
         AttemptState current = attempts.getOrDefault(
                 playerUuid,
-                new AttemptState(0, null)
+                new AttemptState(0, now, null)
         );
+        if (current.firstFailureAt().plus(FAILURE_WINDOW).isBefore(now)) {
+            current = new AttemptState(0, now, null);
+        }
         int failures = current.failures() + 1;
 
         if (failures >= MAX_FAILED_ATTEMPTS) {
             attempts.put(
                     playerUuid,
-                    new AttemptState(failures, Instant.now().plus(LOCK_DURATION))
+                    new AttemptState(failures, current.firstFailureAt(), now.plus(LOCK_DURATION))
             );
             return true;
         }
 
-        attempts.put(playerUuid, new AttemptState(failures, null));
+        attempts.put(
+                playerUuid,
+                new AttemptState(failures, current.firstFailureAt(), null)
+        );
         return false;
     }
 
@@ -56,6 +64,10 @@ public class AuthAttemptLimiter {
         attempts.clear();
     }
 
-    private record AttemptState(int failures, Instant blockedUntil) {
+    private record AttemptState(
+            int failures,
+            Instant firstFailureAt,
+            Instant blockedUntil
+    ) {
     }
 }
