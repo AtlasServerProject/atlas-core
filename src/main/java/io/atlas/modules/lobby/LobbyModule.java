@@ -3,9 +3,12 @@ package io.atlas.modules.lobby;
 import io.atlas.AtlasMod;
 import io.atlas.module.AtlasModule;
 import io.atlas.modules.lobby.listener.LobbyProtectionListener;
+import io.atlas.modules.lobby.listener.ServerSelectorListener;
 import io.atlas.modules.lobby.service.LobbyProtectionService;
 import io.atlas.modules.lobby.service.LobbyPokemonSpawnService;
 import io.atlas.modules.lobby.service.LobbyStarterProtectionService;
+import io.atlas.modules.lobby.service.ServerSelectorService;
+import io.atlas.modules.auth.AuthModule;
 import io.atlas.modules.rank.RankModule;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 
@@ -17,6 +20,12 @@ public class LobbyModule implements AtlasModule {
             new LobbyPokemonSpawnService();
     private static final LobbyStarterProtectionService starterProtectionService =
             new LobbyStarterProtectionService();
+    private static final ServerSelectorService selectorService =
+            new ServerSelectorService(AuthModule.getAuthService());
+
+    public static ServerSelectorService getSelectorService() {
+        return selectorService;
+    }
 
     @Override
     public String getName() {
@@ -26,9 +35,11 @@ public class LobbyModule implements AtlasModule {
     @Override
     public void enable() {
         LobbyProtectionListener.register(protectionService);
+        ServerSelectorListener.register(selectorService);
         pokemonSpawnService.enable();
         starterProtectionService.enable();
         ServerTickEvents.END_SERVER_TICK.register(pokemonSpawnService::tick);
+        ServerTickEvents.END_SERVER_TICK.register(selectorService::tick);
         AtlasMod.LOGGER.info("Proteção do Auth Lobby iniciada.");
     }
 
