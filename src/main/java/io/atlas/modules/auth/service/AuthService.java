@@ -25,14 +25,20 @@ public class AuthService {
 
     private final AuthRepository repository;
     private final AuthSessionCache cache;
+    private final AuthAttemptLimiter attemptLimiter;
 
     public AuthService() {
-        this(new AuthRepository(), new AuthSessionCache());
+        this(new AuthRepository(), new AuthSessionCache(), new AuthAttemptLimiter());
     }
 
-    AuthService(AuthRepository repository, AuthSessionCache cache) {
+    AuthService(
+            AuthRepository repository,
+            AuthSessionCache cache,
+            AuthAttemptLimiter attemptLimiter
+    ) {
         this.repository = repository;
         this.cache = cache;
+        this.attemptLimiter = attemptLimiter;
     }
 
     public void loadPlayer(UUID playerUuid, String ipAddress) {
@@ -120,11 +126,23 @@ public class AuthService {
             return LoginResult.PREMIUM_ACCOUNT;
         }
 
+        if (attemptLimiter.remainingCooldown(playerUuid).isPresent()) {
+            return LoginResult.COOLDOWN;
+        }
+
         Optional<AuthAccount> account = repository.findAccountByPlayerUuid(playerUuid);
         if (account.isEmpty() || !matches(password, account.get().passwordHash())) {
+            if (attemptLimiter.recordFailure(playerUuid)) {
+                AtlasMod.LOGGER.warn(
+                        "Autenticação temporariamente limitada para {} após tentativas inválidas.",
+                        playerUuid
+                );
+                return LoginResult.COOLDOWN;
+            }
             return LoginResult.INVALID_PASSWORD;
         }
 
+        attemptLimiter.reset(playerUuid);
         return authenticate(playerUuid, ipAddress)
                 ? LoginResult.SUCCESS
                 : LoginResult.SESSION_NOT_FOUND;
@@ -186,6 +204,12 @@ public class AuthService {
         return true;
     }
 
+    public long getLoginCooldownSeconds(UUID playerUuid) {
+        return attemptLimiter.remainingCooldown(playerUuid)
+                .map(duration -> Math.max(1L, duration.toSeconds()))
+                .orElse(0L);
+    }
+
     public LogoutResult logout(UUID playerUuid) {
         Optional<AuthSessionState> currentState = cache.get(playerUuid);
         if (currentState.isEmpty()) {
@@ -219,6 +243,7 @@ public class AuthService {
     public void shutdown() {
         cache.getAll().forEach(state -> repository.closeSession(state.session().id()));
         cache.clear();
+        attemptLimiter.clear();
     }
 
     private boolean isValidPassword(String password) {
@@ -266,6 +291,7 @@ public class AuthService {
         NOT_REGISTERED,
         ALREADY_AUTHENTICATED,
         INVALID_PASSWORD,
+        COOLDOWN,
         PREMIUM_ACCOUNT,
         SESSION_NOT_FOUND
     }

@@ -38,6 +38,11 @@ public class LoginCommand {
             case NOT_REGISTERED -> Component.literal("§cConta não registrada. Use /register.");
             case ALREADY_AUTHENTICATED -> Component.literal("§eVocê já está autenticado.");
             case INVALID_PASSWORD -> Component.literal("§cSenha incorreta.");
+            case COOLDOWN -> Component.literal(
+                    "§cMuitas tentativas inválidas. Aguarde §e"
+                            + formatCooldown(authService.getLoginCooldownSeconds(player.getUUID()))
+                            + "§c para tentar novamente."
+            );
             case PREMIUM_ACCOUNT -> Component.literal("§eContas Premium autenticam automaticamente.");
             case SESSION_NOT_FOUND -> Component.literal("§cSua sessão ainda não foi carregada.");
         };
@@ -50,5 +55,13 @@ public class LoginCommand {
 
         source.sendFailure(message);
         return 0;
+    }
+
+    private static String formatCooldown(long totalSeconds) {
+        long minutes = totalSeconds / 60;
+        long seconds = totalSeconds % 60;
+        return minutes > 0
+                ? minutes + "min " + seconds + "s"
+                : seconds + "s";
     }
 }
