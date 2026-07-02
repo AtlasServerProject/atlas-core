@@ -5,6 +5,7 @@
   "mixins": [
     "CommandSourceStackMixin",
     "CommandsMixin",
+    "ServerGamePacketListenerImplMixin",
     "ServerLoginPacketListenerImplMixin"
   ],
   "injectors": {

@@ -5,9 +5,11 @@ import io.atlas.module.AtlasModule;
 import io.atlas.modules.auth.listener.AuthConnectionListener;
 import io.atlas.modules.auth.listener.AuthDamageListener;
 import io.atlas.modules.auth.listener.AuthMovementListener;
+import io.atlas.modules.auth.listener.AuthInteractionListener;
 import io.atlas.modules.auth.listener.AuthSessionExpiryListener;
 import io.atlas.modules.auth.service.AuthMovementLockService;
 import io.atlas.modules.auth.service.AuthLobbySpawnService;
+import io.atlas.modules.auth.service.AuthGameplayProtectionService;
 import io.atlas.modules.auth.service.AuthDamageProtectionService;
 import io.atlas.modules.auth.service.AuthProtectionService;
 import io.atlas.modules.auth.service.AuthService;
@@ -29,6 +31,8 @@ public class AuthModule implements AtlasModule {
             new AuthProtectionService(authService);
     private static final AuthDamageProtectionService damageProtectionService =
             new AuthDamageProtectionService(authService);
+    private static final AuthGameplayProtectionService gameplayProtectionService =
+            new AuthGameplayProtectionService(authService);
 
     public static AuthService getAuthService() {
         return authService;
@@ -36,6 +40,10 @@ public class AuthModule implements AtlasModule {
 
     public static AuthProtectionService getProtectionService() {
         return protectionService;
+    }
+
+    public static AuthGameplayProtectionService getGameplayProtectionService() {
+        return gameplayProtectionService;
     }
 
     @Override
@@ -49,6 +57,7 @@ public class AuthModule implements AtlasModule {
         AuthSessionExpiryListener.register(sessionExpiryService);
         AuthMovementListener.register(movementLockService);
         AuthDamageListener.register(damageProtectionService);
+        AuthInteractionListener.register(gameplayProtectionService);
         AtlasMod.LOGGER.info("Authentication Manager iniciado.");
     }
 
@@ -56,5 +65,6 @@ public class AuthModule implements AtlasModule {
     public void disable() {
         authService.shutdown();
         movementLockService.clear();
+        gameplayProtectionService.clear();
     }
 }
