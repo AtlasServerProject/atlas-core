@@ -24,7 +24,7 @@ public class LobbyProtectionService {
     }
 
     public boolean canModify(Player player, Level world) {
-        if (!isAuthLobby(world) || rankService.canManageRanks(player.getUUID())) {
+        if (!LobbyWorlds.isLobby(world) || rankService.canManageRanks(player.getUUID())) {
             return true;
         }
 
@@ -34,10 +34,6 @@ public class LobbyProtectionService {
 
     public void clear() {
         lastDenialMessages.clear();
-    }
-
-    private boolean isAuthLobby(Level world) {
-        return world.dimension() == Level.OVERWORLD;
     }
 
     private void sendDenialMessage(Player player) {
@@ -53,7 +49,7 @@ public class LobbyProtectionService {
 
         lastDenialMessages.put(player.getUUID(), now);
         serverPlayer.displayClientMessage(
-                Component.literal("§cVocê não pode construir no Auth Lobby."),
+                Component.literal("§cVocê não pode construir no Hub."),
                 true
         );
     }
