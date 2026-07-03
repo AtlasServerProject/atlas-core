@@ -48,6 +48,7 @@ public class LobbyModule implements AtlasModule {
         starterProtectionService.enable();
         ServerTickEvents.END_SERVER_TICK.register(pokemonSpawnService::tick);
         ServerTickEvents.END_SERVER_TICK.register(selectorService::tick);
+        ServerTickEvents.END_SERVER_TICK.register(survivalWorldService::tick);
         ServerLifecycleEvents.SERVER_STARTED.register(survivalWorldService::configure);
         AtlasMod.LOGGER.info("Proteção dos Hubs Atlas iniciada.");
     }
