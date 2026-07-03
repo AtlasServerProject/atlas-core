@@ -8,9 +8,12 @@ import io.atlas.modules.lobby.service.LobbyProtectionService;
 import io.atlas.modules.lobby.service.LobbyPokemonSpawnService;
 import io.atlas.modules.lobby.service.LobbyStarterProtectionService;
 import io.atlas.modules.lobby.service.ServerSelectorService;
+import io.atlas.modules.lobby.service.LobbyTravelService;
+import io.atlas.modules.lobby.service.SurvivalWorldService;
 import io.atlas.modules.auth.AuthModule;
 import io.atlas.modules.rank.RankModule;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 
 public class LobbyModule implements AtlasModule {
 
@@ -20,8 +23,13 @@ public class LobbyModule implements AtlasModule {
             new LobbyPokemonSpawnService();
     private static final LobbyStarterProtectionService starterProtectionService =
             new LobbyStarterProtectionService();
-    private static final ServerSelectorService selectorService =
-            new ServerSelectorService(AuthModule.getAuthService());
+    private static final LobbyTravelService travelService = new LobbyTravelService();
+    private static final ServerSelectorService selectorService = new ServerSelectorService(
+            AuthModule.getAuthService(),
+            travelService
+    );
+    private static final SurvivalWorldService survivalWorldService =
+            new SurvivalWorldService();
 
     public static ServerSelectorService getSelectorService() {
         return selectorService;
@@ -40,7 +48,8 @@ public class LobbyModule implements AtlasModule {
         starterProtectionService.enable();
         ServerTickEvents.END_SERVER_TICK.register(pokemonSpawnService::tick);
         ServerTickEvents.END_SERVER_TICK.register(selectorService::tick);
-        AtlasMod.LOGGER.info("Proteção do Auth Lobby iniciada.");
+        ServerLifecycleEvents.SERVER_STARTED.register(survivalWorldService::configure);
+        AtlasMod.LOGGER.info("Proteção dos Hubs Atlas iniciada.");
     }
 
     @Override

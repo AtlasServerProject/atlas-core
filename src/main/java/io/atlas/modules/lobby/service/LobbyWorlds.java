@@ -11,6 +11,10 @@ public final class LobbyWorlds {
             Registries.DIMENSION,
             ResourceLocation.fromNamespaceAndPath("atlas", "emerald")
     );
+    public static final ResourceKey<Level> SURVIVAL_EMERALD = ResourceKey.create(
+            Registries.DIMENSION,
+            ResourceLocation.fromNamespaceAndPath("atlas", "survival_emerald")
+    );
 
     private LobbyWorlds() {
     }
@@ -25,5 +29,9 @@ public final class LobbyWorlds {
 
     public static boolean isLobby(Level level) {
         return isAuth(level) || isEmerald(level);
+    }
+
+    public static boolean isSurvivalEmerald(Level level) {
+        return level.dimension().equals(SURVIVAL_EMERALD);
     }
 }

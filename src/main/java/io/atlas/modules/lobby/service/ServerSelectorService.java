@@ -6,7 +6,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.SimpleMenuProvider;
@@ -16,7 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 
 public class ServerSelectorService {
 
@@ -24,16 +22,17 @@ public class ServerSelectorService {
     private static final int SELECTOR_SLOT = 4;
     private static final int MAIN_INVENTORY_SIZE = 36;
     private static final int SYNC_INTERVAL_TICKS = 20;
-    private static final double EMERALD_X = 975.5;
-    private static final double EMERALD_Y = 179.0;
-    private static final double EMERALD_Z = 1573.5;
-    private static final float EMERALD_YAW = -90.0F;
 
     private final AuthService authService;
+    private final LobbyTravelService travelService;
     private int ticks;
 
-    public ServerSelectorService(AuthService authService) {
+    public ServerSelectorService(
+            AuthService authService,
+            LobbyTravelService travelService
+    ) {
         this.authService = authService;
+        this.travelService = travelService;
     }
 
     public void tick(MinecraftServer server) {
@@ -118,26 +117,10 @@ public class ServerSelectorService {
             return;
         }
 
-        ServerLevel emerald = serverPlayer.getServer().getLevel(LobbyWorlds.EMERALD);
-        if (emerald == null) {
-            serverPlayer.displayClientMessage(
-                    Component.literal("§cO Lobby Emerald está temporariamente indisponível."),
-                    false
-            );
+        removeSelectors(serverPlayer.getInventory());
+        if (!travelService.teleportToEmerald(serverPlayer)) {
             return;
         }
-
-        serverPlayer.closeContainer();
-        removeSelectors(serverPlayer.getInventory());
-        serverPlayer.setDeltaMovement(Vec3.ZERO);
-        serverPlayer.teleportTo(
-                emerald,
-                EMERALD_X,
-                EMERALD_Y,
-                EMERALD_Z,
-                EMERALD_YAW,
-                0.0F
-        );
         serverPlayer.displayClientMessage(
                 Component.literal("§aBem-vindo ao Lobby Emerald!"),
                 false
