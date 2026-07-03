@@ -1,10 +1,10 @@
 package io.atlas.modules.survival.service;
 
+import io.atlas.AtlasMod;
 import io.atlas.modules.lobby.service.LobbyWorlds;
 import io.atlas.modules.rank.model.Rank;
 import io.atlas.modules.rank.service.RankService;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -15,6 +15,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 import java.util.Comparator;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
@@ -24,11 +26,14 @@ public final class RandomTeleportService {
 
     private static final int MIN_RADIUS = 500;
     private static final int MAX_RADIUS = 2_850;
-    private static final int ATTEMPTS_PER_TICK = 8;
+    private static final int QUEUE_TARGET = 32;
+    private static final int REFILL_ATTEMPTS_PER_TICK = 16;
     private static final Map<UUID, Long> LAST_USE = new ConcurrentHashMap<>();
     private static final Map<UUID, SearchState> PENDING = new ConcurrentHashMap<>();
 
     private final RankService rankService;
+    private final Deque<BlockPos> destinations = new ArrayDeque<>();
+    private boolean queueReadyLogged;
 
     public RandomTeleportService(RankService rankService) {
         this.rankService = rankService;
@@ -56,6 +61,13 @@ public final class RandomTeleportService {
             return false;
         }
 
+        ServerLevel survival = player.getServer().getLevel(LobbyWorlds.SURVIVAL_EMERALD);
+        BlockPos ready = pollSafeDestination(survival);
+        if (survival != null && ready != null) {
+            completeTeleport(player, survival, ready);
+            return true;
+        }
+
         PENDING.put(uuid, new SearchState());
         player.displayClientMessage(
                 Component.literal("§aProcurando um local seguro no Survival Emerald..."),
@@ -65,12 +77,14 @@ public final class RandomTeleportService {
     }
 
     public void tick(MinecraftServer server) {
-        if (PENDING.isEmpty()) {
+        ServerLevel survival = server.getLevel(LobbyWorlds.SURVIVAL_EMERALD);
+        if (survival == null) {
             return;
         }
 
-        ServerLevel survival = server.getLevel(LobbyWorlds.SURVIVAL_EMERALD);
-        if (survival == null) {
+        refillQueue(survival);
+
+        if (PENDING.isEmpty()) {
             return;
         }
 
@@ -80,7 +94,7 @@ public final class RandomTeleportService {
                 continue;
             }
 
-            BlockPos destination = findSafeDestination(survival, entry.getValue());
+            BlockPos destination = pollSafeDestination(survival);
             if (destination == null) {
                 continue;
             }
@@ -92,11 +106,13 @@ public final class RandomTeleportService {
 
     public void clear() {
         PENDING.clear();
+        destinations.clear();
     }
 
-    private BlockPos findSafeDestination(ServerLevel level, SearchState search) {
-        for (int attempt = 0; attempt < ATTEMPTS_PER_TICK; attempt++) {
-            search.attempts++;
+    private void refillQueue(ServerLevel level) {
+        int attempts = 0;
+        while (destinations.size() < QUEUE_TARGET && attempts < REFILL_ATTEMPTS_PER_TICK) {
+            attempts++;
             double angle = level.random.nextDouble() * Math.PI * 2.0;
             double radius = Math.sqrt(level.random.nextDouble())
                     * (MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS;
@@ -104,6 +120,23 @@ public final class RandomTeleportService {
             int z = Mth.floor(Math.sin(angle) * radius);
             BlockPos candidate = findSafeDestinationAt(level, x, z);
             if (candidate != null) {
+                destinations.addLast(candidate);
+            }
+        }
+
+        if (!queueReadyLogged && destinations.size() >= QUEUE_TARGET) {
+            queueReadyLogged = true;
+            AtlasMod.LOGGER.info("Fila do /rtp pronta com {} destinos seguros.", destinations.size());
+        }
+    }
+
+    private BlockPos pollSafeDestination(ServerLevel level) {
+        if (level == null) {
+            return null;
+        }
+        while (!destinations.isEmpty()) {
+            BlockPos candidate = destinations.removeFirst();
+            if (isStillSafe(level, candidate)) {
                 return candidate;
             }
         }
@@ -111,8 +144,15 @@ public final class RandomTeleportService {
     }
 
     private BlockPos findSafeDestinationAt(ServerLevel level, int x, int z) {
+        level.getChunk(x >> 4, z >> 4);
         int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
         BlockPos feet = new BlockPos(x, y, z);
+
+        return isStillSafe(level, feet) ? feet : null;
+    }
+
+    private boolean isStillSafe(ServerLevel level, BlockPos feet) {
+        int y = feet.getY();
         BlockPos head = feet.above();
         BlockPos ground = feet.below();
         BlockState groundState = level.getBlockState(ground);
@@ -120,21 +160,21 @@ public final class RandomTeleportService {
         BlockState headState = level.getBlockState(head);
 
         if (y <= level.getMinBuildHeight() + 1 || y >= level.getMaxBuildHeight() - 2) {
-            return null;
+            return false;
         }
         if (!level.getWorldBorder().isWithinBounds(feet)) {
-            return null;
+            return false;
         }
         if (!level.getFluidState(ground).isEmpty()
                 || !level.getFluidState(feet).isEmpty()
                 || !level.getFluidState(head).isEmpty()
-                || !groundState.isFaceSturdy(level, ground, Direction.UP)
+                || groundState.getCollisionShape(level, ground).isEmpty()
                 || isDangerous(groundState)
                 || !feetState.getCollisionShape(level, feet).isEmpty()
                 || !headState.getCollisionShape(level, head).isEmpty()) {
-            return null;
+            return false;
         }
-        return feet;
+        return true;
     }
 
     private boolean isDangerous(BlockState state) {
@@ -195,6 +235,5 @@ public final class RandomTeleportService {
     }
 
     private static final class SearchState {
-        private long attempts;
     }
 }
