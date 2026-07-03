@@ -3,6 +3,7 @@ package io.atlas.modules.auth.listener;
 import io.atlas.modules.auth.service.AuthService;
 import io.atlas.modules.auth.service.AuthLobbySpawnService;
 import io.atlas.modules.auth.service.AuthWelcomeService;
+import io.atlas.modules.survival.service.SurvivalPositionService;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.network.chat.Component;
 
@@ -11,14 +12,20 @@ public class AuthConnectionListener {
     public static void register(
             AuthService authService,
             AuthLobbySpawnService spawnService,
-            AuthWelcomeService welcomeService
+            AuthWelcomeService welcomeService,
+            SurvivalPositionService positionService
     ) {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-            spawnService.teleportToSpawn(handler.player, server);
+            positionService.saveIfSurvival(handler.player);
             authService.loadPlayer(
                         handler.player.getUUID(),
                         handler.player.getIpAddress()
             );
+
+            if (!authService.isAuthenticated(handler.player.getUUID())
+                    || !positionService.restore(handler.player)) {
+                spawnService.teleportToSpawn(handler.player, server);
+            }
 
             Component message;
             if (authService.isAuthenticated(handler.player.getUUID())) {
@@ -32,8 +39,9 @@ public class AuthConnectionListener {
             welcomeService.send(handler.player);
         });
 
-        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
-                authService.unloadPlayer(handler.player.getUUID())
-        );
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+            positionService.saveIfSurvival(handler.player);
+            authService.unloadPlayer(handler.player.getUUID());
+        });
     }
 }

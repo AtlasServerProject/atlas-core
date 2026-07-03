@@ -6,6 +6,7 @@ import io.atlas.modules.auth.AuthModule;
 import io.atlas.modules.auth.service.AuthService;
 import io.atlas.modules.lobby.service.LobbyTravelService;
 import io.atlas.modules.lobby.service.LobbyWorlds;
+import io.atlas.modules.survival.SurvivalModule;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -19,7 +20,8 @@ public class LobbyCommand {
         dispatcher.register(
                 Commands.literal("lobby")
                         .requires(CommandSourceStack::isPlayer)
-                        .executes(context -> execute(context.getSource()))
+                        .then(Commands.literal("emerald")
+                                .executes(context -> execute(context.getSource())))
         );
     }
 
@@ -38,6 +40,7 @@ public class LobbyCommand {
         if (!travelService.teleportToEmerald(player)) {
             return 0;
         }
+        SurvivalModule.getPositionService().clear(player);
 
         source.sendSuccess(
                 () -> Component.literal("§aVocê voltou ao Lobby Emerald."),

@@ -15,6 +15,7 @@ import io.atlas.modules.auth.service.AuthProtectionService;
 import io.atlas.modules.auth.service.AuthService;
 import io.atlas.modules.auth.service.AuthSessionExpiryService;
 import io.atlas.modules.auth.service.AuthWelcomeService;
+import io.atlas.modules.survival.SurvivalModule;
 
 public class AuthModule implements AtlasModule {
 
@@ -53,7 +54,12 @@ public class AuthModule implements AtlasModule {
 
     @Override
     public void enable() {
-        AuthConnectionListener.register(authService, lobbySpawnService, welcomeService);
+        AuthConnectionListener.register(
+                authService,
+                lobbySpawnService,
+                welcomeService,
+                SurvivalModule.getPositionService()
+        );
         AuthSessionExpiryListener.register(sessionExpiryService);
         AuthMovementListener.register(movementLockService);
         AuthDamageListener.register(damageProtectionService);
