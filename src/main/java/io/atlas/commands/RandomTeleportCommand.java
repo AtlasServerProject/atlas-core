@@ -5,8 +5,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import io.atlas.modules.auth.AuthModule;
 import io.atlas.modules.auth.service.AuthService;
 import io.atlas.modules.lobby.service.LobbyWorlds;
-import io.atlas.modules.rank.RankModule;
-import io.atlas.modules.survival.service.RandomTeleportService;
+import io.atlas.modules.survival.SurvivalModule;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -14,9 +13,6 @@ import net.minecraft.network.chat.Component;
 public final class RandomTeleportCommand {
 
     private static final AuthService AUTH_SERVICE = AuthModule.getAuthService();
-    private static final RandomTeleportService RTP_SERVICE =
-            new RandomTeleportService(RankModule.getRankService());
-
     private RandomTeleportCommand() {
     }
 
@@ -41,6 +37,6 @@ public final class RandomTeleportCommand {
             return 0;
         }
 
-        return RTP_SERVICE.teleport(player) ? 1 : 0;
+        return SurvivalModule.getRandomTeleportService().request(player) ? 1 : 0;
     }
 }

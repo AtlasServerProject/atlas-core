@@ -10,6 +10,7 @@ import io.atlas.modules.economy.EconomyModule;
 import io.atlas.modules.player.PlayerModule;
 import io.atlas.modules.rank.RankModule;
 import io.atlas.modules.lobby.LobbyModule;
+import io.atlas.modules.survival.SurvivalModule;
 
 public class AtlasBootstrap {
 
@@ -29,6 +30,7 @@ public class AtlasBootstrap {
         moduleManager.register(new PlayerModule());
         moduleManager.register(new LobbyModule());
         moduleManager.register(new AuthModule());
+        moduleManager.register(new SurvivalModule());
         moduleManager.register(new AdminModule());
 
         // Inicialização
