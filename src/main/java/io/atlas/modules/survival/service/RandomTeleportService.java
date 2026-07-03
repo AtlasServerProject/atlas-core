@@ -2,6 +2,7 @@ package io.atlas.modules.survival.service;
 
 import io.atlas.modules.rank.model.Rank;
 import io.atlas.modules.rank.service.RankService;
+import io.atlas.modules.lobby.service.LobbyWorlds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -42,7 +43,14 @@ public final class RandomTeleportService {
             return false;
         }
 
-        ServerLevel level = (ServerLevel) player.level();
+        ServerLevel level = player.getServer().getLevel(LobbyWorlds.SURVIVAL_EMERALD);
+        if (level == null) {
+            player.displayClientMessage(
+                    Component.literal("§cO Survival Emerald está temporariamente indisponível."),
+                    false
+            );
+            return false;
+        }
         BlockPos destination = findSafeDestination(level);
         if (destination == null) {
             player.displayClientMessage(
@@ -63,7 +71,7 @@ public final class RandomTeleportService {
         );
         player.setDeltaMovement(0.0, 0.0, 0.0);
         LAST_USE.put(player.getUUID(), now);
-        player.displayClientMessage(Component.literal("§aTeletransportado para uma área segura."), false);
+        player.displayClientMessage(Component.literal("§aBem-vindo ao Survival Emerald!"), false);
         return true;
     }
 
