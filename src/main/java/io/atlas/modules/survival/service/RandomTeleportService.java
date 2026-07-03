@@ -99,7 +99,7 @@ public final class RandomTeleportService {
                 continue;
             }
             SearchState search = entry.getValue();
-            if (!LobbyWorlds.isEmerald(player.level()) || hasMoved(player, search)) {
+            if (!canUseRtpHere(player) || hasMoved(player, search)) {
                 cancel(player, entry.getKey(), search);
                 continue;
             }
@@ -128,6 +128,11 @@ public final class RandomTeleportService {
         double y = player.getY() - search.y;
         double z = player.getZ() - search.z;
         return x * x + y * y + z * z > MOVEMENT_TOLERANCE_SQUARED;
+    }
+
+    private boolean canUseRtpHere(ServerPlayer player) {
+        return LobbyWorlds.isEmerald(player.level())
+                || LobbyWorlds.isSurvivalEmerald(player.level());
     }
 
     private void cancel(ServerPlayer player, UUID uuid, SearchState search) {

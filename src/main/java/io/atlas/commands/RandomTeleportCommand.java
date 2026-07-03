@@ -30,9 +30,10 @@ public final class RandomTeleportCommand {
             source.sendFailure(Component.literal("§cFaça login antes de usar /rtp."));
             return 0;
         }
-        if (!LobbyWorlds.isEmerald(player.level())) {
+        if (!LobbyWorlds.isEmerald(player.level())
+                && !LobbyWorlds.isSurvivalEmerald(player.level())) {
             source.sendFailure(Component.literal(
-                    "§eO /rtp está disponível somente no Lobby Emerald."
+                    "§eO /rtp está disponível somente no Lobby Emerald ou Survival Emerald."
             ));
             return 0;
         }
