@@ -28,12 +28,15 @@ public final class RandomTeleportService {
     private static final int MAX_RADIUS = 2_850;
     private static final int QUEUE_TARGET = 32;
     private static final int REFILL_ATTEMPTS_PER_TICK = 16;
+    private static final int WARMUP_TICKS = 60;
+    private static final double MOVEMENT_TOLERANCE_SQUARED = 0.01;
     private static final Map<UUID, Long> LAST_USE = new ConcurrentHashMap<>();
     private static final Map<UUID, SearchState> PENDING = new ConcurrentHashMap<>();
 
     private final RankService rankService;
     private final Deque<BlockPos> destinations = new ArrayDeque<>();
     private boolean queueReadyLogged;
+    private long ticks;
 
     public RandomTeleportService(RankService rankService) {
         this.rankService = rankService;
@@ -62,21 +65,23 @@ public final class RandomTeleportService {
         }
 
         ServerLevel survival = player.getServer().getLevel(LobbyWorlds.SURVIVAL_EMERALD);
-        BlockPos ready = pollSafeDestination(survival);
-        if (survival != null && ready != null) {
-            completeTeleport(player, survival, ready);
-            return true;
-        }
-
-        PENDING.put(uuid, new SearchState());
+        BlockPos reservedDestination = pollSafeDestination(survival);
+        PENDING.put(uuid, new SearchState(
+                player.getX(),
+                player.getY(),
+                player.getZ(),
+                ticks + WARMUP_TICKS,
+                reservedDestination
+        ));
         player.displayClientMessage(
-                Component.literal("§aProcurando um local seguro no Survival Emerald..."),
+                Component.literal("§aRTP preparado. §eNão se mova por 3 segundos."),
                 false
         );
         return true;
     }
 
     public void tick(MinecraftServer server) {
+        ticks++;
         ServerLevel survival = server.getLevel(LobbyWorlds.SURVIVAL_EMERALD);
         if (survival == null) {
             return;
@@ -90,11 +95,25 @@ public final class RandomTeleportService {
 
         for (Map.Entry<UUID, SearchState> entry : PENDING.entrySet()) {
             ServerPlayer player = server.getPlayerList().getPlayer(entry.getKey());
-            if (player == null || !LobbyWorlds.isEmerald(player.level())) {
+            if (player == null) {
+                continue;
+            }
+            SearchState search = entry.getValue();
+            if (!LobbyWorlds.isEmerald(player.level()) || hasMoved(player, search)) {
+                cancel(player, entry.getKey(), search);
+                continue;
+            }
+            if (ticks < search.readyAtTick) {
                 continue;
             }
 
-            BlockPos destination = pollSafeDestination(survival);
+            BlockPos destination = search.destination;
+            if (destination != null && !isStillSafe(survival, destination)) {
+                destination = null;
+            }
+            if (destination == null) {
+                destination = pollSafeDestination(survival);
+            }
             if (destination == null) {
                 continue;
             }
@@ -102,6 +121,24 @@ public final class RandomTeleportService {
             PENDING.remove(entry.getKey());
             completeTeleport(player, survival, destination);
         }
+    }
+
+    private boolean hasMoved(ServerPlayer player, SearchState search) {
+        double x = player.getX() - search.x;
+        double y = player.getY() - search.y;
+        double z = player.getZ() - search.z;
+        return x * x + y * y + z * z > MOVEMENT_TOLERANCE_SQUARED;
+    }
+
+    private void cancel(ServerPlayer player, UUID uuid, SearchState search) {
+        PENDING.remove(uuid);
+        if (search.destination != null) {
+            destinations.addFirst(search.destination);
+        }
+        player.displayClientMessage(
+                Component.literal("§cRTP cancelado porque você se moveu. Nenhum cooldown foi aplicado."),
+                false
+        );
     }
 
     public void clear() {
@@ -235,5 +272,24 @@ public final class RandomTeleportService {
     }
 
     private static final class SearchState {
+        private final double x;
+        private final double y;
+        private final double z;
+        private final long readyAtTick;
+        private final BlockPos destination;
+
+        private SearchState(
+                double x,
+                double y,
+                double z,
+                long readyAtTick,
+                BlockPos destination
+        ) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.readyAtTick = readyAtTick;
+            this.destination = destination;
+        }
     }
 }
