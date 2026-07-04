@@ -6,6 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.GameRules;
 
 public class SurvivalWorldService {
 
@@ -25,8 +26,9 @@ public class SurvivalWorldService {
 
         survival.getWorldBorder().setCenter(0.0, 0.0);
         survival.getWorldBorder().setSize(WORLD_SIZE_BLOCKS);
+        survival.getGameRules().getRule(GameRules.RULE_DOBLOCKDROPS).set(true, server);
         AtlasMod.LOGGER.info(
-                "Survival Emerald configurado com {}x{} chunks e borda de {} blocos.",
+                "Survival Emerald configurado com {}x{} chunks, borda de {} blocos e drops de blocos ativos.",
                 WORLD_SIZE_CHUNKS,
                 WORLD_SIZE_CHUNKS,
                 (int) WORLD_SIZE_BLOCKS
