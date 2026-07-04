@@ -162,6 +162,27 @@ public final class ClaimRepository {
         }
     }
 
+    public void recordBypass(long claimId, UUID actorUuid, String actorName, String action,
+                             String world, int x, int y, int z) {
+        String sql = """
+                INSERT INTO claim_audit_log(claim_id,actor_uuid,actor_name,action,world,x,y,z)
+                VALUES (?,?,?,?,?,?,?,?)
+                """;
+        try (PreparedStatement statement = connection().prepareStatement(sql)) {
+            statement.setLong(1, claimId);
+            statement.setObject(2, actorUuid);
+            statement.setString(3, actorName);
+            statement.setString(4, action);
+            statement.setString(5, world);
+            statement.setInt(6, x);
+            statement.setInt(7, y);
+            statement.setInt(8, z);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw failure("registrar bypass administrativo", exception);
+        }
+    }
+
     private Optional<Claim> findOne(String sql, Object... values) {
         try (PreparedStatement statement = connection().prepareStatement(sql)) {
             for (int i=0;i<values.length;i++) statement.setObject(i+1, values[i]);
