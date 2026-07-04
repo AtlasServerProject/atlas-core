@@ -1,6 +1,8 @@
 package io.atlas.modules.auth.service;
 
+import io.atlas.modules.lobby.service.LobbyWorlds;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Locale;
 import java.util.Set;
@@ -13,6 +15,9 @@ public class AuthProtectionService {
             "§cVocê precisa se autenticar antes de fazer isso. "
                     + "§eUse /login ou /register."
     );
+    private static final Component HUB_COMMAND_BLOCKED_MESSAGE = Component.literal(
+            "§cComandos são bloqueados no Hub. §eApenas /login e /register são permitidos."
+    );
 
     private final AuthService authService;
 
@@ -24,13 +29,22 @@ public class AuthProtectionService {
         return authService.isAuthenticated(playerUuid);
     }
 
-    public boolean canExecuteCommand(UUID playerUuid, String command) {
-        return authService.isAuthenticated(playerUuid)
-                || AUTH_COMMANDS.contains(commandRoot(command));
+    public boolean canExecuteCommand(ServerPlayer player, String command) {
+        boolean authCommand = AUTH_COMMANDS.contains(commandRoot(command));
+        if (LobbyWorlds.isAuth(player.level())) {
+            return authCommand;
+        }
+        return authService.isAuthenticated(player.getUUID()) || authCommand;
     }
 
     public Component loginRequiredMessage() {
         return LOGIN_REQUIRED_MESSAGE;
+    }
+
+    public Component commandBlockedMessage(ServerPlayer player) {
+        return LobbyWorlds.isAuth(player.level())
+                ? HUB_COMMAND_BLOCKED_MESSAGE
+                : LOGIN_REQUIRED_MESSAGE;
     }
 
     private String commandRoot(String command) {

@@ -26,11 +26,11 @@ public class CommandsMixin {
             return;
         }
 
-        if (AUTH_PROTECTION.canExecuteCommand(player.getUUID(), command)) {
+        if (AUTH_PROTECTION.canExecuteCommand(player, command)) {
             return;
         }
 
-        source.sendFailure(AUTH_PROTECTION.loginRequiredMessage());
+        source.sendFailure(AUTH_PROTECTION.commandBlockedMessage(player));
         callback.cancel();
     }
 }
