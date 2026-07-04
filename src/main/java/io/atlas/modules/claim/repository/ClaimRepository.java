@@ -90,6 +90,14 @@ public final class ClaimRepository {
         }
     }
 
+    public Optional<Claim> findOwnedById(UUID uuid, long claimId) {
+        String sql = """
+                SELECT c.*,p.uuid,p.username FROM claims c
+                INNER JOIN players p ON p.id=c.owner_id WHERE p.uuid=? AND c.id=?
+                """;
+        return findOne(sql, uuid, claimId);
+    }
+
     public boolean deleteOwnedAt(UUID uuid, String world, int x, int z) {
         String sql = """
                 DELETE FROM claims WHERE owner_id=(SELECT id FROM players WHERE uuid=?)

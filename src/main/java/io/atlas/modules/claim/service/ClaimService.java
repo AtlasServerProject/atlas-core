@@ -13,6 +13,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.HashMap;
 import java.util.List;
@@ -128,6 +130,31 @@ public final class ClaimService {
     }
 
     public List<Claim> list(UUID uuid) { return repository.findOwned(uuid); }
+
+    public boolean teleportToClaim(ServerPlayer player, long claimId) {
+        Optional<Claim> found = repository.findOwnedById(player.getUUID(), claimId);
+        if (found.isEmpty()) {
+            message(player, "§cEssa claim não existe ou não pertence a você.");
+            return false;
+        }
+        var server = player.getServer();
+        var level = server == null ? null : server.getLevel(LobbyWorlds.SURVIVAL_EMERALD);
+        if (level == null) {
+            message(player, "§cO Survival Emerald não está disponível agora.");
+            return false;
+        }
+        BlockPos destination = safeDestination(level, found.get());
+        if (destination == null) {
+            message(player, "§cNão encontrei um local seguro dentro dessa claim.");
+            return false;
+        }
+        player.stopRiding();
+        player.setDeltaMovement(Vec3.ZERO);
+        player.teleportTo(level, destination.getX() + 0.5, destination.getY(),
+                destination.getZ() + 0.5, player.getYRot(), player.getXRot());
+        message(player, "§aTeleportado para a claim §f#" + claimId + "§a.");
+        return true;
+    }
     public int areaLimit(UUID uuid) {
         if (rankService.canManageRanks(uuid)) return 1_000_000;
         return rankService.getHighestRank(uuid).map(rank -> switch (rank.getIdentifier().toUpperCase(Locale.ROOT)) {
@@ -235,6 +262,40 @@ public final class ClaimService {
         for (BlockPos pos : view.positions()) {
             player.connection.send(new ClientboundBlockUpdatePacket(player.level(), pos));
         }
+    }
+
+    private BlockPos safeDestination(net.minecraft.server.level.ServerLevel level, Claim claim) {
+        int centerX = claim.minX() + (claim.maxX() - claim.minX()) / 2;
+        int centerZ = claim.minZ() + (claim.maxZ() - claim.minZ()) / 2;
+        int maxRadius = Math.max(claim.maxX() - claim.minX(), claim.maxZ() - claim.minZ()) / 2;
+        for (int radius = 0; radius <= maxRadius; radius++) {
+            for (int x = -radius; x <= radius; x++) {
+                for (int z = -radius; z <= radius; z++) {
+                    if (radius > 0 && Math.abs(x) != radius && Math.abs(z) != radius) continue;
+                    int targetX = centerX + x;
+                    int targetZ = centerZ + z;
+                    if (!claim.contains(targetX, targetZ)) continue;
+                    level.getChunk(targetX >> 4, targetZ >> 4);
+                    int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, targetX, targetZ);
+                    BlockPos candidate = new BlockPos(targetX, y, targetZ);
+                    if (isSafe(level, candidate)) return candidate;
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean isSafe(net.minecraft.server.level.ServerLevel level, BlockPos feet) {
+        BlockPos ground = feet.below();
+        BlockPos head = feet.above();
+        BlockState groundState = level.getBlockState(ground);
+        return level.getWorldBorder().isWithinBounds(feet)
+                && level.getFluidState(ground).isEmpty()
+                && level.getFluidState(feet).isEmpty()
+                && level.getFluidState(head).isEmpty()
+                && !groundState.getCollisionShape(level, ground).isEmpty()
+                && level.getBlockState(feet).getCollisionShape(level, feet).isEmpty()
+                && level.getBlockState(head).getCollisionShape(level, head).isEmpty();
     }
 
     private record BoundaryView(String world, List<BlockPos> positions, long expiresAt) {}
