@@ -131,19 +131,20 @@ public final class ClaimService {
 
     public List<Claim> list(UUID uuid) { return repository.findOwned(uuid); }
 
-    public boolean teleportToClaim(ServerPlayer player, long claimId) {
-        Optional<Claim> found = repository.findOwnedById(player.getUUID(), claimId);
-        if (found.isEmpty()) {
-            message(player, "§cEssa claim não existe ou não pertence a você.");
+    public boolean teleportToClaim(ServerPlayer player, int claimNumber) {
+        List<Claim> owned = repository.findOwned(player.getUUID());
+        if (claimNumber < 1 || claimNumber > owned.size()) {
+            message(player, "§cEssa claim não existe mais na sua lista.");
             return false;
         }
+        Claim claim = owned.get(claimNumber - 1);
         var server = player.getServer();
         var level = server == null ? null : server.getLevel(LobbyWorlds.SURVIVAL_EMERALD);
         if (level == null) {
             message(player, "§cO Survival Emerald não está disponível agora.");
             return false;
         }
-        BlockPos destination = safeDestination(level, found.get());
+        BlockPos destination = safeDestination(level, claim);
         if (destination == null) {
             message(player, "§cNão encontrei um local seguro dentro dessa claim.");
             return false;
@@ -152,7 +153,7 @@ public final class ClaimService {
         player.setDeltaMovement(Vec3.ZERO);
         player.teleportTo(level, destination.getX() + 0.5, destination.getY(),
                 destination.getZ() + 0.5, player.getYRot(), player.getXRot());
-        message(player, "§aTeleportado para a claim §f#" + claimId + "§a.");
+        message(player, "§aTeleportado para a claim §f#" + claimNumber + "§a.");
         return true;
     }
     public int areaLimit(UUID uuid) {

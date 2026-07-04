@@ -2,7 +2,7 @@ package io.atlas.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.arguments.LongArgumentType;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import io.atlas.modules.claim.ClaimModule;
 import io.atlas.modules.claim.model.Claim;
 import io.atlas.modules.claim.model.TrustLevel;
@@ -30,9 +30,9 @@ public final class ClaimCommands {
         dispatcher.register(Commands.literal("claimslist").requires(CommandSourceStack::isPlayer)
                 .executes(ctx -> list(ctx.getSource())));
         dispatcher.register(Commands.literal("claimtp").requires(CommandSourceStack::isPlayer)
-                .then(Commands.argument("id", LongArgumentType.longArg(1)).executes(ctx ->
+                .then(Commands.argument("numero", IntegerArgumentType.integer(1)).executes(ctx ->
                         ClaimModule.getService().teleportToClaim(ctx.getSource().getPlayerOrException(),
-                                LongArgumentType.getLong(ctx, "id")) ? 1 : 0)));
+                                IntegerArgumentType.getInteger(ctx, "numero")) ? 1 : 0)));
     }
     private static void trust(CommandDispatcher<CommandSourceStack> dispatcher, String command, TrustLevel level) {
         dispatcher.register(Commands.literal(command).requires(CommandSourceStack::isPlayer)
@@ -56,7 +56,7 @@ public final class ClaimCommands {
             Component line = Component.literal("§7#" + number + " §f" + claim.minX() + "," + claim.minZ()
                     + " até " + claim.maxX() + "," + claim.maxZ() + " §8(" + claim.area() + ") §a[TELEPORTAR]")
                     .withStyle(style -> style
-                            .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/claimtp " + claim.id()))
+                            .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/claimtp " + number))
                             .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                     Component.literal("Clique para teleportar até esta claim")))
                             .withUnderlined(true)
