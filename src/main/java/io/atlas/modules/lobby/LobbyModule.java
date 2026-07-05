@@ -2,6 +2,7 @@ package io.atlas.modules.lobby;
 
 import io.atlas.AtlasMod;
 import io.atlas.module.AtlasModule;
+import io.atlas.modules.lobby.listener.LobbyNpcListener;
 import io.atlas.modules.lobby.listener.LobbyProtectionListener;
 import io.atlas.modules.lobby.listener.ServerSelectorListener;
 import io.atlas.modules.lobby.service.LobbyProtectionService;
@@ -9,6 +10,7 @@ import io.atlas.modules.lobby.service.LobbyPokemonSpawnService;
 import io.atlas.modules.lobby.service.LobbyStarterProtectionService;
 import io.atlas.modules.lobby.service.ServerSelectorService;
 import io.atlas.modules.lobby.service.LobbyTravelService;
+import io.atlas.modules.lobby.service.LobbyNpcService;
 import io.atlas.modules.lobby.service.SurvivalWorldService;
 import io.atlas.modules.lobby.service.HubInventoryProtectionService;
 import io.atlas.modules.auth.AuthModule;
@@ -33,6 +35,10 @@ public class LobbyModule implements AtlasModule {
             travelService,
             hubInventoryProtectionService
     );
+    private static final LobbyNpcService npcService = new LobbyNpcService(
+            AuthModule.getAuthService(),
+            selectorService
+    );
     private static final SurvivalWorldService survivalWorldService =
             new SurvivalWorldService();
 
@@ -49,10 +55,12 @@ public class LobbyModule implements AtlasModule {
     public void enable() {
         LobbyProtectionListener.register(protectionService);
         ServerSelectorListener.register(selectorService);
+        LobbyNpcListener.register(npcService);
         pokemonSpawnService.enable();
         starterProtectionService.enable();
         ServerTickEvents.END_SERVER_TICK.register(pokemonSpawnService::tick);
         ServerTickEvents.END_SERVER_TICK.register(selectorService::tick);
+        ServerTickEvents.END_SERVER_TICK.register(npcService::tick);
         ServerTickEvents.END_SERVER_TICK.register(survivalWorldService::tick);
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             for (var player : server.getPlayerList().getPlayers()) {
@@ -63,6 +71,7 @@ public class LobbyModule implements AtlasModule {
                 hubInventoryProtectionService.restore(handler.player)
         );
         ServerLifecycleEvents.SERVER_STARTED.register(survivalWorldService::configure);
+        ServerLifecycleEvents.SERVER_STARTED.register(npcService::ensureAuthEmeraldNpc);
         AtlasMod.LOGGER.info("Proteção dos Hubs Atlas iniciada.");
     }
 
