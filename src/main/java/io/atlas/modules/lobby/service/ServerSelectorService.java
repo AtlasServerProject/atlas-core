@@ -26,14 +26,17 @@ public class ServerSelectorService {
 
     private final AuthService authService;
     private final LobbyTravelService travelService;
+    private final HubInventoryProtectionService hubInventoryProtectionService;
     private int ticks;
 
     public ServerSelectorService(
             AuthService authService,
-            LobbyTravelService travelService
+            LobbyTravelService travelService,
+            HubInventoryProtectionService hubInventoryProtectionService
     ) {
         this.authService = authService;
         this.travelService = travelService;
+        this.hubInventoryProtectionService = hubInventoryProtectionService;
     }
 
     public void tick(MinecraftServer server) {
@@ -124,11 +127,10 @@ public class ServerSelectorService {
             return;
         }
 
-        Inventory inventory = serverPlayer.getInventory();
-        removeSelectors(inventory);
         if (isAuthLobby(serverPlayer)) {
-            inventory.setItem(HUB_SELECTOR_SLOT, ItemStack.EMPTY);
-            inventory.setChanged();
+            hubInventoryProtectionService.restore(serverPlayer);
+        } else {
+            removeSelectors(serverPlayer.getInventory());
         }
         if (!travelService.teleportToEmerald(serverPlayer)) {
             return;

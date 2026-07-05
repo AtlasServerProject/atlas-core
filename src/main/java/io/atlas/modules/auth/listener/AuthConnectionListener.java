@@ -22,10 +22,7 @@ public class AuthConnectionListener {
                         handler.player.getIpAddress()
             );
 
-            if (!authService.isAuthenticated(handler.player.getUUID())
-                    || !positionService.restore(handler.player)) {
-                spawnService.teleportToSpawn(handler.player, server);
-            }
+            spawnService.teleportToSpawn(handler.player, server);
 
             Component message;
             if (authService.isAuthenticated(handler.player.getUUID())) {

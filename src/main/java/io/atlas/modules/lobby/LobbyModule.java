@@ -15,6 +15,7 @@ import io.atlas.modules.auth.AuthModule;
 import io.atlas.modules.rank.RankModule;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 
 public class LobbyModule implements AtlasModule {
 
@@ -25,14 +26,15 @@ public class LobbyModule implements AtlasModule {
     private static final LobbyStarterProtectionService starterProtectionService =
             new LobbyStarterProtectionService();
     private static final LobbyTravelService travelService = new LobbyTravelService();
+    private static final HubInventoryProtectionService hubInventoryProtectionService =
+            new HubInventoryProtectionService(AuthModule.getAuthService(), RankModule.getRankService());
     private static final ServerSelectorService selectorService = new ServerSelectorService(
             AuthModule.getAuthService(),
-            travelService
+            travelService,
+            hubInventoryProtectionService
     );
     private static final SurvivalWorldService survivalWorldService =
             new SurvivalWorldService();
-    private static final HubInventoryProtectionService hubInventoryProtectionService =
-            new HubInventoryProtectionService(RankModule.getRankService());
 
     public static ServerSelectorService getSelectorService() {
         return selectorService;
@@ -57,6 +59,9 @@ public class LobbyModule implements AtlasModule {
                 hubInventoryProtectionService.enforce(player);
             }
         });
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
+                hubInventoryProtectionService.restore(handler.player)
+        );
         ServerLifecycleEvents.SERVER_STARTED.register(survivalWorldService::configure);
         AtlasMod.LOGGER.info("Proteção dos Hubs Atlas iniciada.");
     }

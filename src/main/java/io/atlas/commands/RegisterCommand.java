@@ -4,7 +4,6 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import io.atlas.modules.auth.AuthModule;
 import io.atlas.modules.auth.service.AuthService;
-import io.atlas.modules.survival.SurvivalModule;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -51,7 +50,6 @@ public class RegisterCommand {
         };
 
         if (result == AuthService.RegistrationResult.SUCCESS) {
-            SurvivalModule.getPositionService().restore(player);
             source.sendSuccess(() -> message, false);
             return 1;
         }
