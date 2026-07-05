@@ -30,7 +30,7 @@ public class CommandsMixin {
             return;
         }
 
-        source.sendFailure(AUTH_PROTECTION.commandBlockedMessage(player));
+        source.sendFailure(AUTH_PROTECTION.commandBlockedMessage(player, command));
         callback.cancel();
     }
 }
