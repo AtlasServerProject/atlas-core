@@ -12,6 +12,7 @@ import java.util.UUID;
 public class AuthProtectionService {
 
     private static final Set<String> AUTH_COMMANDS = Set.of("login", "register");
+    private static final Set<String> DEVELOPER_COMMANDS = Set.of("dev", "op", "deop");
     private static final Set<String> WORLDEDIT_COMMANDS = Set.of(
             "/biome",
             "/br",
@@ -136,7 +137,9 @@ public class AuthProtectionService {
             return false;
         }
         if (LobbyWorlds.isAuth(player.level())) {
-            return authCommand || isAllowedWorldEditCommand(player, command);
+            return authCommand
+                    || isAllowedWorldEditCommand(player, command)
+                    || isAllowedDeveloperCommand(player, command);
         }
         return authService.isAuthenticated(player.getUUID()) || authCommand;
     }
@@ -160,6 +163,11 @@ public class AuthProtectionService {
 
     private boolean isAllowedWorldEditCommand(ServerPlayer player, String command) {
         return isWorldEditCommand(command) && rankService.canManageRanks(player.getUUID());
+    }
+
+    private boolean isAllowedDeveloperCommand(ServerPlayer player, String command) {
+        return DEVELOPER_COMMANDS.contains(commandRoot(command))
+                && rankService.canManageRanks(player.getUUID());
     }
 
     private boolean isWorldEditCommand(String command) {

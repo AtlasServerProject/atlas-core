@@ -18,6 +18,7 @@ import io.atlas.commands.HomesCommand;
 import io.atlas.commands.ClaimCommands;
 import io.atlas.commands.TrashCommand;
 import io.atlas.commands.DroppedItemsCommand;
+import io.atlas.commands.DevCommand;
 import io.atlas.commands.EndBattleCommand;
 import io.atlas.commands.PayCommand;
 import io.atlas.commands.WandCommand;
@@ -53,6 +54,7 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
     ClaimCommands.register(dispatcher);
     TrashCommand.register(dispatcher);
     DroppedItemsCommand.register(dispatcher);
+    DevCommand.register(dispatcher);
     EndBattleCommand.register(dispatcher);
     PayCommand.register(dispatcher);
     WandCommand.register(dispatcher);
