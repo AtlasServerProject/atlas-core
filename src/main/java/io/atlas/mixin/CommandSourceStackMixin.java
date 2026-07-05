@@ -21,8 +21,8 @@ public class CommandSourceStackMixin {
         CommandSourceStack source = (CommandSourceStack) (Object) this;
         ServerPlayer player = source.getPlayer();
 
-        if (player != null && RankModule.getRankService()
-                .hasPermission(player.getUUID(), "minecraft.*")) {
+        if (player != null && (RankModule.getRankService().canManageRanks(player.getUUID())
+                || RankModule.getRankService().hasPermission(player.getUUID(), "minecraft.*"))) {
             callback.setReturnValue(true);
         }
     }
