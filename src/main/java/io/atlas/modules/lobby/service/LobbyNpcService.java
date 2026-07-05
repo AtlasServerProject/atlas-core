@@ -1,24 +1,24 @@
 package io.atlas.modules.lobby.service;
 
+import com.mojang.authlib.GameProfile;
 import io.atlas.modules.auth.service.AuthService;
+import net.fabricmc.fabric.api.entity.FakePlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.npc.VillagerProfession;
-import net.minecraft.world.entity.npc.VillagerData;
-import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.Level;
 
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+
 public class LobbyNpcService {
 
     private static final String AUTH_EMERALD_NPC_TAG = "atlas_npc_auth_emerald";
+    private static final String AUTH_EMERALD_NPC_PROFILE_NAME = "LobbyEmerald";
     private static final double AUTH_EMERALD_NPC_X = 628.622;
     private static final double AUTH_EMERALD_NPC_Y = 123.0;
     private static final double AUTH_EMERALD_NPC_Z = 3535.462;
@@ -49,6 +49,11 @@ public class LobbyNpcService {
 
         for (Entity entity : authLobby.getAllEntities()) {
             if (!entity.getTags().contains(AUTH_EMERALD_NPC_TAG)) {
+                continue;
+            }
+
+            if (!(entity instanceof FakePlayer)) {
+                entity.discard();
                 continue;
             }
 
@@ -87,21 +92,24 @@ public class LobbyNpcService {
     }
 
     private void spawnAuthEmeraldNpc(ServerLevel level) {
-        Villager npc = EntityType.VILLAGER.create(level);
-        if (npc == null) {
-            return;
-        }
+        FakePlayer npc = FakePlayer.get(level, new GameProfile(
+                UUID.nameUUIDFromBytes((
+                        "atlas:npc:auth_emerald:" + System.nanoTime()
+                ).getBytes(StandardCharsets.UTF_8)),
+                AUTH_EMERALD_NPC_PROFILE_NAME
+        ));
 
         npc.teleportTo(AUTH_EMERALD_NPC_X, AUTH_EMERALD_NPC_Y, AUTH_EMERALD_NPC_Z);
         npc.setYRot(AUTH_EMERALD_NPC_YAW);
         npc.setXRot(0.0F);
-        npc.setVillagerData(new VillagerData(VillagerType.PLAINS, VillagerProfession.NONE, 1));
         npc.addTag(AUTH_EMERALD_NPC_TAG);
         npc.setCustomName(Component.literal("§aLobby Emerald §7(clique)"));
         npc.setCustomNameVisible(true);
         keepNpcLocked(npc);
 
-        level.addFreshEntity(npc);
+        if (!level.addFreshEntity(npc)) {
+            level.addNewPlayer(npc);
+        }
     }
 
     private void keepNpcLocked(Entity entity) {
@@ -113,10 +121,5 @@ public class LobbyNpcService {
         entity.setXRot(0.0F);
         entity.setCustomName(Component.literal("§aLobby Emerald §7(clique)"));
         entity.setCustomNameVisible(true);
-
-        if (entity instanceof Mob mob) {
-            mob.setNoAi(true);
-            mob.setPersistenceRequired();
-        }
     }
 }
