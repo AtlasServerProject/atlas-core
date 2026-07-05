@@ -1,13 +1,15 @@
 package io.atlas.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.DoubleArgumentType;
+import com.mojang.brigadier.arguments.LongArgumentType;
 import io.atlas.modules.economy.EconomyService;
 import io.atlas.modules.player.listener.PlayerJoinListener;
+import io.atlas.permission.Permission;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
-import io.atlas.permission.Permission;
+
+import java.math.BigInteger;
 
 public class AddMoneyCommand {
 
@@ -16,18 +18,18 @@ public class AddMoneyCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
                 Commands.literal("addmoney")
-                        .then(Commands.argument("valor", DoubleArgumentType.doubleArg(0.01))
+                        .then(Commands.argument("valor", LongArgumentType.longArg(1))
                                 .executes(context -> {
                                     var player = context.getSource().getPlayerOrException();
-                                    double amount = DoubleArgumentType.getDouble(context, "valor");
+                                    BigInteger amount = BigInteger.valueOf(LongArgumentType.getLong(context, "valor"));
 
                                     var profile = PlayerJoinListener.getPlayerService()
                                             .getProfile(player.getUUID());
 
-                                            if (!Permission.check(player, "atlas.economy.addmoney")) {
-                                                Permission.deny(player);
-                                                return 0;
-                                                }
+                                    if (!Permission.check(player, "atlas.economy.addmoney")) {
+                                        Permission.deny(player);
+                                        return 0;
+                                    }
 
                                     if (profile.isEmpty()) {
                                         context.getSource().sendFailure(
@@ -36,10 +38,10 @@ public class AddMoneyCommand {
                                         return 0;
                                     }
 
-                                    economyService.deposit(profile.get(), amount);
+                                    economyService.deposit(player, amount);
 
                                     context.getSource().sendSuccess(
-                                            () -> Component.literal("§aVocê recebeu §f" + amount + "§a coins."),
+                                            () -> Component.literal("§aVocê recebeu §f" + EconomyService.format(amount) + "§a CobbleDollars."),
                                             false
                                     );
 

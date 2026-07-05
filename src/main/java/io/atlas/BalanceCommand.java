@@ -1,12 +1,12 @@
 package io.atlas.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
+import io.atlas.modules.economy.EconomyService;
 import io.atlas.modules.player.listener.PlayerJoinListener;
 import io.atlas.modules.player.model.PlayerProfile;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
-import io.atlas.modules.economy.EconomyService;
 
 import java.util.Optional;
 
@@ -32,7 +32,7 @@ public class BalanceCommand {
                             EconomyService economyService = new EconomyService();
 
                             context.getSource().sendSuccess(
-                                    () -> Component.literal("§aSeu saldo: §f" + economyService.getBalance(profile.get())),
+                                    () -> Component.literal("§aSeu saldo: §f" + economyService.getFormattedBalance(player) + "§a CobbleDollars."),
                                     false
                             );
 
