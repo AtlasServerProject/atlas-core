@@ -6,11 +6,11 @@ import net.minecraft.server.level.ServerPlayer;
 
 public class AuthLobbySpawnService {
 
-    private static final double SPAWN_X = 646.5;
-    private static final double SPAWN_Y = 83.0;
-    private static final double SPAWN_Z = 3535.5;
-    private static final float SPAWN_YAW = 90.0F;
-    private static final float SPAWN_PITCH = 0.0F;
+    private static final double SPAWN_X = 642.215;
+    private static final double SPAWN_Y = 126.0;
+    private static final double SPAWN_Z = 3534.426;
+    private static final float SPAWN_YAW = 91.8F;
+    private static final float SPAWN_PITCH = -3.4F;
 
     public void teleportToSpawn(ServerPlayer player, MinecraftServer server) {
         ServerLevel authLobby = server.overworld();

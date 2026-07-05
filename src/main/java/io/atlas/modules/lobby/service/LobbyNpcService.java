@@ -19,10 +19,10 @@ import net.minecraft.world.level.Level;
 public class LobbyNpcService {
 
     private static final String AUTH_EMERALD_NPC_TAG = "atlas_npc_auth_emerald";
-    private static final double AUTH_EMERALD_NPC_X = 646.5;
-    private static final double AUTH_EMERALD_NPC_Y = 83.0;
-    private static final double AUTH_EMERALD_NPC_Z = 3529.5;
-    private static final float AUTH_EMERALD_NPC_YAW = 0.0F;
+    private static final double AUTH_EMERALD_NPC_X = 628.622;
+    private static final double AUTH_EMERALD_NPC_Y = 123.0;
+    private static final double AUTH_EMERALD_NPC_Z = 3535.462;
+    private static final float AUTH_EMERALD_NPC_YAW = -90.0F;
     private static final int SYNC_INTERVAL_TICKS = 100;
 
     private final AuthService authService;
