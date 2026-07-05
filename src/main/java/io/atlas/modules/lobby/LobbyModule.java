@@ -32,7 +32,7 @@ public class LobbyModule implements AtlasModule {
     private static final SurvivalWorldService survivalWorldService =
             new SurvivalWorldService();
     private static final HubInventoryProtectionService hubInventoryProtectionService =
-            new HubInventoryProtectionService();
+            new HubInventoryProtectionService(RankModule.getRankService());
 
     public static ServerSelectorService getSelectorService() {
         return selectorService;
