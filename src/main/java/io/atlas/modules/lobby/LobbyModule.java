@@ -10,6 +10,7 @@ import io.atlas.modules.lobby.service.LobbyStarterProtectionService;
 import io.atlas.modules.lobby.service.ServerSelectorService;
 import io.atlas.modules.lobby.service.LobbyTravelService;
 import io.atlas.modules.lobby.service.SurvivalWorldService;
+import io.atlas.modules.lobby.service.HubInventoryProtectionService;
 import io.atlas.modules.auth.AuthModule;
 import io.atlas.modules.rank.RankModule;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -30,6 +31,8 @@ public class LobbyModule implements AtlasModule {
     );
     private static final SurvivalWorldService survivalWorldService =
             new SurvivalWorldService();
+    private static final HubInventoryProtectionService hubInventoryProtectionService =
+            new HubInventoryProtectionService();
 
     public static ServerSelectorService getSelectorService() {
         return selectorService;
@@ -49,6 +52,11 @@ public class LobbyModule implements AtlasModule {
         ServerTickEvents.END_SERVER_TICK.register(pokemonSpawnService::tick);
         ServerTickEvents.END_SERVER_TICK.register(selectorService::tick);
         ServerTickEvents.END_SERVER_TICK.register(survivalWorldService::tick);
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            for (var player : server.getPlayerList().getPlayers()) {
+                hubInventoryProtectionService.enforce(player);
+            }
+        });
         ServerLifecycleEvents.SERVER_STARTED.register(survivalWorldService::configure);
         AtlasMod.LOGGER.info("Proteção dos Hubs Atlas iniciada.");
     }

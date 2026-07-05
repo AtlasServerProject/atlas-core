@@ -5,8 +5,8 @@ import io.atlas.modules.lobby.menu.ServerSelectorMenu;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -22,6 +22,7 @@ public class ServerSelectorService {
     private static final int SELECTOR_SLOT = 4;
     private static final int MAIN_INVENTORY_SIZE = 36;
     private static final int SYNC_INTERVAL_TICKS = 20;
+    private static final int HUB_SELECTOR_SLOT = 4;
 
     private final AuthService authService;
     private final LobbyTravelService travelService;
@@ -66,6 +67,9 @@ public class ServerSelectorService {
             Iterable<ItemStack> changedItems,
             int clickedSlot
     ) {
+        if (!isAuthLobby(player)) {
+            return false;
+        }
         if (isSelector(carriedItem)) {
             return true;
         }
@@ -81,6 +85,9 @@ public class ServerSelectorService {
     }
 
     public boolean shouldBlockCreativeSlot(ServerPlayer player, int slot, ItemStack item) {
+        if (!isAuthLobby(player)) {
+            return false;
+        }
         if (isSelector(item)) {
             return true;
         }
@@ -117,7 +124,12 @@ public class ServerSelectorService {
             return;
         }
 
-        removeSelectors(serverPlayer.getInventory());
+        Inventory inventory = serverPlayer.getInventory();
+        removeSelectors(inventory);
+        if (isAuthLobby(serverPlayer)) {
+            inventory.setItem(HUB_SELECTOR_SLOT, ItemStack.EMPTY);
+            inventory.setChanged();
+        }
         if (!travelService.teleportToEmerald(serverPlayer)) {
             return;
         }
@@ -128,13 +140,16 @@ public class ServerSelectorService {
     }
 
     private void ensureSelector(ServerPlayer player) {
+        if (!isAuthLobby(player)) {
+            return;
+        }
         Inventory inventory = player.getInventory();
         int freedSlot = removeSelectorsOutsideReservedSlot(inventory);
-        if (isSelector(inventory.getItem(SELECTOR_SLOT))) {
+        if (isSelector(inventory.getItem(HUB_SELECTOR_SLOT))) {
             return;
         }
 
-        ItemStack displaced = inventory.getItem(SELECTOR_SLOT);
+        ItemStack displaced = inventory.getItem(HUB_SELECTOR_SLOT);
         if (!displaced.isEmpty()) {
             int destination = freedSlot >= 0 ? freedSlot : findEmptySlot(inventory);
             if (destination < 0) {
@@ -147,14 +162,14 @@ public class ServerSelectorService {
             inventory.setItem(destination, displaced);
         }
 
-        inventory.setItem(SELECTOR_SLOT, createSelector());
+        inventory.setItem(HUB_SELECTOR_SLOT, createSelector());
         inventory.setChanged();
     }
 
     private int removeSelectorsOutsideReservedSlot(Inventory inventory) {
         int freedSlot = -1;
         for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
-            if (slot != SELECTOR_SLOT && isSelector(inventory.getItem(slot))) {
+            if (slot != HUB_SELECTOR_SLOT && isSelector(inventory.getItem(slot))) {
                 inventory.setItem(slot, ItemStack.EMPTY);
                 if (slot < MAIN_INVENTORY_SIZE && freedSlot < 0) {
                     freedSlot = slot;
@@ -179,7 +194,7 @@ public class ServerSelectorService {
 
     private int findEmptySlot(Inventory inventory) {
         for (int slot = 0; slot < MAIN_INVENTORY_SIZE; slot++) {
-            if (slot != SELECTOR_SLOT && inventory.getItem(slot).isEmpty()) {
+            if (slot != HUB_SELECTOR_SLOT && inventory.getItem(slot).isEmpty()) {
                 return slot;
             }
         }

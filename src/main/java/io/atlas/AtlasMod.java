@@ -16,6 +16,9 @@ import io.atlas.commands.SetHomeCommand;
 import io.atlas.commands.DeleteHomeCommand;
 import io.atlas.commands.HomesCommand;
 import io.atlas.commands.ClaimCommands;
+import io.atlas.commands.TrashCommand;
+import io.atlas.commands.DroppedItemsCommand;
+import io.atlas.commands.EndBattleCommand;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import org.slf4j.Logger;
@@ -46,6 +49,9 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
     DeleteHomeCommand.register(dispatcher);
     HomesCommand.register(dispatcher);
     ClaimCommands.register(dispatcher);
+    TrashCommand.register(dispatcher);
+    DroppedItemsCommand.register(dispatcher);
+    EndBattleCommand.register(dispatcher);
 });
 
         LOGGER.info("Comando /atlas registrado.");

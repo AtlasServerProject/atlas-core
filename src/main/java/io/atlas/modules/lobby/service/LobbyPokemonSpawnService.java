@@ -97,6 +97,9 @@ public class LobbyPokemonSpawnService {
         if (!LobbyWorlds.isEmerald(level)) {
             return true;
         }
+        if (pokemon.getOwner() != null) {
+            return true;
+        }
 
         String species = pokemon.getPokemon()
                 .getSpecies()

@@ -19,6 +19,9 @@ public final class EntityCleanupService {
     private static final int POKEMON_MIN_AGE = 5 * 60 * 20;
     private static final double PLAYER_SAFE_DISTANCE_SQUARED = 64.0 * 64.0;
     private int remaining = INTERVAL_TICKS;
+    private final ItemRecoveryService recovery;
+
+    public EntityCleanupService(ItemRecoveryService recovery) { this.recovery = recovery; }
 
     public void tick(MinecraftServer server) {
         remaining--;
@@ -41,12 +44,17 @@ public final class EntityCleanupService {
         ServerLevel survival = server.getLevel(LobbyWorlds.SURVIVAL_EMERALD);
         if (survival == null) return new CleanupResult(0, 0, 0);
         List<Entity> remove = new ArrayList<>();
+        java.util.Map<java.util.UUID, List<net.minecraft.world.item.ItemStack>> recoverable = new java.util.HashMap<>();
         int items = 0;
         int pokemon = 0;
         int scanned = 0;
         for (Entity entity : survival.getAllEntities()) {
             scanned++;
             if (entity instanceof ItemEntity item && item.tickCount >= DROP_MIN_AGE) {
+                if (item.getOwner() instanceof ServerPlayer owner) {
+                    recoverable.computeIfAbsent(owner.getUUID(), ignored -> new ArrayList<>())
+                            .add(item.getItem().copy());
+                }
                 remove.add(item);
                 items++;
             } else if (entity instanceof PokemonEntity creature && canRemove(creature, survival)) {
@@ -55,6 +63,7 @@ public final class EntityCleanupService {
             }
         }
         remove.forEach(Entity::discard);
+        recoverable.forEach((uuid, stacks) -> recovery.store(uuid, "AUTO_CLEANUP", stacks, server));
         CleanupResult result = new CleanupResult(items, pokemon, scanned);
         AtlasMod.LOGGER.info("Limpeza Atlas: {} drops e {} Pokémon removidos; {} entidades verificadas.",
                 items, pokemon, scanned);

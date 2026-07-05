@@ -7,6 +7,7 @@ import io.atlas.modules.survival.service.RandomTeleportService;
 import io.atlas.modules.survival.service.SurvivalPositionService;
 import io.atlas.modules.survival.listener.SurvivalRespawnListener;
 import io.atlas.modules.lobby.service.LobbyTravelService;
+import io.atlas.modules.lobby.service.WorldThemeService;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 
 public final class SurvivalModule implements AtlasModule {
@@ -15,6 +16,7 @@ public final class SurvivalModule implements AtlasModule {
             new RandomTeleportService(RankModule.getRankService());
     private static final SurvivalPositionService SURVIVAL_POSITION_SERVICE =
             new SurvivalPositionService();
+    private static final WorldThemeService WORLD_THEME_SERVICE = new WorldThemeService();
 
     public static RandomTeleportService getRandomTeleportService() {
         return RANDOM_TELEPORT_SERVICE;
@@ -33,6 +35,11 @@ public final class SurvivalModule implements AtlasModule {
     public void enable() {
         ServerTickEvents.END_SERVER_TICK.register(RANDOM_TELEPORT_SERVICE::tick);
         ServerTickEvents.END_SERVER_TICK.register(SURVIVAL_POSITION_SERVICE::tick);
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            for (var player : server.getPlayerList().getPlayers()) {
+                WORLD_THEME_SERVICE.playTheme(player);
+            }
+        });
         SurvivalRespawnListener.register(SURVIVAL_POSITION_SERVICE, new LobbyTravelService());
         AtlasMod.LOGGER.info("Serviços do Survival Emerald iniciados.");
     }
