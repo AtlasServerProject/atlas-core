@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class RandomTeleportService {
 
     private static final int MIN_RADIUS = 500;
-    private static final int MAX_RADIUS = 2_850;
+    private static final int MAX_RADIUS = 5_850;
     private static final int QUEUE_TARGET = 32;
     private static final int REFILL_ATTEMPTS_PER_TICK = 16;
     private static final int WARMUP_TICKS = 60;

@@ -10,10 +10,10 @@ import net.minecraft.world.level.GameRules;
 
 public class SurvivalWorldService {
 
-    public static final double WORLD_SIZE_BLOCKS = 6_000.0;
-    public static final int WORLD_SIZE_CHUNKS = 375;
-    public static final int PREGEN_RADIUS_BLOCKS = 3_000;
-    private static final double SAFE_LIMIT = 2_990.0;
+    public static final double WORLD_SIZE_BLOCKS = 12_000.0;
+    public static final int WORLD_SIZE_CHUNKS = 750;
+    public static final int PREGEN_RADIUS_BLOCKS = 6_000;
+    private static final double SAFE_LIMIT = 5_990.0;
     private static final int CHECK_INTERVAL_TICKS = 20;
     private int ticks;
 
