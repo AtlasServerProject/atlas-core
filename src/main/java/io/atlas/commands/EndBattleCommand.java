@@ -23,6 +23,7 @@ public class EndBattleCommand {
     private static int execute(CommandSourceStack source) throws CommandSyntaxException {
         var player = source.getPlayerOrException();
         if (battleEndService.endBattle(player)) {
+            BattleModule.getBattleMusicService().stopBattleTheme(player);
             source.sendSuccess(
                     () -> Component.literal("§aBatalha encerrada com sucesso."),
                     false

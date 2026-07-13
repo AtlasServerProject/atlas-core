@@ -16,7 +16,6 @@ import java.util.List;
 public final class EntityCleanupService {
     private static final int INTERVAL_TICKS = 15 * 60 * 20;
     private static final int DROP_MIN_AGE = 5 * 60 * 20;
-    private static final int POKEMON_MIN_AGE = 5 * 60 * 20;
     private static final double PLAYER_SAFE_DISTANCE_SQUARED = 64.0 * 64.0;
     private int remaining = INTERVAL_TICKS;
     private final ItemRecoveryService recovery;
@@ -86,7 +85,7 @@ public final class EntityCleanupService {
 
     private boolean canRemove(PokemonEntity pokemon, ServerLevel level) {
         if (pokemon.getOwner() != null || pokemon.isBattling() || pokemon.isBusy()
-                || pokemon.getTethering() != null || pokemon.getTicksLived() < POKEMON_MIN_AGE) {
+                || pokemon.getTethering() != null) {
             return false;
         }
         for (ServerPlayer player : level.players()) {

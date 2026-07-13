@@ -16,6 +16,7 @@ import io.atlas.modules.auth.service.AuthService;
 import io.atlas.modules.auth.service.AuthSessionExpiryService;
 import io.atlas.modules.auth.service.AuthWelcomeService;
 import io.atlas.modules.survival.SurvivalModule;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 
 public class AuthModule implements AtlasModule {
 
@@ -61,6 +62,7 @@ public class AuthModule implements AtlasModule {
                 SurvivalModule.getPositionService()
         );
         AuthSessionExpiryListener.register(sessionExpiryService);
+        ServerTickEvents.END_SERVER_TICK.register(lobbySpawnService::tick);
         AuthMovementListener.register(movementLockService);
         AuthDamageListener.register(damageProtectionService);
         AuthInteractionListener.register(gameplayProtectionService);
@@ -70,6 +72,7 @@ public class AuthModule implements AtlasModule {
     @Override
     public void disable() {
         authService.shutdown();
+        lobbySpawnService.clear();
         movementLockService.clear();
         gameplayProtectionService.clear();
     }

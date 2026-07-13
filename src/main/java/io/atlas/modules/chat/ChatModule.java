@@ -6,6 +6,7 @@ import io.atlas.modules.chat.listener.ChatListener;
 import io.atlas.modules.chat.service.ChatService;
 import io.atlas.modules.rank.RankModule;
 import io.atlas.modules.auth.AuthModule;
+import io.atlas.modules.moderation.ModerationModule;
 
 public class ChatModule implements AtlasModule {
 
@@ -18,7 +19,8 @@ public class ChatModule implements AtlasModule {
     public void enable() {
         ChatListener.register(
                 new ChatService(RankModule.getRankService()),
-                AuthModule.getProtectionService()
+                AuthModule.getProtectionService(),
+                ModerationModule.getService()
         );
         AtlasMod.LOGGER.info("Chat Formatter iniciado.");
     }

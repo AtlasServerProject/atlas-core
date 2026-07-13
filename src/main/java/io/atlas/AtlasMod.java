@@ -22,6 +22,7 @@ import io.atlas.commands.DevCommand;
 import io.atlas.commands.EndBattleCommand;
 import io.atlas.commands.PayCommand;
 import io.atlas.commands.WandCommand;
+import io.atlas.commands.ModerationCommand;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import org.slf4j.Logger;
@@ -58,6 +59,7 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
     EndBattleCommand.register(dispatcher);
     PayCommand.register(dispatcher);
     WandCommand.register(dispatcher);
+    ModerationCommand.register(dispatcher);
 });
 
         LOGGER.info("Comando /atlas registrado.");
