@@ -2,7 +2,6 @@ package io.atlas.modules.auth.service;
 
 import io.atlas.AtlasMod;
 import io.atlas.modules.auth.cache.AuthSessionCache;
-import io.atlas.modules.auth.service.PremiumLoginService;
 import io.atlas.modules.auth.model.AuthAccount;
 import io.atlas.modules.auth.model.AuthSession;
 import io.atlas.modules.auth.model.AuthSessionState;

@@ -1,6 +1,5 @@
 package io.atlas.modules.survival.service;
 
-import io.atlas.AtlasMod;
 import io.atlas.modules.lobby.service.LobbyWorlds;
 import io.atlas.modules.survival.model.SurvivalPosition;
 import io.atlas.modules.survival.repository.SurvivalPositionRepository;

@@ -19,7 +19,6 @@ import net.minecraft.world.level.Level;
 public class ServerSelectorService {
 
     private static final String SELECTOR_MARKER = "atlas_server_selector";
-    private static final int SELECTOR_SLOT = 4;
     private static final int MAIN_INVENTORY_SIZE = 36;
     private static final int SYNC_INTERVAL_TICKS = 20;
     private static final int HUB_SELECTOR_SLOT = 4;

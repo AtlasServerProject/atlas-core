@@ -38,7 +38,6 @@ public class WorldThemeService {
             return;
         }
 
-        Level level = player.level();
         Theme theme = resolveTheme(player);
         String previousTheme = lastThemes.get(player.getUUID());
         if (theme.key().equals(previousTheme)) {

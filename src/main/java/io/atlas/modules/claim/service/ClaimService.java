@@ -242,8 +242,7 @@ public final class ClaimService {
     }
 
     private BlockPos surface(ServerPlayer player, int x, int z) {
-        BlockPos probe = new BlockPos(x, player.blockPosition().getY(), z);
-        if (!player.serverLevel().hasChunkAt(probe)) return null;
+        if (!player.serverLevel().getChunkSource().hasChunk(x >> 4, z >> 4)) return null;
         int y = player.serverLevel().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z) - 1;
         return new BlockPos(x, y, z);
     }
