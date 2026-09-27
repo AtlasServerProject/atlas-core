@@ -21,7 +21,6 @@ import io.atlas.commands.DroppedItemsCommand;
 import io.atlas.commands.DevCommand;
 import io.atlas.commands.EndBattleCommand;
 import io.atlas.commands.PayCommand;
-import io.atlas.commands.WandCommand;
 import io.atlas.commands.ModerationCommand;
 import io.atlas.commands.KitCommand;
 import io.atlas.commands.BackCommand;
@@ -53,6 +52,7 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
     LobbyCommand.register(dispatcher);
     RandomTeleportCommand.register(dispatcher);
     HomeCommand.register(dispatcher);
+    io.atlas.commands.StaffToolsCommand.register(dispatcher);
     SetHomeCommand.register(dispatcher);
     DeleteHomeCommand.register(dispatcher);
     HomesCommand.register(dispatcher);
@@ -62,7 +62,6 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
     DevCommand.register(dispatcher);
     EndBattleCommand.register(dispatcher);
     PayCommand.register(dispatcher);
-    WandCommand.register(dispatcher);
     ModerationCommand.register(dispatcher);
     KitCommand.register(dispatcher);
     BackCommand.register(dispatcher);

@@ -73,11 +73,31 @@ public final class HomeService {
     }
 
     public boolean deleteHome(UUID uuid, String requestedName) {
-        return repository.delete(uuid, normalizeName(requestedName));
+        boolean deleted = repository.delete(uuid, normalizeName(requestedName));
+        if (deleted) {
+            repository.findPrimary(uuid).filter(home -> !home.primary())
+                    .ifPresent(home -> repository.setPrimary(uuid, home.name()));
+        }
+        return deleted;
     }
 
     public List<Home> listHomes(UUID uuid) {
         return repository.findAll(uuid);
+    }
+
+    public boolean setPrimary(UUID uuid, String name) {
+        return repository.setPrimary(uuid, normalizeName(name));
+    }
+
+    public String nextHomeName(UUID uuid) {
+        var names = listHomes(uuid).stream().map(Home::name).collect(java.util.stream.Collectors.toSet());
+        int number = 1;
+        while (names.contains("home" + number)) number++;
+        return "home" + number;
+    }
+
+    public boolean exists(UUID uuid, Home home) {
+        return repository.find(uuid, home.name()).map(found -> found.id() == home.id()).orElse(false);
     }
 
     public int homeLimit(UUID uuid) {
@@ -223,7 +243,7 @@ public final class HomeService {
         return x * x + y * y + z * z > MOVEMENT_TOLERANCE_SQUARED;
     }
 
-    private long remainingCooldownMillis(UUID uuid) {
+    public long remainingCooldownMillis(UUID uuid) {
         int cooldown = highestRank(uuid)
                 .map(Rank::getIdentifier)
                 .map(this::cooldownForRank)

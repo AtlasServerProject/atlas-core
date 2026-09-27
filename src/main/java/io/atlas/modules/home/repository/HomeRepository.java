@@ -119,6 +119,23 @@ public final class HomeRepository {
         }
     }
 
+    public boolean setPrimary(UUID uuid, String name) {
+        String sql = """
+                UPDATE homes h SET is_primary = (LOWER(h.name) = LOWER(?)), updated_at = NOW()
+                WHERE h.player_id = (SELECT id FROM players WHERE uuid = ?)
+                  AND EXISTS (SELECT 1 FROM homes target
+                              WHERE target.player_id = h.player_id AND LOWER(target.name) = LOWER(?))
+                """;
+        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(sql)) {
+            statement.setString(1, name);
+            statement.setObject(2, uuid);
+            statement.setString(3, name);
+            return statement.executeUpdate() > 0;
+        } catch (SQLException exception) {
+            throw new RuntimeException("Erro ao definir home principal.", exception);
+        }
+    }
+
     private Optional<Home> findOne(String sql, Object... values) {
         try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(sql)) {
             for (int index = 0; index < values.length; index++) {

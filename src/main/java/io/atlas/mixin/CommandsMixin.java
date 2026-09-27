@@ -26,11 +26,29 @@ public class CommandsMixin {
             return;
         }
 
+        if (io.atlas.modules.moderation.ModerationModule.getStaffTools().blocksCommand(player, command)) {
+            source.sendFailure(net.minecraft.network.chat.Component.literal("§cVocê está congelado. Aguarde a staff; o chat continua disponível."));
+            callback.cancel();
+            return;
+        }
         if (AUTH_PROTECTION.canExecuteCommand(player, command)) {
             return;
         }
 
-        source.sendFailure(AUTH_PROTECTION.commandBlockedMessage(player, command));
+        source.sendFailure(AUTH_PROTECTION.commandBlockedMessage(player));
         callback.cancel();
+    }
+    @Inject(method = "performCommand", at = @At("HEAD"), cancellable = true)
+    private void atlas$blockFrozenParsedCommand(
+            com.mojang.brigadier.ParseResults<CommandSourceStack> parsed,
+            String command,
+            CallbackInfo callback
+    ) {
+        CommandSourceStack source = parsed.getContext().getSource();
+        if (source.getEntity() instanceof ServerPlayer player
+                && io.atlas.modules.moderation.ModerationModule.getStaffTools().blocksCommand(player, command)) {
+            source.sendFailure(net.minecraft.network.chat.Component.literal("§cVocê está congelado. Aguarde a staff; o chat continua disponível."));
+            callback.cancel();
+        }
     }
 }

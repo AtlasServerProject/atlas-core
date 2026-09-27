@@ -86,13 +86,15 @@ public class ServerGamePacketListenerImplMixin {
                 == ServerboundPlayerActionPacket.Action.DROP_ITEM
                 || packet.getAction() == ServerboundPlayerActionPacket.Action.DROP_ALL_ITEMS
                 || packet.getAction() == ServerboundPlayerActionPacket.Action.SWAP_ITEM_WITH_OFFHAND;
-        if (protectedAction && SERVER_SELECTOR.isSelector(player.getMainHandItem())) {
+        if (io.atlas.modules.moderation.ModerationModule.getStaffTools().isFrozen(player.getUUID())
+                || (protectedAction && SERVER_SELECTOR.isSelector(player.getMainHandItem()))) {
             callback.cancel();
         }
     }
 
     private void cancelWhenUnauthenticated(CallbackInfo callback) {
-        if (!AUTH_GAMEPLAY_PROTECTION.canUseInventory(player)) {
+        if (io.atlas.modules.moderation.ModerationModule.getStaffTools().isFrozen(player.getUUID())
+                || !AUTH_GAMEPLAY_PROTECTION.canUseInventory(player)) {
             callback.cancel();
         }
     }

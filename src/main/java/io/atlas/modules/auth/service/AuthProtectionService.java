@@ -13,110 +13,12 @@ public class AuthProtectionService {
 
     private static final Set<String> AUTH_COMMANDS = Set.of("login", "register");
     private static final Set<String> DEVELOPER_COMMANDS = Set.of("dev", "op", "deop");
-    private static final Set<String> WORLDEDIT_COMMANDS = Set.of(
-            "/biome",
-            "/br",
-            "/brush",
-            "/calc",
-            "/cancel",
-            "/center",
-            "/chunk",
-            "/clipboard",
-            "/contract",
-            "/copy",
-            "/count",
-            "/curve",
-            "/cut",
-            "/cyl",
-            "/deform",
-            "/desel",
-            "/deselect",
-            "/drain",
-            "/ex",
-            "/expand",
-            "/faces",
-            "/fast",
-            "/fill",
-            "/fillr",
-            "/fixlava",
-            "/fixwater",
-            "/flip",
-            "/flora",
-            "/forest",
-            "/forestgen",
-            "/gmask",
-            "/green",
-            "/hcyl",
-            "/hollow",
-            "/hpyramid",
-            "/hsphere",
-            "/inset",
-            "/line",
-            "/limit",
-            "/mask",
-            "/move",
-            "/naturalize",
-            "/outline",
-            "/outset",
-            "/overlay",
-            "/paste",
-            "/pos1",
-            "/pos2",
-            "/pyramid",
-            "/redo",
-            "/regen",
-            "/removenear",
-            "/replace",
-            "/replacenear",
-            "/rotate",
-            "/schem",
-            "/schematic",
-            "/sel",
-            "/set",
-            "/shift",
-            "/smooth",
-            "/snow",
-            "/sphere",
-            "/stack",
-            "/thaw",
-            "/undo",
-            "/walls",
-            "ascend",
-            "ceil",
-            "chunkinfo",
-            "clearclipboard",
-            "copy",
-            "descend",
-            "distr",
-            "farwand",
-            "hpos1",
-            "hpos2",
-            "jumpto",
-            "lrbuild",
-            "none",
-            "paste",
-            "pos1",
-            "pos2",
-            "repl",
-            "sel",
-            "thru",
-            "toggleplace",
-            "tool",
-            "unstuck",
-            "up",
-            "wand",
-            "we",
-            "worldedit"
-    );
     private static final Component LOGIN_REQUIRED_MESSAGE = Component.literal(
             "§cVocê precisa se autenticar antes de fazer isso. "
                     + "§eUse /login ou /register."
     );
     private static final Component HUB_COMMAND_BLOCKED_MESSAGE = Component.literal(
             "§cComandos são bloqueados no Hub. §eApenas /login e /register são permitidos."
-    );
-    private static final Component WORLDEDIT_BLOCKED_MESSAGE = Component.literal(
-            "§cWorldEdit é restrito a Dono e ADM."
     );
 
     private final AuthService authService;
@@ -141,12 +43,8 @@ public class AuthProtectionService {
         }
 
         boolean authCommand = AUTH_COMMANDS.contains(commandRoot(command));
-        if (isWorldEditCommand(command) && !rankService.canManageRanks(player.getUUID())) {
-            return false;
-        }
         if (LobbyWorlds.isAuth(player.level())) {
             return authCommand
-                    || isAllowedWorldEditCommand(player, command)
                     || isAllowedDeveloperCommand(player, command);
         }
         return authService.isAuthenticated(player.getUUID()) || authCommand;
@@ -157,40 +55,14 @@ public class AuthProtectionService {
     }
 
     public Component commandBlockedMessage(ServerPlayer player) {
-        return commandBlockedMessage(player, null);
-    }
-
-    public Component commandBlockedMessage(ServerPlayer player, String command) {
-        if (isWorldEditCommand(command)) {
-            return WORLDEDIT_BLOCKED_MESSAGE;
-        }
         return LobbyWorlds.isAuth(player.level())
                 ? HUB_COMMAND_BLOCKED_MESSAGE
                 : LOGIN_REQUIRED_MESSAGE;
     }
 
-    private boolean isAllowedWorldEditCommand(ServerPlayer player, String command) {
-        return isWorldEditCommand(command) && rankService.canManageRanks(player.getUUID());
-    }
-
     private boolean isAllowedDeveloperCommand(ServerPlayer player, String command) {
         return DEVELOPER_COMMANDS.contains(commandRoot(command))
                 && rankService.canManageRanks(player.getUUID());
-    }
-
-    private boolean isWorldEditCommand(String command) {
-        String normalized = command == null ? "" : command.stripLeading().toLowerCase(Locale.ROOT);
-
-        // O WorldEdit usa a sintaxe //comando. Dependendo do caminho de envio
-        // do cliente, o dispatcher pode receber uma ou duas barras; reconhecer
-        // ambas evita que a proteção do Atlas bloqueie a staff autorizada.
-        if (normalized.startsWith("//")) {
-            return true;
-        }
-
-        String root = commandRoot(command);
-        return WORLDEDIT_COMMANDS.contains(root)
-                || WORLDEDIT_COMMANDS.contains("/" + root);
     }
 
     private String commandRoot(String command) {

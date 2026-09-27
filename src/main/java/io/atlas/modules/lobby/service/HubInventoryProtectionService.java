@@ -1,7 +1,6 @@
 package io.atlas.modules.lobby.service;
 
 import io.atlas.modules.auth.service.AuthService;
-import io.atlas.modules.rank.service.RankService;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -22,12 +21,10 @@ public class HubInventoryProtectionService {
     private static final int COMPASS_SLOT = 4;
     private static final String SELECTOR_MARKER = "atlas_server_selector";
     private final AuthService authService;
-    private final RankService rankService;
     private final Map<UUID, List<ItemStack>> savedInventories = new ConcurrentHashMap<>();
 
-    public HubInventoryProtectionService(AuthService authService, RankService rankService) {
+    public HubInventoryProtectionService(AuthService authService) {
         this.authService = authService;
-        this.rankService = rankService;
     }
 
     public boolean canKeepItem(ServerPlayer player, ItemStack stack) {
@@ -101,8 +98,7 @@ public class HubInventoryProtectionService {
         if (stack.isEmpty()) {
             return true;
         }
-        return (authService.isAuthenticated(player.getUUID()) && isSelector(stack))
-                || (rankService.canManageRanks(player.getUUID()) && stack.is(Items.WOODEN_AXE));
+        return authService.isAuthenticated(player.getUUID()) && isSelector(stack);
     }
 
     private void removeSelector(Inventory inventory) {

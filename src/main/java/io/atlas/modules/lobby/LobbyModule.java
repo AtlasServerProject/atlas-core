@@ -29,7 +29,7 @@ public class LobbyModule implements AtlasModule {
             new LobbyStarterProtectionService();
     private static final LobbyTravelService travelService = new LobbyTravelService();
     private static final HubInventoryProtectionService hubInventoryProtectionService =
-            new HubInventoryProtectionService(AuthModule.getAuthService(), RankModule.getRankService());
+            new HubInventoryProtectionService(AuthModule.getAuthService());
     private static final ServerSelectorService selectorService = new ServerSelectorService(
             AuthModule.getAuthService(),
             travelService,
