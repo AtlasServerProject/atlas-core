@@ -100,9 +100,10 @@ public class RankCommand {
         }
 
         String action = assign ? "atribuído a" : "removido de";
+        String rankLabel = rankService.displayRankLabel(rankIdentifier);
         source.sendSuccess(
                 () -> Component.literal(
-                        "§aCargo §f" + rankIdentifier.toUpperCase(Locale.ROOT)
+                        "§aCargo §f" + rankLabel
                                 + " §a" + action + " §f" + username + "§a."
                 ),
                 true
@@ -113,7 +114,9 @@ public class RankCommand {
     private static int listRanks(CommandSourceStack source) {
         List<Rank> ranks = rankService.getAllRanks();
         String values = ranks.stream()
-                .map(rank -> rank.getIdentifier() + " (" + rank.getPriority() + ")")
+                .map(rank -> rank.getDisplayName()
+                        + " §7/" + rank.getIdentifier()
+                        + " (" + rank.getPriority() + ")")
                 .reduce((left, right) -> left + ", " + right)
                 .orElse("nenhum");
 
@@ -129,7 +132,7 @@ public class RankCommand {
         }
 
         String values = info.get().ranks().stream()
-                .map(Rank::getIdentifier)
+                .map(Rank::getDisplayName)
                 .reduce((left, right) -> left + ", " + right)
                 .orElse("nenhum");
         source.sendSuccess(
@@ -161,10 +164,11 @@ public class RankCommand {
         }
 
         String action = add ? "adicionada ao" : "removida do";
+        String rankLabel = rankService.displayRankLabel(rankIdentifier);
         source.sendSuccess(
                 () -> Component.literal(
                         "§aPermissão §f" + permission + " §a" + action
-                                + " cargo §f" + rankIdentifier.toUpperCase(Locale.ROOT) + "§a."
+                                + " cargo §f" + rankLabel + "§a."
                 ),
                 true
         );

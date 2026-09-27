@@ -33,7 +33,7 @@ public final class SurvivalRulesService {
     }
 
     private boolean isManagedWorld(ServerPlayer player) {
-        return LobbyWorlds.isLobby(player.level()) || LobbyWorlds.isSurvivalEmerald(player.level());
+        return LobbyWorlds.isLobby(player.level()) || LobbyWorlds.isSurvivalArea(player.level());
     }
 
     private void keepFed(ServerPlayer player) {
@@ -62,7 +62,7 @@ public final class SurvivalRulesService {
         player.setHealth(player.getMaxHealth());
         player.resetFallDistance();
 
-        if (LobbyWorlds.isSurvivalEmerald(level)) {
+        if (LobbyWorlds.isSurvivalArea(level)) {
             if (lobbyTravelService.teleportToEmerald(player)) {
                 player.displayClientMessage(
                         Component.literal("§eVocê caiu no Void e foi enviado ao Lobby Emerald."),

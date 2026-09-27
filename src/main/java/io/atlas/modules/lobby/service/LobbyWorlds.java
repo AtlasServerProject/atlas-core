@@ -34,4 +34,10 @@ public final class LobbyWorlds {
     public static boolean isSurvivalEmerald(Level level) {
         return level.dimension().equals(SURVIVAL_EMERALD);
     }
+
+    public static boolean isSurvivalArea(Level level) {
+        return isSurvivalEmerald(level)
+                || level.dimension().equals(Level.NETHER)
+                || level.dimension().equals(Level.END);
+    }
 }

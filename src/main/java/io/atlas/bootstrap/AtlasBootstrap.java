@@ -16,6 +16,7 @@ import io.atlas.modules.home.HomeModule;
 import io.atlas.modules.claim.ClaimModule;
 import io.atlas.modules.performance.PerformanceModule;
 import io.atlas.modules.moderation.ModerationModule;
+import io.atlas.modules.kit.KitModule;
 
 public class AtlasBootstrap {
 
@@ -41,6 +42,7 @@ public class AtlasBootstrap {
         moduleManager.register(new HomeModule());
         moduleManager.register(new ClaimModule());
         moduleManager.register(new PerformanceModule());
+        moduleManager.register(new KitModule());
         moduleManager.register(new AdminModule());
 
         // Inicialização

@@ -23,6 +23,10 @@ import io.atlas.commands.EndBattleCommand;
 import io.atlas.commands.PayCommand;
 import io.atlas.commands.WandCommand;
 import io.atlas.commands.ModerationCommand;
+import io.atlas.commands.KitCommand;
+import io.atlas.commands.BackCommand;
+import io.atlas.commands.FlyCommand;
+import io.atlas.commands.EcCommand;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import org.slf4j.Logger;
@@ -60,6 +64,10 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
     PayCommand.register(dispatcher);
     WandCommand.register(dispatcher);
     ModerationCommand.register(dispatcher);
+    KitCommand.register(dispatcher);
+    BackCommand.register(dispatcher);
+    FlyCommand.register(dispatcher);
+    EcCommand.register(dispatcher);
 });
 
         LOGGER.info("Comando /atlas registrado.");

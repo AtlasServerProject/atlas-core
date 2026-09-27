@@ -132,6 +132,14 @@ public class AuthProtectionService {
     }
 
     public boolean canExecuteCommand(ServerPlayer player, String command) {
+        // O Dono possui liberdade total sobre os comandos registrados pelo
+        // servidor, mas ainda precisa estar autenticado para atravessar a
+        // proteção inicial do Auth Lobby.
+        if (authService.isAuthenticated(player.getUUID())
+                && rankService.isOwner(player.getUUID())) {
+            return true;
+        }
+
         boolean authCommand = AUTH_COMMANDS.contains(commandRoot(command));
         if (isWorldEditCommand(command) && !rankService.canManageRanks(player.getUUID())) {
             return false;
@@ -171,6 +179,15 @@ public class AuthProtectionService {
     }
 
     private boolean isWorldEditCommand(String command) {
+        String normalized = command == null ? "" : command.stripLeading().toLowerCase(Locale.ROOT);
+
+        // O WorldEdit usa a sintaxe //comando. Dependendo do caminho de envio
+        // do cliente, o dispatcher pode receber uma ou duas barras; reconhecer
+        // ambas evita que a proteção do Atlas bloqueie a staff autorizada.
+        if (normalized.startsWith("//")) {
+            return true;
+        }
+
         String root = commandRoot(command);
         return WORLDEDIT_COMMANDS.contains(root)
                 || WORLDEDIT_COMMANDS.contains("/" + root);

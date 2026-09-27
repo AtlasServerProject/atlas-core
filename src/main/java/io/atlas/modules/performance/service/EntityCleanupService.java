@@ -12,11 +12,110 @@ import net.minecraft.world.entity.item.ItemEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public final class EntityCleanupService {
     private static final int INTERVAL_TICKS = 15 * 60 * 20;
     private static final int DROP_MIN_AGE = 5 * 60 * 20;
-    private static final double PLAYER_SAFE_DISTANCE_SQUARED = 64.0 * 64.0;
+    private static final Set<String> PROTECTED_POKEMON = Set.of(
+            "arceus",
+            "articuno",
+            "azelf",
+            "calyrex",
+            "celebi",
+            "chienpao",
+            "chiyu",
+            "cobalion",
+            "cosmoem",
+            "cosmog",
+            "cresselia",
+            "darkrai",
+            "deoxys",
+            "dialga",
+            "diancie",
+            "entei",
+            "eternatus",
+            "fezandipiti",
+            "genesect",
+            "giratina",
+            "glastrier",
+            "gougingfire",
+            "groudon",
+            "heatran",
+            "hooh",
+            "hoopa",
+            "ironboulder",
+            "ironcrown",
+            "jirachi",
+            "keldeo",
+            "koraidon",
+            "kubfu",
+            "kyogre",
+            "kyurem",
+            "landorus",
+            "latias",
+            "latios",
+            "lugia",
+            "lunala",
+            "magearna",
+            "manaphy",
+            "marshadow",
+            "melmetal",
+            "meloetta",
+            "meltan",
+            "mesprit",
+            "mew",
+            "mewtwo",
+            "miraidon",
+            "moltres",
+            "munkidori",
+            "necrozma",
+            "ogerpon",
+            "okidogi",
+            "palkia",
+            "pecharunt",
+            "phione",
+            "ragingbolt",
+            "raikou",
+            "rayquaza",
+            "regice",
+            "regidrago",
+            "regieleki",
+            "regigigas",
+            "regirock",
+            "registeel",
+            "reshiram",
+            "shaymin",
+            "silvally",
+            "solgaleo",
+            "spectrier",
+            "suicune",
+            "tapubulu",
+            "tapufini",
+            "tapukoko",
+            "tapulele",
+            "terapagos",
+            "terrakion",
+            "thundurus",
+            "tinglu",
+            "tornadus",
+            "typenull",
+            "urshifu",
+            "uxie",
+            "victini",
+            "virizion",
+            "volcanion",
+            "wochien",
+            "xerneas",
+            "yveltal",
+            "zacian",
+            "zamazenta",
+            "zapdos",
+            "zarude",
+            "zekrom",
+            "zeraora",
+            "zygarde"
+    );
     private int remaining = INTERVAL_TICKS;
     private final ItemRecoveryService recovery;
 
@@ -56,7 +155,7 @@ public final class EntityCleanupService {
                 }
                 remove.add(item);
                 items++;
-            } else if (entity instanceof PokemonEntity creature && canRemove(creature, survival)) {
+            } else if (entity instanceof PokemonEntity creature && canRemove(creature)) {
                 remove.add(creature);
                 pokemon++;
             }
@@ -83,15 +182,16 @@ public final class EntityCleanupService {
         return new EntityCounts(total, items, pokemon);
     }
 
-    private boolean canRemove(PokemonEntity pokemon, ServerLevel level) {
+    private boolean canRemove(PokemonEntity pokemon) {
         if (pokemon.getOwner() != null || pokemon.isBattling() || pokemon.isBusy()
                 || pokemon.getTethering() != null) {
             return false;
         }
-        for (ServerPlayer player : level.players()) {
-            if (pokemon.distanceToSqr(player) <= PLAYER_SAFE_DISTANCE_SQUARED) return false;
-        }
-        return true;
+        return !PROTECTED_POKEMON.contains(speciesId(pokemon));
+    }
+
+    private String speciesId(PokemonEntity pokemon) {
+        return pokemon.getPokemon().getSpecies().getResourceIdentifier().getPath();
     }
 
     public record CleanupResult(int items, int pokemon, int scanned) {

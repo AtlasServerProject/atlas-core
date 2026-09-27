@@ -4,6 +4,7 @@ import io.atlas.modules.claim.model.Claim;
 import io.atlas.modules.claim.model.TrustLevel;
 import io.atlas.modules.claim.repository.ClaimRepository;
 import io.atlas.modules.lobby.service.LobbyWorlds;
+import io.atlas.modules.survival.SurvivalModule;
 import io.atlas.modules.rank.service.RankService;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -149,6 +150,7 @@ public final class ClaimService {
             message(player, "§cNão encontrei um local seguro dentro dessa claim.");
             return false;
         }
+        SurvivalModule.getBackService().remember(player);
         player.stopRiding();
         player.setDeltaMovement(Vec3.ZERO);
         player.teleportTo(level, destination.getX() + 0.5, destination.getY(),

@@ -37,7 +37,7 @@ public class EconomyService {
     }
 
     public static String format(BigInteger amount) {
-        return NumberFormat.getIntegerInstance(new Locale("pt", "BR")).format(amount);
+        return NumberFormat.getIntegerInstance(Locale.of("pt", "BR")).format(amount);
     }
 
     public double getBalance(PlayerProfile profile) {

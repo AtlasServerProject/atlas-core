@@ -37,6 +37,7 @@ public class LobbyCommand {
             ));
             return 0;
         }
+        SurvivalModule.getBackService().remember(player);
         if (!travelService.teleportToEmerald(player)) {
             return 0;
         }

@@ -55,8 +55,19 @@ public class RankService {
                 .anyMatch(RANK_MANAGERS::contains);
     }
 
+    /**
+     * OWNER/DONO é o cargo máximo do Atlas e recebe o bypass administrativo
+     * completo depois da autenticação.
+     */
+    public boolean isOwner(UUID uuid) {
+        return getPlayerRanks(uuid).stream()
+                .map(Rank::getIdentifier)
+                .map(identifier -> identifier.toUpperCase(Locale.ROOT))
+                .anyMatch(identifier -> identifier.equals("OWNER") || identifier.equals("DONO"));
+    }
+
     public RankAssignmentResult assignRank(String username, String rankIdentifier) {
-        Optional<Rank> rank = cache.getByIdentifier(rankIdentifier);
+        Optional<Rank> rank = cache.getByIdentifier(resolveRankAlias(rankIdentifier));
         if (rank.isEmpty()) {
             return RankAssignmentResult.RANK_NOT_FOUND;
         }
@@ -71,7 +82,7 @@ public class RankService {
     }
 
     public RankAssignmentResult removeRank(String username, String rankIdentifier) {
-        Optional<Rank> rank = cache.getByIdentifier(rankIdentifier);
+        Optional<Rank> rank = cache.getByIdentifier(resolveRankAlias(rankIdentifier));
         if (rank.isEmpty()) {
             return RankAssignmentResult.RANK_NOT_FOUND;
         }
@@ -86,7 +97,7 @@ public class RankService {
     }
 
     public RankAssignmentResult addPermission(String rankIdentifier, String permission) {
-        Optional<Rank> rank = cache.getByIdentifier(rankIdentifier);
+        Optional<Rank> rank = cache.getByIdentifier(resolveRankAlias(rankIdentifier));
         if (rank.isEmpty()) {
             return RankAssignmentResult.RANK_NOT_FOUND;
         }
@@ -97,7 +108,7 @@ public class RankService {
     }
 
     public RankAssignmentResult removePermission(String rankIdentifier, String permission) {
-        Optional<Rank> rank = cache.getByIdentifier(rankIdentifier);
+        Optional<Rank> rank = cache.getByIdentifier(resolveRankAlias(rankIdentifier));
         if (rank.isEmpty()) {
             return RankAssignmentResult.RANK_NOT_FOUND;
         }
@@ -111,6 +122,16 @@ public class RankService {
         return cache.getAll().stream()
                 .sorted(Comparator.comparingInt(Rank::getPriority).reversed())
                 .toList();
+    }
+
+    public Optional<Rank> getRankByIdentifier(String rankIdentifier) {
+        return cache.getByIdentifier(resolveRankAlias(rankIdentifier));
+    }
+
+    public String displayRankLabel(String rankIdentifier) {
+        return getRankByIdentifier(rankIdentifier)
+                .map(Rank::getDisplayName)
+                .orElseGet(() -> rankIdentifier.toUpperCase(Locale.ROOT));
     }
 
     public Optional<PlayerRankInfo> getPlayerRankInfo(String username) {
@@ -147,6 +168,23 @@ public class RankService {
 
     public boolean isStaff(UUID uuid) {
         return getPlayerRanks(uuid).stream().anyMatch(Rank::isStaff);
+    }
+
+    private String resolveRankAlias(String rankIdentifier) {
+        String normalized = rankIdentifier
+                .trim()
+                .toLowerCase(Locale.ROOT)
+                .replace(" ", "")
+                .replace("_", "")
+                .replace("-", "");
+
+        return switch (normalized) {
+            case "vip+", "vipplus", "vip✦", "vip*", "vipstar", "vipestrela", "vip1" -> "vipplus";
+            case "vip++", "vipplusplus", "vip✦✦", "vip**", "vipstarstar", "vipstars", "vipestrelas", "vip2" -> "vipplusplus";
+            case "dono" -> "owner";
+            case "adm" -> "admin";
+            default -> rankIdentifier;
+        };
     }
 
     public enum RankAssignmentResult {

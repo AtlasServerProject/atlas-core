@@ -6,6 +6,7 @@ import io.atlas.modules.rank.RankModule;
 import io.atlas.modules.survival.service.RandomTeleportService;
 import io.atlas.modules.survival.service.SurvivalRulesService;
 import io.atlas.modules.survival.service.SurvivalPositionService;
+import io.atlas.modules.survival.service.BackService;
 import io.atlas.modules.survival.listener.SurvivalRespawnListener;
 import io.atlas.modules.lobby.service.LobbyTravelService;
 import io.atlas.modules.lobby.service.WorldThemeService;
@@ -21,6 +22,7 @@ public final class SurvivalModule implements AtlasModule {
     private static final SurvivalRulesService SURVIVAL_RULES_SERVICE =
             new SurvivalRulesService();
     private static final WorldThemeService WORLD_THEME_SERVICE = new WorldThemeService();
+    private static final BackService BACK_SERVICE = new BackService();
 
     public static RandomTeleportService getRandomTeleportService() {
         return RANDOM_TELEPORT_SERVICE;
@@ -32,6 +34,10 @@ public final class SurvivalModule implements AtlasModule {
 
     public static WorldThemeService getWorldThemeService() {
         return WORLD_THEME_SERVICE;
+    }
+
+    public static BackService getBackService() {
+        return BACK_SERVICE;
     }
 
     @Override
@@ -59,5 +65,6 @@ public final class SurvivalModule implements AtlasModule {
     @Override
     public void disable() {
         RANDOM_TELEPORT_SERVICE.clear();
+        BACK_SERVICE.clear();
     }
 }

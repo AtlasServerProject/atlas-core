@@ -6,6 +6,7 @@ import io.atlas.modules.auth.AuthModule;
 import io.atlas.modules.auth.service.AuthService;
 import io.atlas.modules.lobby.service.LobbyWorlds;
 import io.atlas.modules.survival.SurvivalModule;
+import io.atlas.modules.survival.service.RandomTeleportService;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -21,23 +22,61 @@ public final class RandomTeleportCommand {
                 Commands.literal("rtp")
                         .requires(CommandSourceStack::isPlayer)
                         .executes(context -> execute(context.getSource()))
+                        .then(Commands.literal("overworld")
+                                .executes(context -> executeDirect(
+                                        context.getSource(),
+                                        RandomTeleportService.RtpTarget.OVERWORLD
+                                )))
+                        .then(Commands.literal("nether")
+                                .executes(context -> executeDirect(
+                                        context.getSource(),
+                                        RandomTeleportService.RtpTarget.NETHER
+                                )))
+                        .then(Commands.literal("end")
+                                .executes(context -> executeDirect(
+                                        context.getSource(),
+                                        RandomTeleportService.RtpTarget.END
+                                )))
         );
     }
 
     private static int execute(CommandSourceStack source) throws CommandSyntaxException {
-        var player = source.getPlayerOrException();
-        if (!AUTH_SERVICE.isAuthenticated(player.getUUID())) {
-            source.sendFailure(Component.literal("§cFaça login antes de usar /rtp."));
-            return 0;
-        }
-        if (!LobbyWorlds.isEmerald(player.level())
-                && !LobbyWorlds.isSurvivalEmerald(player.level())) {
-            source.sendFailure(Component.literal(
-                    "§eO /rtp está disponível somente no Lobby Emerald ou Survival Emerald."
-            ));
+        var player = validate(source);
+        if (player == null) {
             return 0;
         }
 
-        return SurvivalModule.getRandomTeleportService().request(player) ? 1 : 0;
+        SurvivalModule.getRandomTeleportService().openMenu(player);
+        return 1;
+    }
+
+    private static int executeDirect(
+            CommandSourceStack source,
+            RandomTeleportService.RtpTarget target
+    ) throws CommandSyntaxException {
+        var player = validate(source);
+        if (player == null) {
+            return 0;
+        }
+
+        return SurvivalModule.getRandomTeleportService().request(player, target) ? 1 : 0;
+    }
+
+    private static net.minecraft.server.level.ServerPlayer validate(CommandSourceStack source)
+            throws CommandSyntaxException {
+        var player = source.getPlayerOrException();
+        if (!AUTH_SERVICE.isAuthenticated(player.getUUID())) {
+            source.sendFailure(Component.literal("§cFaça login antes de usar /rtp."));
+            return null;
+        }
+        if (!LobbyWorlds.isEmerald(player.level())
+                && !LobbyWorlds.isSurvivalArea(player.level())) {
+            source.sendFailure(Component.literal(
+                    "§eO /rtp está disponível somente no Lobby Emerald ou Survival Emerald."
+            ));
+            return null;
+        }
+
+        return player;
     }
 }

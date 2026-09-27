@@ -36,7 +36,7 @@ public class AuthDamageProtectionService {
 
     private boolean isFallDamageDisabled(ServerPlayer player, DamageSource source) {
         return source.is(DamageTypes.FALL)
-                && (isLobby(player) || LobbyWorlds.isSurvivalEmerald(player.level()));
+                && (isLobby(player) || LobbyWorlds.isSurvivalArea(player.level()));
     }
 
     private boolean isPlayerVersusPlayer(DamageSource source) {

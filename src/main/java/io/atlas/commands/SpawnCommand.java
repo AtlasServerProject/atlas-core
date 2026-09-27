@@ -5,6 +5,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import io.atlas.modules.auth.AuthModule;
 import io.atlas.modules.auth.service.AuthLobbySpawnService;
 import io.atlas.modules.auth.service.AuthService;
+import io.atlas.modules.survival.SurvivalModule;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -33,6 +34,7 @@ public class SpawnCommand {
         }
 
         player.setDeltaMovement(Vec3.ZERO);
+        SurvivalModule.getBackService().remember(player);
         spawnService.teleportToSpawn(player, source.getServer());
         source.sendSuccess(
                 () -> Component.literal("§aVocê voltou ao Hub do Atlas."),

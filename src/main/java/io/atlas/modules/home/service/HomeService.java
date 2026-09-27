@@ -3,6 +3,7 @@ package io.atlas.modules.home.service;
 import io.atlas.modules.home.model.Home;
 import io.atlas.modules.home.repository.HomeRepository;
 import io.atlas.modules.lobby.service.LobbyWorlds;
+import io.atlas.modules.survival.SurvivalModule;
 import io.atlas.modules.rank.model.Rank;
 import io.atlas.modules.rank.service.RankService;
 import net.minecraft.core.BlockPos;
@@ -158,6 +159,7 @@ public final class HomeService {
             }
 
             pending.remove(entry.getKey());
+            SurvivalModule.getBackService().remember(player);
             player.stopRiding();
             player.setDeltaMovement(Vec3.ZERO);
             player.teleportTo(

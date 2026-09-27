@@ -15,7 +15,7 @@ public final class SurvivalRespawnListener {
             LobbyTravelService travelService
     ) {
         ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
-            if (alive || !LobbyWorlds.isSurvivalEmerald(oldPlayer.level())) {
+            if (alive || !LobbyWorlds.isSurvivalArea(oldPlayer.level())) {
                 return;
             }
             positionService.clear(newPlayer);

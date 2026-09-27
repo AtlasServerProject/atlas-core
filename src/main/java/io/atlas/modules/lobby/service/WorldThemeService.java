@@ -28,6 +28,7 @@ public class WorldThemeService {
     private static final SoundEvent SURVIVAL_WATER_THEME = atlasSound("sea_mauville_unova");
     private static final SoundEvent SURVIVAL_SURF_THEME = atlasSound("surfing_hoenn2");
     private static final SoundEvent SURVIVAL_CAVE_THEME = atlasSound("pettleburg_woods-granite_cave");
+    private static final SoundEvent END_THEME = atlasSound("distortion_world_sinnoh");
 
     private final Map<UUID, String> lastThemes = new HashMap<>();
     private final Set<UUID> priorityMusicPlayers = new HashSet<>();
@@ -80,6 +81,9 @@ public class WorldThemeService {
         }
         if (LobbyWorlds.isAuth(level)) {
             return new Theme("auth", AUTH_THEME);
+        }
+        if (level.dimension().equals(Level.END)) {
+            return new Theme("survival:end", END_THEME);
         }
 
         return new Theme("unknown:" + level.dimension().location(), SURVIVAL_ROUTE_THEME);

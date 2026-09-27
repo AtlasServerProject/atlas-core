@@ -2,18 +2,26 @@ package io.atlas.modules.survival.service;
 
 import io.atlas.AtlasMod;
 import io.atlas.modules.lobby.service.LobbyWorlds;
+import io.atlas.modules.survival.SurvivalModule;
 import io.atlas.modules.rank.model.Rank;
 import io.atlas.modules.rank.service.RankService;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.core.component.DataComponents;
+import io.atlas.modules.survival.menu.RandomTeleportMenu;
 
+import java.util.EnumMap;
 import java.util.Comparator;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -34,15 +42,35 @@ public final class RandomTeleportService {
     private static final Map<UUID, SearchState> PENDING = new ConcurrentHashMap<>();
 
     private final RankService rankService;
-    private final Deque<BlockPos> destinations = new ArrayDeque<>();
-    private boolean queueReadyLogged;
+    private final Map<RtpTarget, Deque<BlockPos>> destinations = new EnumMap<>(RtpTarget.class);
+    private final Map<RtpTarget, Boolean> queueReadyLogged = new EnumMap<>(RtpTarget.class);
     private long ticks;
 
     public RandomTeleportService(RankService rankService) {
         this.rankService = rankService;
+        for (RtpTarget target : RtpTarget.values()) {
+            destinations.put(target, new ArrayDeque<>());
+            queueReadyLogged.put(target, false);
+        }
     }
 
-    public boolean request(ServerPlayer player) {
+    public void openMenu(ServerPlayer player) {
+        SimpleContainer container = new SimpleContainer(9);
+        container.setItem(2, createOption(RtpTarget.OVERWORLD));
+        container.setItem(4, createOption(RtpTarget.NETHER));
+        container.setItem(6, createOption(RtpTarget.END));
+        player.openMenu(new SimpleMenuProvider(
+                (containerId, inventory, menuPlayer) -> new RandomTeleportMenu(
+                        containerId,
+                        inventory,
+                        container,
+                        this
+                ),
+                Component.literal("§2RTP — Survival Emerald")
+        ));
+    }
+
+    public boolean request(ServerPlayer player, RtpTarget target) {
         UUID uuid = player.getUUID();
         if (PENDING.containsKey(uuid)) {
             player.displayClientMessage(
@@ -64,17 +92,26 @@ public final class RandomTeleportService {
             return false;
         }
 
-        ServerLevel survival = player.getServer().getLevel(LobbyWorlds.SURVIVAL_EMERALD);
-        BlockPos reservedDestination = pollSafeDestination(survival);
+        ServerLevel level = level(player.getServer(), target);
+        if (level == null) {
+            player.displayClientMessage(
+                    Component.literal("§cEsse mundo ainda não está disponível."),
+                    false
+            );
+            return false;
+        }
+
+        BlockPos reservedDestination = pollSafeDestination(level, target);
         PENDING.put(uuid, new SearchState(
                 player.getX(),
                 player.getY(),
                 player.getZ(),
                 ticks + WARMUP_TICKS,
+                target,
                 reservedDestination
         ));
         player.displayClientMessage(
-                Component.literal("§aRTP preparado. §eNão se mova por 3 segundos."),
+                Component.literal("§aRTP para " + target.displayName() + " preparado. §eNão se mova por 3 segundos."),
                 false
         );
         return true;
@@ -82,12 +119,12 @@ public final class RandomTeleportService {
 
     public void tick(MinecraftServer server) {
         ticks++;
-        ServerLevel survival = server.getLevel(LobbyWorlds.SURVIVAL_EMERALD);
-        if (survival == null) {
-            return;
+        for (RtpTarget target : RtpTarget.values()) {
+            ServerLevel level = level(server, target);
+            if (level != null) {
+                refillQueue(level, target);
+            }
         }
-
-        refillQueue(survival);
 
         if (PENDING.isEmpty()) {
             return;
@@ -107,19 +144,24 @@ public final class RandomTeleportService {
                 continue;
             }
 
+            ServerLevel level = level(server, search.target);
+            if (level == null) {
+                continue;
+            }
+
             BlockPos destination = search.destination;
-            if (destination != null && !isStillSafe(survival, destination)) {
+            if (destination != null && !isStillSafe(level, destination)) {
                 destination = null;
             }
             if (destination == null) {
-                destination = pollSafeDestination(survival);
+                destination = pollSafeDestination(level, search.target);
             }
             if (destination == null) {
                 continue;
             }
 
             PENDING.remove(entry.getKey());
-            completeTeleport(player, survival, destination);
+            completeTeleport(player, level, destination, search.target);
         }
     }
 
@@ -132,13 +174,13 @@ public final class RandomTeleportService {
 
     private boolean canUseRtpHere(ServerPlayer player) {
         return LobbyWorlds.isEmerald(player.level())
-                || LobbyWorlds.isSurvivalEmerald(player.level());
+                || LobbyWorlds.isSurvivalArea(player.level());
     }
 
     private void cancel(ServerPlayer player, UUID uuid, SearchState search) {
         PENDING.remove(uuid);
         if (search.destination != null) {
-            destinations.addFirst(search.destination);
+            destinations.get(search.target).addFirst(search.destination);
         }
         player.displayClientMessage(
                 Component.literal("§cRTP cancelado porque você se moveu. Nenhum cooldown foi aplicado."),
@@ -148,12 +190,13 @@ public final class RandomTeleportService {
 
     public void clear() {
         PENDING.clear();
-        destinations.clear();
+        destinations.values().forEach(Deque::clear);
     }
 
-    private void refillQueue(ServerLevel level) {
+    private void refillQueue(ServerLevel level, RtpTarget target) {
+        Deque<BlockPos> queue = destinations.get(target);
         int attempts = 0;
-        while (destinations.size() < QUEUE_TARGET && attempts < REFILL_ATTEMPTS_PER_TICK) {
+        while (queue.size() < QUEUE_TARGET && attempts < REFILL_ATTEMPTS_PER_TICK) {
             attempts++;
             double angle = level.random.nextDouble() * Math.PI * 2.0;
             double radius = Math.sqrt(level.random.nextDouble())
@@ -162,22 +205,24 @@ public final class RandomTeleportService {
             int z = Mth.floor(Math.sin(angle) * radius);
             BlockPos candidate = findSafeDestinationAt(level, x, z);
             if (candidate != null) {
-                destinations.addLast(candidate);
+                queue.addLast(candidate);
             }
         }
 
-        if (!queueReadyLogged && destinations.size() >= QUEUE_TARGET) {
-            queueReadyLogged = true;
-            AtlasMod.LOGGER.info("Fila do /rtp pronta com {} destinos seguros.", destinations.size());
+        if (!queueReadyLogged.get(target) && queue.size() >= QUEUE_TARGET) {
+            queueReadyLogged.put(target, true);
+            AtlasMod.LOGGER.info("Fila do /rtp pronta em {} com {} destinos seguros.",
+                    target.displayName(), queue.size());
         }
     }
 
-    private BlockPos pollSafeDestination(ServerLevel level) {
+    private BlockPos pollSafeDestination(ServerLevel level, RtpTarget target) {
         if (level == null) {
             return null;
         }
-        while (!destinations.isEmpty()) {
-            BlockPos candidate = destinations.removeFirst();
+        Deque<BlockPos> queue = destinations.get(target);
+        while (!queue.isEmpty()) {
+            BlockPos candidate = queue.removeFirst();
             if (isStillSafe(level, candidate)) {
                 return candidate;
             }
@@ -187,10 +232,16 @@ public final class RandomTeleportService {
 
     private BlockPos findSafeDestinationAt(ServerLevel level, int x, int z) {
         level.getChunk(x >> 4, z >> 4);
-        int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
-        BlockPos feet = new BlockPos(x, y, z);
-
-        return isStillSafe(level, feet) ? feet : null;
+        int top = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+        int min = level.getMinBuildHeight() + 2;
+        int max = Math.min(level.getMaxBuildHeight() - 2, top);
+        for (int y = max; y >= min; y--) {
+            BlockPos feet = new BlockPos(x, y, z);
+            if (isStillSafe(level, feet)) {
+                return feet;
+            }
+        }
+        return null;
     }
 
     private boolean isStillSafe(ServerLevel level, BlockPos feet) {
@@ -212,6 +263,7 @@ public final class RandomTeleportService {
                 || !level.getFluidState(head).isEmpty()
                 || groundState.getCollisionShape(level, ground).isEmpty()
                 || isDangerous(groundState)
+                || groundState.is(Blocks.BEDROCK)
                 || !feetState.getCollisionShape(level, feet).isEmpty()
                 || !headState.getCollisionShape(level, head).isEmpty()) {
             return false;
@@ -229,7 +281,8 @@ public final class RandomTeleportService {
                 || state.is(Blocks.POWDER_SNOW);
     }
 
-    private void completeTeleport(ServerPlayer player, ServerLevel level, BlockPos destination) {
+    private void completeTeleport(ServerPlayer player, ServerLevel level, BlockPos destination, RtpTarget target) {
+        SurvivalModule.getBackService().remember(player);
         player.stopRiding();
         player.teleportTo(
                 level,
@@ -241,7 +294,18 @@ public final class RandomTeleportService {
         );
         player.setDeltaMovement(0.0, 0.0, 0.0);
         LAST_USE.put(player.getUUID(), System.currentTimeMillis());
-        player.displayClientMessage(Component.literal("§aBem-vindo ao Survival Emerald!"), false);
+        player.displayClientMessage(Component.literal("§aBem-vindo ao " + target.displayName() + "!"), false);
+    }
+
+    private ServerLevel level(MinecraftServer server, RtpTarget target) {
+        return server.getLevel(target.levelKey());
+    }
+
+    private ItemStack createOption(RtpTarget target) {
+        ItemStack stack = new ItemStack(target.icon());
+        stack.set(DataComponents.CUSTOM_NAME, Component.literal(target.title()));
+        stack.set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
+        return stack;
     }
 
     private int cooldownSeconds(UUID uuid) {
@@ -281,6 +345,7 @@ public final class RandomTeleportService {
         private final double y;
         private final double z;
         private final long readyAtTick;
+        private final RtpTarget target;
         private final BlockPos destination;
 
         private SearchState(
@@ -288,13 +353,54 @@ public final class RandomTeleportService {
                 double y,
                 double z,
                 long readyAtTick,
+                RtpTarget target,
                 BlockPos destination
         ) {
             this.x = x;
             this.y = y;
             this.z = z;
             this.readyAtTick = readyAtTick;
+            this.target = target;
             this.destination = destination;
+        }
+    }
+
+    public enum RtpTarget {
+        OVERWORLD("Overworld", "§aOverworld", Items.GRASS_BLOCK, LobbyWorlds.SURVIVAL_EMERALD),
+        NETHER("Nether", "§cNether", Items.NETHERRACK, net.minecraft.world.level.Level.NETHER),
+        END("The End", "§5The End", Items.END_STONE, net.minecraft.world.level.Level.END);
+
+        private final String displayName;
+        private final String title;
+        private final net.minecraft.world.item.Item icon;
+        private final net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level> levelKey;
+
+        RtpTarget(
+                String displayName,
+                String title,
+                net.minecraft.world.item.Item icon,
+                net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level> levelKey
+        ) {
+            this.displayName = displayName;
+            this.title = title;
+            this.icon = icon;
+            this.levelKey = levelKey;
+        }
+
+        public String displayName() {
+            return displayName;
+        }
+
+        public String title() {
+            return title;
+        }
+
+        public net.minecraft.world.item.Item icon() {
+            return icon;
+        }
+
+        public net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level> levelKey() {
+            return levelKey;
         }
     }
 }
