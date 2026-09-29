@@ -54,6 +54,10 @@ public final class StaffToolsService {
         }
         boolean enable = !isFrozen(target.getUUID());
         if (enable) {
+            if (!io.atlas.modules.moderation.ModerationModule.getStaffMode().finishForFreeze(target)) {
+                source.sendFailure(Component.literal("§cNão foi possível restaurar o StaffMode do alvo. Freeze cancelado."));
+                return 0;
+            }
             target.stopRiding();
             target.closeContainer();
             frozen.put(target.getUUID(), authenticated(target) ? anchor(target) : null);
@@ -76,6 +80,10 @@ public final class StaffToolsService {
         InspectionMenu.open(actor, target, ender, this);
         AtlasMod.LOGGER.info("[Staff] {} {} {}", source.getTextName(), ender ? "endersee" : "invsee", target.getUUID());
         return 1;
+    }
+
+    public boolean blocksInteraction(UUID uuid) {
+        return isFrozen(uuid) || io.atlas.modules.moderation.ModerationModule.getStaffMode().isActive(uuid);
     }
 
     public boolean isFrozen(UUID uuid) { return frozen.containsKey(uuid); }

@@ -26,7 +26,8 @@ public final class SurvivalPositionService {
     }
 
     public void saveIfSurvival(ServerPlayer player) {
-        if (!LobbyWorlds.isSurvivalEmerald(player.level())) {
+        if (io.atlas.modules.moderation.ModerationModule.getStaffMode().skipPositionSave(player.getUUID())
+                || !LobbyWorlds.isSurvivalEmerald(player.level())) {
             return;
         }
         repository.save(player.getUUID(), currentPosition(player));

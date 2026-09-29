@@ -100,6 +100,8 @@ public final class HomeService {
         return repository.find(uuid, home.name()).map(found -> found.id() == home.id()).orElse(false);
     }
 
+    public boolean hasPendingTeleport(UUID uuid) { return pending.containsKey(uuid); }
+
     public int homeLimit(UUID uuid) {
         return highestRank(uuid)
                 .map(Rank::getIdentifier)

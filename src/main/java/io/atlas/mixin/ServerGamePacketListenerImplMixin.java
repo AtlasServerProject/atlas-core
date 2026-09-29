@@ -42,6 +42,13 @@ public class ServerGamePacketListenerImplMixin {
             callback.cancel();
             return;
         }
+        // InspectionMenu rejects and resynchronizes clicks itself; let it correct client predictions.
+        if (io.atlas.modules.moderation.ModerationModule.getStaffMode().isActive(player.getUUID())
+                && !io.atlas.modules.moderation.ModerationModule.getStaffTools().isFrozen(player.getUUID())
+                && AuthModule.getAuthService().isAuthenticated(player.getUUID())
+                && player.containerMenu instanceof io.atlas.modules.moderation.menu.InspectionMenu) {
+            return;
+        }
         cancelWhenUnauthenticated(callback);
     }
 
@@ -86,14 +93,14 @@ public class ServerGamePacketListenerImplMixin {
                 == ServerboundPlayerActionPacket.Action.DROP_ITEM
                 || packet.getAction() == ServerboundPlayerActionPacket.Action.DROP_ALL_ITEMS
                 || packet.getAction() == ServerboundPlayerActionPacket.Action.SWAP_ITEM_WITH_OFFHAND;
-        if (io.atlas.modules.moderation.ModerationModule.getStaffTools().isFrozen(player.getUUID())
+        if (io.atlas.modules.moderation.ModerationModule.getStaffTools().blocksInteraction(player.getUUID())
                 || (protectedAction && SERVER_SELECTOR.isSelector(player.getMainHandItem()))) {
             callback.cancel();
         }
     }
 
     private void cancelWhenUnauthenticated(CallbackInfo callback) {
-        if (io.atlas.modules.moderation.ModerationModule.getStaffTools().isFrozen(player.getUUID())
+        if (io.atlas.modules.moderation.ModerationModule.getStaffTools().blocksInteraction(player.getUUID())
                 || !AUTH_GAMEPLAY_PROTECTION.canUseInventory(player)) {
             callback.cancel();
         }

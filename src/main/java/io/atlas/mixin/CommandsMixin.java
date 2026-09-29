@@ -26,6 +26,11 @@ public class CommandsMixin {
             return;
         }
 
+        if (io.atlas.modules.moderation.ModerationModule.getStaffMode().blocksCommand(player, command)) {
+            source.sendFailure(net.minecraft.network.chat.Component.literal("§cSaia do StaffMode com /staffmode off antes de usar comandos de gameplay."));
+            callback.cancel();
+            return;
+        }
         if (io.atlas.modules.moderation.ModerationModule.getStaffTools().blocksCommand(player, command)) {
             source.sendFailure(net.minecraft.network.chat.Component.literal("§cVocê está congelado. Aguarde a staff; o chat continua disponível."));
             callback.cancel();
@@ -45,6 +50,12 @@ public class CommandsMixin {
             CallbackInfo callback
     ) {
         CommandSourceStack source = parsed.getContext().getSource();
+        if (source.getEntity() instanceof ServerPlayer staffPlayer
+                && io.atlas.modules.moderation.ModerationModule.getStaffMode().blocksCommand(staffPlayer, command)) {
+            source.sendFailure(net.minecraft.network.chat.Component.literal("§cSaia do StaffMode com /staffmode off antes de usar comandos de gameplay."));
+            callback.cancel();
+            return;
+        }
         if (source.getEntity() instanceof ServerPlayer player
                 && io.atlas.modules.moderation.ModerationModule.getStaffTools().blocksCommand(player, command)) {
             source.sendFailure(net.minecraft.network.chat.Component.literal("§cVocê está congelado. Aguarde a staff; o chat continua disponível."));

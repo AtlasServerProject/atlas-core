@@ -38,6 +38,8 @@ public final class RandomTeleportService {
     private static final int REFILL_ATTEMPTS_PER_TICK = 16;
     private static final int WARMUP_TICKS = 60;
     private static final double MOVEMENT_TOLERANCE_SQUARED = 0.01;
+    public boolean hasPendingTeleport(UUID uuid) { return PENDING.containsKey(uuid); }
+
     private static final Map<UUID, Long> LAST_USE = new ConcurrentHashMap<>();
     private static final Map<UUID, SearchState> PENDING = new ConcurrentHashMap<>();
 

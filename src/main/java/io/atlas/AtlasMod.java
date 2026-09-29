@@ -53,6 +53,7 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
     RandomTeleportCommand.register(dispatcher);
     HomeCommand.register(dispatcher);
     io.atlas.commands.StaffToolsCommand.register(dispatcher);
+    io.atlas.commands.StaffModeCommand.register(dispatcher);
     SetHomeCommand.register(dispatcher);
     DeleteHomeCommand.register(dispatcher);
     HomesCommand.register(dispatcher);
@@ -63,6 +64,7 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
     EndBattleCommand.register(dispatcher);
     PayCommand.register(dispatcher);
     ModerationCommand.register(dispatcher);
+    io.atlas.commands.StaffNotesCommand.register(dispatcher);
     KitCommand.register(dispatcher);
     BackCommand.register(dispatcher);
     FlyCommand.register(dispatcher);
