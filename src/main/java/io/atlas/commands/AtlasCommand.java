@@ -38,9 +38,9 @@ public class AtlasCommand {
 
     private static int cleanup(CommandSourceStack source) {
         var result = PerformanceModule.getCleanupService().cleanup(source.getServer());
-        source.sendSuccess(() -> Component.literal("§aLimpeza concluída: §f" + result.items()
+        source.sendSuccess(() -> Component.literal("§aLimpeza global concluída: §f" + result.items()
                 + " drops§a, §f" + result.pokemon() + " Pokémon selvagens§a, §7"
-                + result.scanned() + " entidades verificadas."), false);
+                + result.scanned() + " entidades verificadas em todos os mundos carregados."), false);
         return result.total();
     }
 
@@ -49,7 +49,7 @@ public class AtlasCommand {
         var counts = PerformanceModule.getCleanupService().counts(source.getServer());
         String color = monitor.tps() >= 18.0 ? "§a" : monitor.tps() >= 15.0 ? "§e" : "§c";
         source.sendSuccess(() -> Component.literal(String.format(java.util.Locale.ROOT,
-                "§6Atlas Performance §8— %s%.2f TPS §7| §f%.2f MSPT §7| §f%d entidades §8(%d drops, %d Pokémon)",
+                "§6Atlas Performance §8— %s%.2f TPS §7| §f%.2f MSPT §7| §f%d entidades globais §8(%d drops, %d Pokémon)",
                 color, monitor.tps(), monitor.mspt(), counts.total(), counts.items(), counts.pokemon())), false);
         return 1;
     }

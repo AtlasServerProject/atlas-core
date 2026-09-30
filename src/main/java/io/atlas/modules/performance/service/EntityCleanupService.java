@@ -2,7 +2,6 @@ package io.atlas.modules.performance.service;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import io.atlas.AtlasMod;
-import io.atlas.modules.lobby.service.LobbyWorlds;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -16,7 +15,6 @@ import java.util.Set;
 
 public final class EntityCleanupService {
     private static final int INTERVAL_TICKS = 15 * 60 * 20;
-    private static final int DROP_MIN_AGE = 5 * 60 * 20;
     private static final Set<String> PROTECTED_POKEMON = Set.of(
             "arceus",
             "articuno",
@@ -126,7 +124,7 @@ public final class EntityCleanupService {
         if (remaining == 60 * 20 || remaining == 30 * 20 || remaining == 10 * 20) {
             int seconds = remaining / 20;
             server.getPlayerList().broadcastSystemMessage(Component.literal(
-                    "§e[Atlas] Limpeza de entidades em §f" + seconds + " segundos§e."), false);
+                    "§e[Atlas] Limpeza em todos os mundos (itens no chão e Pokémon selvagens) em §f" + seconds + " segundos§e."), false);
         }
         if (remaining > 0) return;
         CleanupResult result = cleanup(server);
@@ -139,45 +137,47 @@ public final class EntityCleanupService {
     }
 
     public CleanupResult cleanup(MinecraftServer server) {
-        ServerLevel survival = server.getLevel(LobbyWorlds.SURVIVAL_EMERALD);
-        if (survival == null) return new CleanupResult(0, 0, 0);
         List<Entity> remove = new ArrayList<>();
         java.util.Map<java.util.UUID, List<net.minecraft.world.item.ItemStack>> recoverable = new java.util.HashMap<>();
         int items = 0;
         int pokemon = 0;
         int scanned = 0;
-        for (Entity entity : survival.getAllEntities()) {
-            scanned++;
-            if (entity instanceof ItemEntity item && item.tickCount >= DROP_MIN_AGE) {
-                if (item.getOwner() instanceof ServerPlayer owner) {
-                    recoverable.computeIfAbsent(owner.getUUID(), ignored -> new ArrayList<>())
-                            .add(item.getItem().copy());
+        for (ServerLevel level : server.getAllLevels()) {
+            for (Entity entity : level.getAllEntities()) {
+                if (entity.isRemoved()) continue;
+                scanned++;
+                if (entity instanceof ItemEntity item) {
+                    if (item.getOwner() instanceof ServerPlayer owner) {
+                        recoverable.computeIfAbsent(owner.getUUID(), ignored -> new ArrayList<>())
+                                .add(item.getItem().copy());
+                    }
+                    remove.add(item);
+                    items++;
+                } else if (entity instanceof PokemonEntity creature && canRemove(creature)) {
+                    remove.add(creature);
+                    pokemon++;
                 }
-                remove.add(item);
-                items++;
-            } else if (entity instanceof PokemonEntity creature && canRemove(creature)) {
-                remove.add(creature);
-                pokemon++;
             }
         }
         remove.forEach(Entity::discard);
         recoverable.forEach((uuid, stacks) -> recovery.store(uuid, "AUTO_CLEANUP", stacks, server));
         CleanupResult result = new CleanupResult(items, pokemon, scanned);
-        AtlasMod.LOGGER.info("Limpeza Atlas: {} drops e {} Pokémon removidos; {} entidades verificadas.",
+        AtlasMod.LOGGER.info("Limpeza Atlas (todos os mundos carregados): {} drops e {} Pokémon removidos; {} entidades verificadas.",
                 items, pokemon, scanned);
         return result;
     }
 
     public EntityCounts counts(MinecraftServer server) {
-        ServerLevel survival = server.getLevel(LobbyWorlds.SURVIVAL_EMERALD);
-        if (survival == null) return new EntityCounts(0, 0, 0);
         int total = 0;
         int items = 0;
         int pokemon = 0;
-        for (Entity entity : survival.getAllEntities()) {
-            total++;
-            if (entity instanceof ItemEntity) items++;
-            if (entity instanceof PokemonEntity) pokemon++;
+        for (ServerLevel level : server.getAllLevels()) {
+            for (Entity entity : level.getAllEntities()) {
+                if (entity.isRemoved()) continue;
+                total++;
+                if (entity instanceof ItemEntity) items++;
+                if (entity instanceof PokemonEntity) pokemon++;
+            }
         }
         return new EntityCounts(total, items, pokemon);
     }
