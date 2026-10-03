@@ -27,7 +27,7 @@ public final class SiteService {
   if(endpoint==null){player.sendSystemMessage(Component.literal("§eA vinculação ao site está temporariamente indisponível."));return 0;}
   if(!AuthModule.getAuthService().isAuthenticated(player.getUUID())){player.sendSystemMessage(Component.literal("§cFaça login no servidor antes de vincular sua conta."));return 0;}
   if(!(LobbyWorlds.isEmerald(player.serverLevel())||LobbyWorlds.isSurvivalArea(player.serverLevel()))){player.sendSystemMessage(Component.literal("§eEntre no Emerald antes de vincular sua conta."));return 0;}
-  if(!code.matches("[A-Za-z0-9_-]{43}")){player.sendSystemMessage(Component.literal("§cCódigo inválido. Copie o comando completo da página Minha conta."));return 0;}
+  if(!code.matches("[0-9]{6}")){player.sendSystemMessage(Component.literal("§cCódigo inválido. Use os 6 dígitos exibidos em Minha conta."));return 0;}
   long now=System.currentTimeMillis();var uuid=player.getUUID();if(now-attempts.getOrDefault(uuid,0L)<10000){player.sendSystemMessage(Component.literal("§eAguarde alguns segundos antes de tentar novamente."));return 0;}
   attempts.put(uuid,now);attempts.entrySet().removeIf(e->now-e.getValue()>600000);
   final SiteRepository.Identity identity;try{identity=repository.identity(uuid);}catch(Exception e){player.sendSystemMessage(Component.literal("§cNão foi possível consultar sua identidade. Tente novamente mais tarde."));return 0;}
