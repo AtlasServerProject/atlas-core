@@ -45,6 +45,7 @@ public class AtlasBootstrap {
         moduleManager.register(new KitModule());
         moduleManager.register(new AdminModule());
         moduleManager.register(new io.atlas.modules.site.SiteModule());
+        moduleManager.register(new io.atlas.modules.vip.VipModule());
 
         // Inicialização
         moduleManager.enableModules();

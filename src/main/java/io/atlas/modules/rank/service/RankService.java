@@ -34,7 +34,11 @@ public class RankService {
     }
 
     public List<Rank> getPlayerRanks(UUID uuid) {
-        return repository.findRanksByPlayerUuid(uuid);
+        var ranks=new ArrayList<>(repository.findRanksByPlayerUuid(uuid));
+        int level=io.atlas.modules.vip.VipModule.service().level(uuid);
+        String identifier=switch(level){case 1->"vip";case 2->"vipplus";case 3->"vipplusplus";default->null;};
+        if(identifier!=null)cache.getByIdentifier(identifier).ifPresent(rank->{if(ranks.stream().noneMatch(r->r.getId()==rank.getId()))ranks.add(rank);});
+        return ranks;
     }
 
     public Optional<Rank> getHighestRank(UUID uuid) {
@@ -164,6 +168,12 @@ public class RankService {
         }
 
         return false;
+    }
+
+    public boolean canFly(UUID uuid) {
+        return hasPermission(uuid,"atlas.fly") || getPlayerRanks(uuid).stream()
+                .map(r->r.getIdentifier().toUpperCase(Locale.ROOT))
+                .anyMatch(Set.of("VIP","VIP+","VIPPLUS","VIP++","VIPPLUSPLUS","SUP","SUPPORT","MOD","MODERATOR","ADM","ADMIN","DONO","OWNER")::contains);
     }
 
     public boolean isStaff(UUID uuid) {

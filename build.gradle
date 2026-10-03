@@ -96,3 +96,13 @@ publishing {
 		// retrieving dependencies.
 	}
 }
+
+tasks.register('vipLedgerTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'io.atlas.modules.vip.VipLedgerTest'
+}
+tasks.named('build') { dependsOn tasks.named('vipLedgerTest') }
+
+// VIP tests use a standalone deterministic Java runner rather than a JUnit engine.
+tasks.named('test') { failOnNoDiscoveredTests = false }

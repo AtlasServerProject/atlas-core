@@ -10,27 +10,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.GameType;
 
-import java.util.Locale;
-import java.util.Set;
 
 public final class FlyCommand {
-
-    private static final String FLY_PERMISSION = "atlas.fly";
-    private static final Set<String> FLY_RANKS = Set.of(
-            "VIP",
-            "VIP+",
-            "VIPPLUS",
-            "VIP++",
-            "VIPPLUSPLUS",
-            "SUP",
-            "SUPPORT",
-            "MOD",
-            "MODERATOR",
-            "ADM",
-            "ADMIN",
-            "DONO",
-            "OWNER"
-    );
 
     private FlyCommand() {
     }
@@ -71,12 +52,8 @@ public final class FlyCommand {
         return 1;
     }
 
-    private static boolean canUseFly(ServerPlayer player) {
-        var rankService = RankModule.getRankService();
-        return rankService.hasPermission(player.getUUID(), FLY_PERMISSION)
-                || rankService.getPlayerRanks(player.getUUID()).stream()
-                .map(rank -> rank.getIdentifier().toUpperCase(Locale.ROOT))
-                .anyMatch(FLY_RANKS::contains);
+    public static boolean canUseFly(ServerPlayer player) {
+        return RankModule.getRankService().canFly(player.getUUID());
     }
 
     private static boolean keepsFlightByGameMode(ServerPlayer player) {
