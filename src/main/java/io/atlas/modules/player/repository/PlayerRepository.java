@@ -162,6 +162,15 @@ public class PlayerRepository {
             );
         }
 
+        // Never discard a website recipient during an Offline -> Premium merge.
+        // Two independent site identities require manual review; do not fuse web accounts.
+        try (var statement = connection.prepareStatement("SELECT count(*) FROM site_identities WHERE player_id IN (?,?)")) {
+            statement.setLong(1, officialPlayerId); statement.setLong(2, offlinePlayerId);
+            try (var rows = statement.executeQuery()) {
+                rows.next(); if (rows.getInt(1) > 1) throw new SQLException("Site identity merge requires manual review");
+            }
+        }
+        execute(connection, "UPDATE site_identities SET player_id=? WHERE player_id=?", officialPlayerId, offlinePlayerId);
         execute(connection, "DELETE FROM players WHERE id = ?", offlinePlayerId);
     }
 

@@ -69,6 +69,7 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
     BackCommand.register(dispatcher);
     FlyCommand.register(dispatcher);
     EcCommand.register(dispatcher);
+    io.atlas.commands.SiteCommand.register(dispatcher);
 });
 
         LOGGER.info("Comando /atlas registrado.");
