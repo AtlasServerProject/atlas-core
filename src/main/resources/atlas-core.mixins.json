@@ -10,7 +10,8 @@
     "ClaimPistonMixin",
     "CommandsMixin",
     "ServerGamePacketListenerImplMixin",
-    "ServerLoginPacketListenerImplMixin"
+    "ServerLoginPacketListenerImplMixin",
+    "ClearInventoryCommandsMixin"
   ],
   "injectors": {
     "defaultRequire": 1
