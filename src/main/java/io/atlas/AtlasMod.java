@@ -68,6 +68,7 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
     KitCommand.register(dispatcher);
     BackCommand.register(dispatcher);
     FlyCommand.register(dispatcher);
+    io.atlas.commands.VipCommand.register(dispatcher);
     EcCommand.register(dispatcher);
     io.atlas.commands.SiteCommand.register(dispatcher);
 });
