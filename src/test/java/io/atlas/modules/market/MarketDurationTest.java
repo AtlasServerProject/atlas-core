@@ -1,0 +1,6 @@
+package io.atlas.modules.market;
+import io.atlas.modules.market.model.MarketPolicy;import java.util.*;
+public final class MarketDurationTest {
+ static void check(boolean b,String message){if(!b)throw new AssertionError(message);}
+ public static void main(String[] args){check(MarketPolicy.parseDuration("24h")==MarketPolicy.parseDuration("1d"),"equivalent formats");check(MarketPolicy.parseDuration("1d3h")==97200&&MarketPolicy.duration(97200).equals("1d 3h"),"compound duration");check(MarketPolicy.parseDuration("1h2m3s")==3723&&MarketPolicy.parseDuration("1s")==1&&MarketPolicy.parseDuration("7D")==604800,"seconds and case");check(MarketPolicy.duration(86400).equals("1d"),"normalized display");for(String invalid:List.of("","24","-1h","0s","1.5h","1h1d","1d2d","8d","999999999999999999999d","1dabc")){boolean rejected=false;try{MarketPolicy.parseDuration(invalid);}catch(IllegalArgumentException e){rejected=true;}check(rejected,"reject "+invalid);}check(MarketPolicy.maxSeconds(List.of())==86400&&MarketPolicy.maxSeconds(List.of("VIP"))==172800&&MarketPolicy.maxSeconds(List.of("VIPPLUS"))==345600&&MarketPolicy.maxSeconds(List.of("VIPPLUSPLUS"))==604800,"tier caps");System.out.println("MarketDurationTest PASS: compound units, normalized display, bounds, invalid input and tier caps");}
+}

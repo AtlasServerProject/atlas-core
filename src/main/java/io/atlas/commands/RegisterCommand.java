@@ -51,6 +51,7 @@ public class RegisterCommand {
 
         if (result == AuthService.RegistrationResult.SUCCESS) {
             source.sendSuccess(() -> message, false);
+            source.getServer().getCommands().sendCommands(player);
             return 1;
         }
 

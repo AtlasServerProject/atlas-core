@@ -27,6 +27,7 @@ public final class VipRepository {
     var b=VipLedger.add(load(c,d.corePlayerId(),now),level,d.days(),now);UUID receiptId=UUID.randomUUID();
     try(var s=c.prepareStatement("UPDATE commercial_vip_balances SET vip1_ms=?,vip2_ms=?,vip3_ms=?,checkpoint=? WHERE player_id=? AND server='emerald' AND subject=?")){s.setLong(1,b.vip1Ms());s.setLong(2,b.vip2Ms());s.setLong(3,b.vip3Ms());s.setTimestamp(4,Timestamp.from(b.checkpoint()));s.setLong(5,d.corePlayerId());s.setObject(6,d.subject());if(s.executeUpdate()!=1)throw new IllegalStateException("VIP identity mismatch");}
     try(var s=c.prepareStatement("INSERT INTO commercial_vip_receipts(delivery_id,receipt_id,player_id,subject,server,mode,plan,days,activated_at,fingerprint) VALUES(?,?,?,?,?,?,?,?,?,?)")){s.setObject(1,d.id());s.setObject(2,receiptId);s.setLong(3,d.corePlayerId());s.setObject(4,d.subject());s.setString(5,d.server());s.setString(6,d.mode());s.setString(7,d.plan());s.setInt(8,d.days());s.setTimestamp(9,Timestamp.from(now));s.setString(10,fingerprint);s.executeUpdate();}
+    if(level==3)try(var s=c.prepareStatement("INSERT INTO commercial_vip_legendary_rewards(delivery_id,player_id,pokemon_uuid) VALUES(?,?,?)")){s.setObject(1,d.id());s.setLong(2,d.corePlayerId());s.setObject(3,UUID.randomUUID());s.executeUpdate();}
     c.commit();return new Grant(new Receipt(d.id(),receiptId,d.subject(),d.corePlayerId(),d.server(),d.mode(),d.plan(),d.days(),now),b);
    }catch(Exception e){c.rollback();throw e;}
   }catch(SQLException e){throw new IllegalStateException("VIP database unavailable");}

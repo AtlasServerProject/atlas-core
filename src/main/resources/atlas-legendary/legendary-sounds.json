@@ -1,0 +1,37 @@
+{
+  "default": {
+    "enabled": true,
+    "id": "minecraft:block.amethyst_block.chime",
+    "category": "MASTER",
+    "volume": 0.6,
+    "pitch": 1.0
+  },
+  "groudon": {
+    "enabled": true,
+    "id": "minecraft:entity.iron_golem.step",
+    "category": "MASTER",
+    "volume": 0.8,
+    "pitch": 0.5
+  },
+  "kyogre": {
+    "enabled": true,
+    "id": "minecraft:entity.dolphin.ambient",
+    "category": "MASTER",
+    "volume": 0.8,
+    "pitch": 0.7
+  },
+  "rayquaza": {
+    "enabled": true,
+    "id": "minecraft:entity.ender_dragon.growl",
+    "category": "MASTER",
+    "volume": 0.5,
+    "pitch": 1.0
+  },
+  "darkrai": {
+    "enabled": true,
+    "id": "minecraft:ambient.cave",
+    "category": "MASTER",
+    "volume": 0.5,
+    "pitch": 0.7
+  }
+}

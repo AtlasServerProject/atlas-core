@@ -109,6 +109,12 @@ public class ServerSelectorService {
 
         SimpleContainer container = new SimpleContainer(9);
         container.setItem(4, createEmeraldOption());
+        if (!DevEnvironment.DEVELOPMENT && new DevLobbyAccessService().canAccess(player)) {
+            ItemStack tests = new ItemStack(Items.COMMAND_BLOCK);
+            tests.set(DataComponents.CUSTOM_NAME, Component.literal("§6Mundo de Testes"));
+            tests.set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
+            container.setItem(6, tests);
+        }
         player.openMenu(new SimpleMenuProvider(
                 (containerId, inventory, menuPlayer) -> new ServerSelectorMenu(
                         containerId,
@@ -138,6 +144,10 @@ public class ServerSelectorService {
                 Component.literal("§aBem-vindo ao Lobby Emerald!"),
                 false
         );
+    }
+
+    public void selectDev(Player player) {
+        if (player instanceof ServerPlayer serverPlayer) new DevLobbyAccessService().enter(serverPlayer);
     }
 
     private void ensureSelector(ServerPlayer player) {

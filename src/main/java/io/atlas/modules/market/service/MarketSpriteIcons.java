@@ -1,0 +1,10 @@
+package io.atlas.modules.market.service;
+import io.atlas.modules.market.model.MarketSpriteRules;import com.cobblemon.mod.common.pokemon.Pokemon;import java.util.*;import net.minecraft.world.item.*;import net.minecraft.core.component.DataComponents;import net.minecraft.world.item.component.CustomModelData;
+public final class MarketSpriteIcons {
+ private static final List<MarketSpriteRules.Sprite> SPRITES=load();
+ private static final Map<Integer,List<MarketSpriteRules.Sprite>> BY_DEX=index();
+ private static Map<Integer,List<MarketSpriteRules.Sprite>> index(){var map=new HashMap<Integer,List<MarketSpriteRules.Sprite>>();for(var sprite:SPRITES){String name=sprite.path().substring(sprite.path().lastIndexOf('/')+1);var match=java.util.regex.Pattern.compile("^([0-9]+)_").matcher(name);int dex=match.find()?Integer.parseInt(match.group(1)):0;map.computeIfAbsent(dex,key->new ArrayList<>()).add(sprite);}return map;}
+ private static List<MarketSpriteRules.Sprite> load(){try(var stream=MarketSpriteIcons.class.getResourceAsStream("/atlas-gts/e19-sprites.json")){if(stream==null)throw new IllegalStateException("Missing E19 sprite index");var list=new com.google.gson.Gson().fromJson(new java.io.InputStreamReader(stream,java.nio.charset.StandardCharsets.UTF_8),MarketSpriteRules.Sprite[].class);return List.of(list);}catch(Exception error){throw new IllegalStateException("GTS sprite index unavailable",error);}}
+ public static Optional<MarketSpriteRules.Sprite> sprite(Pokemon pokemon){return MarketSpriteRules.select(BY_DEX.getOrDefault(Math.max(0,pokemon.getSpecies().getNationalPokedexNumber()),List.of()),pokemon.getSpecies().getNationalPokedexNumber(),pokemon.getSpecies().getName(),pokemon.getAspects(),pokemon.getGender().name(),pokemon.getForm().getName(),pokemon.getShiny());}
+ public static ItemStack from(Pokemon pokemon){var selected=sprite(pokemon);if(selected.isEmpty())return com.cobblemon.mod.common.item.PokemonItem.Companion.from(pokemon);var stack=new ItemStack(Items.PAPER);stack.set(DataComponents.CUSTOM_MODEL_DATA,new CustomModelData(selected.get().id()));return stack;}
+}

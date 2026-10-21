@@ -23,6 +23,7 @@ public class AuthLobbySpawnService {
     private final Map<UUID, Integer> pendingTeleports = new HashMap<>();
 
     public void scheduleTeleportToSpawn(ServerPlayer player) {
+        if (io.atlas.modules.auth.AuthModule.getAuthService().isAuthenticated(player.getUUID())) return;
         pendingTeleports.put(player.getUUID(), JOIN_TELEPORT_DELAY_TICKS);
     }
 
@@ -53,6 +54,10 @@ public class AuthLobbySpawnService {
     }
 
     public void teleportToSpawn(ServerPlayer player, MinecraftServer server) {
+        if (io.atlas.modules.lobby.service.DevEnvironment.DEVELOPMENT) {
+            new io.atlas.modules.lobby.service.LobbyTravelService().teleportToEmerald(player);
+            return;
+        }
         ServerLevel authLobby = server.overworld();
         player.stopRiding();
         player.setDeltaMovement(Vec3.ZERO);

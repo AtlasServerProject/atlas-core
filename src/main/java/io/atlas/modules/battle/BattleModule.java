@@ -8,9 +8,9 @@ import io.atlas.modules.survival.SurvivalModule;
 
 public class BattleModule implements AtlasModule {
 
-    private static final BattleEndService BATTLE_END_SERVICE = new BattleEndService();
     private static final BattleMusicService BATTLE_MUSIC_SERVICE =
             new BattleMusicService(SurvivalModule.getWorldThemeService());
+    private static final BattleEndService BATTLE_END_SERVICE = new BattleEndService(BATTLE_MUSIC_SERVICE);
 
     public static BattleEndService getBattleEndService() {
         return BATTLE_END_SERVICE;

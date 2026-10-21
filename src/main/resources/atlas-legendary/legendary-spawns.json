@@ -1,0 +1,2538 @@
+[
+  {
+    "species": "articuno",
+    "displayName": "Articuno",
+    "generation": 1,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:snowy_slopes",
+      "minecraft:frozen_peaks"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "articuno",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "zapdos",
+    "displayName": "Zapdos",
+    "generation": 1,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:savanna",
+      "minecraft:savanna_plateau"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "THUNDER"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "zapdos",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "moltres",
+    "displayName": "Moltres",
+    "generation": 1,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:badlands",
+      "minecraft:eroded_badlands"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "moltres",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "mewtwo",
+    "displayName": "Mewtwo",
+    "generation": 1,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:deep_dark"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "mewtwo",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "mew",
+    "displayName": "Mew",
+    "generation": 1,
+    "rarity": "VERY_RARE",
+    "biomes": [
+      "minecraft:jungle",
+      "minecraft:sparse_jungle"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "mew",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "raikou",
+    "displayName": "Raikou",
+    "generation": 2,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:savanna_plateau"
+    ],
+    "times": [
+      "DAWN"
+    ],
+    "weather": [
+      "THUNDER"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "raikou",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "entei",
+    "displayName": "Entei",
+    "generation": 2,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:stony_peaks",
+      "minecraft:badlands"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "entei",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "suicune",
+    "displayName": "Suicune",
+    "generation": 2,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:beach",
+      "minecraft:snowy_beach"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "suicune",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "lugia",
+    "displayName": "Lugia",
+    "generation": 2,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:deep_ocean",
+      "minecraft:deep_cold_ocean"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "RAIN"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "AIR",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "lugia",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "hooh",
+    "displayName": "Ho-Oh",
+    "generation": 2,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:windswept_hills",
+      "minecraft:stony_peaks"
+    ],
+    "times": [
+      "DUSK"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "AIR",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "hooh",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "celebi",
+    "displayName": "Celebi",
+    "generation": 2,
+    "rarity": "VERY_RARE",
+    "biomes": [
+      "minecraft:flower_forest",
+      "minecraft:old_growth_birch_forest"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "celebi",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "regirock",
+    "displayName": "Regirock",
+    "generation": 3,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:badlands"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "regirock",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "regice",
+    "displayName": "Regice",
+    "generation": 3,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:snowy_plains",
+      "minecraft:ice_spikes"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "regice",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "registeel",
+    "displayName": "Registeel",
+    "generation": 3,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:stony_peaks"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "registeel",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "latias",
+    "displayName": "Latias",
+    "generation": 3,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:warm_ocean"
+    ],
+    "times": [
+      "MORNING"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "AIR",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "latias",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "latios",
+    "displayName": "Latios",
+    "generation": 3,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:lukewarm_ocean"
+    ],
+    "times": [
+      "AFTERNOON"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "AIR",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "latios",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "kyogre",
+    "displayName": "Kyogre",
+    "generation": 3,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:deep_ocean"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "RAIN"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "WATER",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "kyogre",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "groudon",
+    "displayName": "Groudon",
+    "generation": 3,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:badlands",
+      "minecraft:desert"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "groudon",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "rayquaza",
+    "displayName": "Rayquaza",
+    "generation": 3,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:jagged_peaks",
+      "minecraft:frozen_peaks"
+    ],
+    "times": [
+      "AFTERNOON"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "AIR",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "rayquaza",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "jirachi",
+    "displayName": "Jirachi",
+    "generation": 3,
+    "rarity": "VERY_RARE",
+    "biomes": [
+      "minecraft:meadow",
+      "minecraft:stony_peaks"
+    ],
+    "times": [
+      "DAWN"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "jirachi",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "deoxys",
+    "displayName": "Deoxys",
+    "generation": 3,
+    "rarity": "VERY_RARE",
+    "biomes": [
+      "minecraft:end_highlands"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "minecraft:the_end"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "deoxys",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "uxie",
+    "displayName": "Uxie",
+    "generation": 4,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:dark_forest"
+    ],
+    "times": [
+      "AFTERNOON"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "uxie",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "mesprit",
+    "displayName": "Mesprit",
+    "generation": 4,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:birch_forest"
+    ],
+    "times": [
+      "DAWN"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "mesprit",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "azelf",
+    "displayName": "Azelf",
+    "generation": 4,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:forest"
+    ],
+    "times": [
+      "MORNING"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "azelf",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "dialga",
+    "displayName": "Dialga",
+    "generation": 4,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:jagged_peaks"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "dialga",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "palkia",
+    "displayName": "Palkia",
+    "generation": 4,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:deep_ocean"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "WATER",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "palkia",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "giratina",
+    "displayName": "Giratina",
+    "generation": 4,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:deep_dark"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "giratina",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "heatran",
+    "displayName": "Heatran",
+    "generation": 4,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:basalt_deltas"
+    ],
+    "times": [
+      "ANY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "minecraft:the_nether"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": false,
+    "announcement": "heatran",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "regigigas",
+    "displayName": "Regigigas",
+    "generation": 4,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:snowy_taiga"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "regigigas",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "cresselia",
+    "displayName": "Cresselia",
+    "generation": 4,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:flower_forest"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "cresselia",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "phione",
+    "displayName": "Phione",
+    "generation": 4,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:warm_ocean"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "WATER",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "phione",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "manaphy",
+    "displayName": "Manaphy",
+    "generation": 4,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:warm_ocean"
+    ],
+    "times": [
+      "DAWN"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "WATER",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "manaphy",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "darkrai",
+    "displayName": "Darkrai",
+    "generation": 4,
+    "rarity": "VERY_RARE",
+    "biomes": [
+      "minecraft:dark_forest"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "darkrai",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "shaymin",
+    "displayName": "Shaymin",
+    "generation": 4,
+    "rarity": "VERY_RARE",
+    "biomes": [
+      "minecraft:flower_forest",
+      "minecraft:meadow"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "shaymin",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "arceus",
+    "displayName": "Arceus",
+    "generation": 4,
+    "rarity": "EVENT",
+    "biomes": [],
+    "times": [
+      "ANY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": false,
+    "announcement": "arceus",
+    "acquisition": "EVENT",
+    "level": 70
+  },
+  {
+    "species": "victini",
+    "displayName": "Victini",
+    "generation": 5,
+    "rarity": "VERY_RARE",
+    "biomes": [
+      "minecraft:savanna"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "victini",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "cobalion",
+    "displayName": "Cobalion",
+    "generation": 5,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:old_growth_pine_taiga"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "cobalion",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "terrakion",
+    "displayName": "Terrakion",
+    "generation": 5,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:stony_peaks"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "terrakion",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "virizion",
+    "displayName": "Virizion",
+    "generation": 5,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:forest",
+      "minecraft:birch_forest"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "virizion",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "tornadus",
+    "displayName": "Tornadus",
+    "generation": 5,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:plains"
+    ],
+    "times": [
+      "AFTERNOON"
+    ],
+    "weather": [
+      "THUNDER"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "tornadus",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "thundurus",
+    "displayName": "Thundurus",
+    "generation": 5,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:plains"
+    ],
+    "times": [
+      "MORNING"
+    ],
+    "weather": [
+      "THUNDER"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "thundurus",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "reshiram",
+    "displayName": "Reshiram",
+    "generation": 5,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:old_growth_spruce_taiga"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "reshiram",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "zekrom",
+    "displayName": "Zekrom",
+    "generation": 5,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:old_growth_pine_taiga"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "THUNDER"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "zekrom",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "landorus",
+    "displayName": "Landorus",
+    "generation": 5,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:badlands"
+    ],
+    "times": [
+      "DAWN"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "landorus",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "kyurem",
+    "displayName": "Kyurem",
+    "generation": 5,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:ice_spikes",
+      "minecraft:frozen_peaks"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "kyurem",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "keldeo",
+    "displayName": "Keldeo",
+    "generation": 5,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:river",
+      "minecraft:meadow"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "keldeo",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "meloetta",
+    "displayName": "Meloetta",
+    "generation": 5,
+    "rarity": "VERY_RARE",
+    "biomes": [
+      "minecraft:flower_forest"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "meloetta",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "genesect",
+    "displayName": "Genesect",
+    "generation": 5,
+    "rarity": "VERY_RARE",
+    "biomes": [
+      "minecraft:stony_peaks"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "genesect",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "xerneas",
+    "displayName": "Xerneas",
+    "generation": 6,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:dark_forest",
+      "minecraft:flower_forest"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "xerneas",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "yveltal",
+    "displayName": "Yveltal",
+    "generation": 6,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:dark_forest"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "THUNDER"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "yveltal",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "zygarde",
+    "displayName": "Zygarde",
+    "generation": 6,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:lush_caves"
+    ],
+    "times": [
+      "ANY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "zygarde",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "diancie",
+    "displayName": "Diancie",
+    "generation": 6,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:dripstone_caves"
+    ],
+    "times": [
+      "MORNING"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "diancie",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "hoopa",
+    "displayName": "Hoopa",
+    "generation": 6,
+    "rarity": "VERY_RARE",
+    "biomes": [
+      "minecraft:desert"
+    ],
+    "times": [
+      "AFTERNOON"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "hoopa",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "volcanion",
+    "displayName": "Volcanion",
+    "generation": 6,
+    "rarity": "VERY_RARE",
+    "biomes": [
+      "minecraft:basalt_deltas"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "minecraft:the_nether"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "volcanion",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "typenull",
+    "displayName": "Type: Null",
+    "generation": 7,
+    "rarity": "EVENT",
+    "biomes": [],
+    "times": [
+      "ANY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": false,
+    "announcement": "typenull",
+    "acquisition": "EVENT",
+    "level": 70
+  },
+  {
+    "species": "silvally",
+    "displayName": "Silvally",
+    "generation": 7,
+    "rarity": "RARE",
+    "biomes": [],
+    "times": [
+      "ANY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": false,
+    "announcement": "silvally",
+    "acquisition": "EVOLUTION",
+    "level": 70
+  },
+  {
+    "species": "tapukoko",
+    "displayName": "Tapu Koko",
+    "generation": 7,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:jungle"
+    ],
+    "times": [
+      "MORNING"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "tapukoko",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "tapulele",
+    "displayName": "Tapu Lele",
+    "generation": 7,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:jungle"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "tapulele",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "tapubulu",
+    "displayName": "Tapu Bulu",
+    "generation": 7,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:bamboo_jungle"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "tapubulu",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "tapufini",
+    "displayName": "Tapu Fini",
+    "generation": 7,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:jungle"
+    ],
+    "times": [
+      "AFTERNOON"
+    ],
+    "weather": [
+      "RAIN"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "tapufini",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "cosmog",
+    "displayName": "Cosmog",
+    "generation": 7,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:sunflower_plains"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "cosmog",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "cosmoem",
+    "displayName": "Cosmoem",
+    "generation": 7,
+    "rarity": "RARE",
+    "biomes": [],
+    "times": [
+      "ANY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": false,
+    "announcement": "cosmoem",
+    "acquisition": "EVOLUTION",
+    "level": 70
+  },
+  {
+    "species": "solgaleo",
+    "displayName": "Solgaleo",
+    "generation": 7,
+    "rarity": "RARE",
+    "biomes": [],
+    "times": [
+      "ANY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": false,
+    "announcement": "solgaleo",
+    "acquisition": "EVOLUTION",
+    "level": 70
+  },
+  {
+    "species": "lunala",
+    "displayName": "Lunala",
+    "generation": 7,
+    "rarity": "RARE",
+    "biomes": [],
+    "times": [
+      "ANY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": false,
+    "announcement": "lunala",
+    "acquisition": "EVOLUTION",
+    "level": 70
+  },
+  {
+    "species": "necrozma",
+    "displayName": "Necrozma",
+    "generation": 7,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:dark_forest"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "necrozma",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "magearna",
+    "displayName": "Magearna",
+    "generation": 7,
+    "rarity": "EVENT",
+    "biomes": [],
+    "times": [
+      "ANY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": false,
+    "announcement": "magearna",
+    "acquisition": "EVENT",
+    "level": 70
+  },
+  {
+    "species": "marshadow",
+    "displayName": "Marshadow",
+    "generation": 7,
+    "rarity": "VERY_RARE",
+    "biomes": [
+      "minecraft:soul_sand_valley"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "minecraft:the_nether"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "marshadow",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "zeraora",
+    "displayName": "Zeraora",
+    "generation": 7,
+    "rarity": "VERY_RARE",
+    "biomes": [
+      "minecraft:savanna_plateau"
+    ],
+    "times": [
+      "AFTERNOON"
+    ],
+    "weather": [
+      "THUNDER"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "zeraora",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "meltan",
+    "displayName": "Meltan",
+    "generation": 7,
+    "rarity": "EVENT",
+    "biomes": [],
+    "times": [
+      "ANY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": false,
+    "announcement": "meltan",
+    "acquisition": "EVENT",
+    "level": 70
+  },
+  {
+    "species": "melmetal",
+    "displayName": "Melmetal",
+    "generation": 7,
+    "rarity": "RARE",
+    "biomes": [],
+    "times": [
+      "ANY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": false,
+    "announcement": "melmetal",
+    "acquisition": "EVOLUTION",
+    "level": 70
+  },
+  {
+    "species": "zacian",
+    "displayName": "Zacian",
+    "generation": 8,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:forest"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "zacian",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "zamazenta",
+    "displayName": "Zamazenta",
+    "generation": 8,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:dark_forest"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "zamazenta",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "eternatus",
+    "displayName": "Eternatus",
+    "generation": 8,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:deep_dark"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "eternatus",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "kubfu",
+    "displayName": "Kubfu",
+    "generation": 8,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:bamboo_jungle"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "kubfu",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "urshifu",
+    "displayName": "Urshifu",
+    "generation": 8,
+    "rarity": "RARE",
+    "biomes": [],
+    "times": [
+      "ANY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": false,
+    "announcement": "urshifu",
+    "acquisition": "EVOLUTION",
+    "level": 70
+  },
+  {
+    "species": "zarude",
+    "displayName": "Zarude",
+    "generation": 8,
+    "rarity": "VERY_RARE",
+    "biomes": [
+      "minecraft:jungle"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "zarude",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "regieleki",
+    "displayName": "Regieleki",
+    "generation": 8,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:end_highlands"
+    ],
+    "times": [
+      "AFTERNOON"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "minecraft:the_end"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "regieleki",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "regidrago",
+    "displayName": "Regidrago",
+    "generation": 8,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:basalt_deltas"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "minecraft:the_nether"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "regidrago",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "glastrier",
+    "displayName": "Glastrier",
+    "generation": 8,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:snowy_plains"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "glastrier",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "spectrier",
+    "displayName": "Spectrier",
+    "generation": 8,
+    "rarity": "COMMON",
+    "biomes": [
+      "minecraft:swamp"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "spectrier",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "calyrex",
+    "displayName": "Calyrex",
+    "generation": 8,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:snowy_taiga"
+    ],
+    "times": [
+      "MORNING"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "calyrex",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "enamorus",
+    "displayName": "Enamorus",
+    "generation": 8,
+    "rarity": "VERY_RARE",
+    "biomes": [
+      "minecraft:flower_forest"
+    ],
+    "times": [
+      "DAWN"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "enamorus",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "wochien",
+    "displayName": "Wo-Chien",
+    "generation": 9,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:mangrove_swamp"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "wochien",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "chienpao",
+    "displayName": "Chien-Pao",
+    "generation": 9,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:frozen_peaks"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "chienpao",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "tinglu",
+    "displayName": "Ting-Lu",
+    "generation": 9,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:old_growth_pine_taiga"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "tinglu",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "chiyu",
+    "displayName": "Chi-Yu",
+    "generation": 9,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:basalt_deltas"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "minecraft:the_nether"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": false,
+    "announcement": "chiyu",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "koraidon",
+    "displayName": "Koraidon",
+    "generation": 9,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:badlands"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "koraidon",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "miraidon",
+    "displayName": "Miraidon",
+    "generation": 9,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:end_highlands"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "minecraft:the_end"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "miraidon",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "okidogi",
+    "displayName": "Okidogi",
+    "generation": 9,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:swamp"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "okidogi",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "munkidori",
+    "displayName": "Munkidori",
+    "generation": 9,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:jungle"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "munkidori",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "fezandipiti",
+    "displayName": "Fezandipiti",
+    "generation": 9,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:cherry_grove"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "fezandipiti",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "ogerpon",
+    "displayName": "Ogerpon",
+    "generation": 9,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:cherry_grove"
+    ],
+    "times": [
+      "DAY"
+    ],
+    "weather": [
+      "CLEAR"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "ogerpon",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "terapagos",
+    "displayName": "Terapagos",
+    "generation": 9,
+    "rarity": "EXTREME",
+    "biomes": [
+      "minecraft:lush_caves"
+    ],
+    "times": [
+      "ANY"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 0.5,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "terapagos",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  },
+  {
+    "species": "pecharunt",
+    "displayName": "Pecharunt",
+    "generation": 9,
+    "rarity": "RARE",
+    "biomes": [
+      "minecraft:cherry_grove"
+    ],
+    "times": [
+      "NIGHT"
+    ],
+    "weather": [
+      "ANY"
+    ],
+    "dimensions": [
+      "atlas:survival_emerald"
+    ],
+    "minY": -64,
+    "maxY": 319,
+    "surface": "GROUND",
+    "weight": 1.0,
+    "requirements": [],
+    "enabled": true,
+    "announcement": "pecharunt",
+    "acquisition": "AUTOMATIC",
+    "level": 70
+  }
+]

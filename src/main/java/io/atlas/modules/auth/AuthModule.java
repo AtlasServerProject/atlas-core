@@ -20,6 +20,9 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 
 public class AuthModule implements AtlasModule {
 
+    private static final io.atlas.modules.player.service.ReconnectPositionService reconnectPositions = new io.atlas.modules.player.service.ReconnectPositionService();
+    public static io.atlas.modules.player.service.ReconnectPositionService getReconnectPositions(){return reconnectPositions;}
+
     private static final AuthService authService = new AuthService();
     private static final AuthMovementLockService movementLockService =
             new AuthMovementLockService(authService);
@@ -63,6 +66,8 @@ public class AuthModule implements AtlasModule {
         );
         AuthSessionExpiryListener.register(sessionExpiryService);
         ServerTickEvents.END_SERVER_TICK.register(lobbySpawnService::tick);
+        ServerTickEvents.END_SERVER_TICK.register(reconnectPositions::tick);
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPING.register(reconnectPositions::saveAll);
         AuthMovementListener.register(movementLockService);
         AuthDamageListener.register(damageProtectionService);
         AuthInteractionListener.register(gameplayProtectionService);

@@ -1,0 +1,13 @@
+package io.atlas.modules.vipcommands.repository;
+import io.atlas.modules.database.DatabaseManager;
+import java.sql.*;
+import java.util.*;
+public final class VipCommandsRepository {
+ public record Preferences(String nickname,String color){}
+ public record Warp(String world,double x,double y,double z,float yaw,float pitch){}
+ public Preferences preferences(UUID id){try(var s=DatabaseManager.getConnection().prepareStatement("SELECT nickname,chat_color FROM vip_preferences WHERE player_uuid=?")){s.setObject(1,id);try(var r=s.executeQuery()){return r.next()?new Preferences(r.getString(1),r.getString(2)):new Preferences(null,null);}}catch(SQLException e){throw new IllegalStateException("Preferências indisponíveis");}}
+ public void preference(UUID id,String field,String value){if(!Set.of("nickname","chat_color").contains(field))throw new IllegalArgumentException();try(var s=DatabaseManager.getConnection().prepareStatement("INSERT INTO vip_preferences(player_uuid,"+field+") VALUES(?,?) ON CONFLICT(player_uuid) DO UPDATE SET "+field+"=EXCLUDED."+field)){s.setObject(1,id);s.setString(2,value);s.executeUpdate();}catch(SQLException e){throw new IllegalStateException("Preferências indisponíveis");}}
+ public boolean cooldown(UUID id,String command,int seconds){try(var s=DatabaseManager.getConnection().prepareStatement("INSERT INTO vip_command_uses(player_uuid,command,last_use) VALUES(?,?,now()) ON CONFLICT(player_uuid,command) DO UPDATE SET last_use=now() WHERE vip_command_uses.last_use<=now()-make_interval(secs=>?) RETURNING last_use")){s.setObject(1,id);s.setString(2,command);s.setInt(3,seconds);try(var r=s.executeQuery()){return r.next();}}catch(SQLException e){throw new IllegalStateException("Cooldown indisponível");}}
+ public Optional<Warp> warp(String name){try(var s=DatabaseManager.getConnection().prepareStatement("SELECT world,x,y,z,yaw,pitch FROM vip_warps WHERE name=?")){s.setString(1,name);try(var r=s.executeQuery()){return r.next()?Optional.of(new Warp(r.getString(1),r.getDouble(2),r.getDouble(3),r.getDouble(4),r.getFloat(5),r.getFloat(6))):Optional.empty();}}catch(SQLException e){throw new IllegalStateException("Destino indisponível");}}
+ public void warp(String name,Warp w){try(var s=DatabaseManager.getConnection().prepareStatement("INSERT INTO vip_warps(name,world,x,y,z,yaw,pitch) VALUES(?,?,?,?,?,?,?) ON CONFLICT(name) DO UPDATE SET world=EXCLUDED.world,x=EXCLUDED.x,y=EXCLUDED.y,z=EXCLUDED.z,yaw=EXCLUDED.yaw,pitch=EXCLUDED.pitch")){s.setString(1,name);s.setString(2,w.world());s.setDouble(3,w.x());s.setDouble(4,w.y());s.setDouble(5,w.z());s.setFloat(6,w.yaw());s.setFloat(7,w.pitch());s.executeUpdate();}catch(SQLException e){throw new IllegalStateException("Destino indisponível");}}
+}

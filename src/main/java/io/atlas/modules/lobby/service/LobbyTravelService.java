@@ -27,9 +27,9 @@ public class LobbyTravelService {
         player.setDeltaMovement(Vec3.ZERO);
         player.teleportTo(
                 emerald,
-                EMERALD_X,
-                EMERALD_Y,
-                EMERALD_Z,
+                DevEnvironment.DEVELOPMENT ? 0.5 : EMERALD_X,
+                DevEnvironment.DEVELOPMENT ? 64.0 : EMERALD_Y,
+                DevEnvironment.DEVELOPMENT ? 0.5 : EMERALD_Z,
                 EMERALD_YAW,
                 EMERALD_PITCH
         );

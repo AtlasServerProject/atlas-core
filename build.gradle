@@ -40,7 +40,7 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-	modCompileOnly "maven.modrinth:MdwFAVRL:kF7CvxTo"
+	modCompileOnly "maven.modrinth:MdwFAVRL:GJ2a1b8O"
 	compileOnly "org.jetbrains.kotlin:kotlin-stdlib:2.2.20"
 
 	include implementation("org.postgresql:postgresql:42.7.4")
@@ -106,3 +106,110 @@ tasks.named('build') { dependsOn tasks.named('vipLedgerTest') }
 
 // VIP tests use a standalone deterministic Java runner rather than a JUnit engine.
 tasks.named('test') { failOnNoDiscoveredTests = false }
+
+tasks.register('devTicketTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'io.atlas.modules.lobby.DevTicketLedgerTest'
+}
+tasks.named('build') { dependsOn tasks.named('devTicketTest') }
+
+tasks.register('vipCommandPolicyTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'io.atlas.modules.vipcommands.VipCommandPolicyTest'
+}
+tasks.named('build') { dependsOn tasks.named('vipCommandPolicyTest') }
+
+tasks.register('legendaryRulesTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'io.atlas.modules.legendary.LegendaryRulesTest'
+}
+tasks.named('build') { dependsOn tasks.named('legendaryRulesTest') }
+
+tasks.register('legendaryRepositoryTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'io.atlas.modules.legendary.LegendaryRepositoryTest'
+    doFirst {
+        if (!project.hasProperty('legendaryTestDir')) throw new GradleException('Use -PlegendaryTestDir for the isolated dev server directory')
+        workingDir project.property('legendaryTestDir')
+    }
+}
+
+tasks.register('vipRewardRepositoryTest', JavaExec) {
+ dependsOn testClasses
+ classpath = sourceSets.test.runtimeClasspath
+ mainClass = 'io.atlas.modules.vip.VipRewardRepositoryTest'
+ doFirst {
+  if (!project.hasProperty('legendaryTestDir')) throw new GradleException('Use isolated dev directory')
+  workingDir project.property('legendaryTestDir')
+ }
+}
+
+tasks.register('legendaryIvRulesTest', JavaExec) {
+ dependsOn testClasses
+ classpath = sourceSets.test.runtimeClasspath
+ mainClass = 'io.atlas.modules.legendary.LegendaryIvRulesTest'
+}
+tasks.named('build') { dependsOn tasks.named('legendaryIvRulesTest') }
+
+tasks.register('reconnectPositionRepositoryTest', JavaExec) {
+ dependsOn testClasses
+ classpath = sourceSets.test.runtimeClasspath
+ mainClass = 'io.atlas.modules.player.ReconnectPositionRepositoryTest'
+ doFirst {
+  if (!project.hasProperty('legendaryTestDir')) throw new GradleException('Use -PlegendaryTestDir for isolated dev DB')
+  workingDir project.property('legendaryTestDir')
+ }
+}
+
+tasks.register('pokedexProgressTest', JavaExec) {
+ dependsOn testClasses
+ classpath=sourceSets.test.runtimeClasspath
+ mainClass='io.atlas.modules.pokedex.PokedexProgressTest'
+ doFirst { if(!project.hasProperty('legendaryTestDir'))throw new GradleException('Isolated dev directory required');workingDir project.property('legendaryTestDir') }
+}
+
+tasks.register('dexRewardRepositoryTest', JavaExec) {
+ dependsOn testClasses
+ classpath=sourceSets.test.runtimeClasspath
+ mainClass='io.atlas.modules.pokedex.DexRewardRepositoryTest'
+ doFirst {if(!project.hasProperty('legendaryTestDir'))throw new GradleException('Isolated dev directory required');workingDir project.property('legendaryTestDir')}
+}
+
+tasks.register('typeRouteProgressTest',JavaExec) {
+ dependsOn testClasses
+ classpath=sourceSets.test.runtimeClasspath
+ mainClass='io.atlas.modules.pokedex.TypeRouteProgressTest'
+ doFirst {if(!project.hasProperty('legendaryTestDir'))throw new GradleException('Isolated dev directory required');workingDir project.property('legendaryTestDir')}
+}
+
+tasks.register('researchRepositoryTest',JavaExec) {
+ dependsOn testClasses
+ classpath=sourceSets.test.runtimeClasspath
+ mainClass='io.atlas.modules.research.ResearchRepositoryTest'
+ doFirst {if(!project.hasProperty('legendaryTestDir'))throw new GradleException('Isolated dev directory required');workingDir project.property('legendaryTestDir')}
+}
+
+tasks.register('marketRepositoryTest',JavaExec) {
+ dependsOn testClasses
+ classpath=sourceSets.test.runtimeClasspath
+ mainClass='io.atlas.modules.market.MarketRepositoryTest'
+ doFirst {if(!project.hasProperty('legendaryTestDir'))throw new GradleException('Isolated dev directory required');workingDir project.property('legendaryTestDir')}
+}
+
+tasks.register('marketSpriteRulesTest',JavaExec) {
+ dependsOn testClasses
+ classpath=sourceSets.test.runtimeClasspath
+ mainClass='io.atlas.modules.market.MarketSpriteRulesTest'
+}
+tasks.named('build') {dependsOn marketSpriteRulesTest}
+
+tasks.register('marketDurationTest',JavaExec) {
+ dependsOn testClasses
+ classpath=sourceSets.test.runtimeClasspath
+ mainClass='io.atlas.modules.market.MarketDurationTest'
+}
+tasks.named('build') {dependsOn marketDurationTest}

@@ -1,0 +1,47 @@
+package io.atlas.modules.vipcommands.service;
+import io.atlas.modules.vipcommands.repository.VipCommandsRepository;
+import io.atlas.modules.rank.RankModule;
+import io.atlas.modules.auth.AuthModule;
+import io.atlas.modules.performance.PerformanceModule;
+import com.cobblemon.mod.common.Cobblemon;
+import com.cobblemon.mod.common.battles.BattleRegistry;
+import com.cobblemon.mod.common.command.CheckSpawnsCommand;
+import com.cobblemon.mod.common.net.messages.client.storage.pc.OpenPCPacket;
+import com.mojang.brigadier.CommandDispatcher;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.world.*;
+import net.minecraft.world.inventory.*;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.enchantment.*;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.*;
+import java.util.*;
+public final class VipCommandsService {
+ private static final VipCommandsRepository repo=new VipCommandsRepository();
+ private record Cached(VipCommandsRepository.Preferences value,long until){}
+ private static final Map<UUID,Cached> cache=new HashMap<>();
+ public static boolean canUse(ServerPlayer p,int required){var ranks=RankModule.getRankService();return VipCommandPolicy.permits(ranks.getPlayerRanks(p.getUUID()).stream().map(r->r.getIdentifier()).toList(),AuthModule.getAuthService().isAuthenticated(p.getUUID()),ranks.canManageRanks(p.getUUID()),required);}
+ public static boolean check(ServerPlayer p,int level){if(canUse(p,level))return true;p.displayClientMessage(Component.literal("§cEste comando exige VIP "+level+(level==3?".":" ou superior.")),false);return false;}
+ private static boolean battleFree(ServerPlayer p){if(BattleRegistry.getBattleByParticipatingPlayer(p)==null)return true;p.displayClientMessage(Component.literal("§cAguarde o fim da batalha para usar este comando."),false);return false;}
+ private static void say(ServerPlayer p,String text){p.displayClientMessage(Component.literal(text),false);}
+ public static int use(ServerPlayer p,String command){if(!((command.equals("pc")||command.equals("pokeheal"))&&AuthModule.getAuthService().isAuthenticated(p.getUUID())&&io.atlas.modules.pokedex.PokedexModule.service().professor(p.getUUID()))&&!check(p,1))return 0;try{return switch(command){
+ case "craft"->{p.openMenu(new SimpleMenuProvider((id,inventory,player)->new CraftingMenu(id,inventory,ContainerLevelAccess.create(p.level(),p.blockPosition())){@Override public boolean stillValid(net.minecraft.world.entity.player.Player player){return true;}},Component.literal("Mesa de trabalho VIP")));yield 1;}
+ case "trash"->{PerformanceModule.getRecoveryService().openTrash(p);yield 1;}
+ case "repair"->{var item=p.getMainHandItem();if(!item.isDamageableItem()||item.getDamageValue()==0){say(p,"§eSegure uma ferramenta ou equipamento danificado.");yield 0;}if(!repo.cooldown(p.getUUID(),command,600)){say(p,"§e/repair tem intervalo de 10 minutos.");yield 0;}item.setDamageValue(0);p.getInventory().setChanged();say(p,"§aItem da mão reparado.");yield 1;}
+ case "pc"->{if(!battleFree(p))yield 0;var pc=Cobblemon.INSTANCE.getStorage().getPC(p);com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager.INSTANCE.addLink(p.getUUID(),pc,viewer->viewer.getUUID().equals(p.getUUID())&&(canUse(viewer,1)||AuthModule.getAuthService().isAuthenticated(viewer.getUUID())&&io.atlas.modules.pokedex.PokedexModule.service().professor(viewer.getUUID()))&&BattleRegistry.getBattleByParticipatingPlayer(viewer)==null);pc.getObservingUUIDs().add(p.getUUID());pc.sendTo(p);new OpenPCPacket(pc).sendToPlayer(p);yield 1;}
+ case "pokeheal"->{if(!battleFree(p))yield 0;if(!repo.cooldown(p.getUUID(),command,60)){say(p,"§e/pokeheal tem intervalo de 1 minuto.");yield 0;}Cobblemon.INSTANCE.getStorage().getParty(p).heal();say(p,"§aEquipe curada.");yield 1;}
+ case "hatch"->{if(!battleFree(p))yield 0;var egg=p.getMainHandItem();var companion=Class.forName("ludichat.cobbreeding.PokemonEgg").getField("Companion").get(null);@SuppressWarnings("unchecked") var timer=(DataComponentType<Integer>)companion.getClass().getMethod("getTIMER").invoke(companion);if(!egg.has(timer)){say(p,"§eSegure um ovo de Pokémon do Cobbreeding.");yield 0;}if(egg.getCount()!=1){say(p,"§eSegure somente um ovo por vez.");yield 0;}if(!repo.cooldown(p.getUUID(),command,600)){say(p,"§e/hatch tem intervalo de 10 minutos.");yield 0;}egg.set(timer,0);p.getInventory().setChanged();say(p,"§aTempo do ovo concluído. O Cobbreeding fará a eclosão.");yield 1;}
+ case "hat"->{var hand=p.getMainHandItem();var helmet=p.getItemBySlot(EquipmentSlot.HEAD);if(hand.isEmpty()||hand.getCount()!=1){say(p,"§eSegure apenas um item para usar como chapéu.");yield 0;}if(EnchantmentHelper.has(helmet,EnchantmentEffectComponents.PREVENT_ARMOR_CHANGE)){say(p,"§cNão é possível remover esse capacete encantado.");yield 0;}p.setItemSlot(EquipmentSlot.HEAD,hand.copy());p.setItemInHand(InteractionHand.MAIN_HAND,helmet.copy());p.getInventory().setChanged();say(p,"§aChapéu equipado.");yield 1;}
+ case "lojas"->travel(p,"lojas");default->0;};}catch(Exception e){say(p,"§cRecurso temporariamente indisponível. Tente novamente.");return 0;}}
+ public static ChatFormatting color(String name){String normalized=switch(name.toLowerCase(Locale.ROOT)){case "vermelho"->"red";case "verde"->"green";case "azul"->"blue";case "amarelo"->"yellow";case "roxo","rosa"->"light_purple";case "branco"->"white";case "dourado"->"gold";case "preto"->"black";case "cinza"->"gray";default->name.toLowerCase(Locale.ROOT);};var c=ChatFormatting.getByName(normalized);if(c==null||!c.isColor())throw new IllegalArgumentException("Use uma cor: red, green, blue, aqua, gold, yellow, white, light_purple...");return c;}
+ public static int preference(ServerPlayer p,String kind,String value){if(!check(p,1))return 0;try{String safe=value.equalsIgnoreCase("off")?null:value;if(kind.equals("nickname")&&safe!=null&&!safe.matches("[A-Za-z0-9_]{3,16}")){say(p,"§eUse um apelido de 3 a 16 letras, números ou _. Para remover: /nick off.");return 0;}if(kind.equals("chat_color")&&safe!=null)safe=color(safe).getName();repo.preference(p.getUUID(),kind,safe);cache.remove(p.getUUID());if(kind.equals("nickname"))p.setCustomName(safe==null?null:Component.literal("~"+safe));say(p,"§aPreferência atualizada.");return 1;}catch(Exception e){say(p,"§cNão foi possível alterar a preferência. Confira o valor informado.");return 0;}}
+ public static VipCommandsRepository.Preferences preferences(ServerPlayer p){if(!canUse(p,1))return new VipCommandsRepository.Preferences(null,null);try{var c=cache.get(p.getUUID());long now=System.currentTimeMillis();if(c==null||now>=c.until()){c=new Cached(repo.preferences(p.getUUID()),now+5000);cache.put(p.getUUID(),c);if(cache.size()>2000)cache.entrySet().removeIf(e->e.getValue().until()<now);}return c.value();}catch(Exception e){return new VipCommandsRepository.Preferences(null,null);}}
+ public static int pokeColor(ServerPlayer p,int slot,String name){if(!check(p,1)||!battleFree(p))return 0;try{var pokemon=Cobblemon.INSTANCE.getStorage().getParty(p).get(slot-1);if(pokemon==null){say(p,"§eEsse espaço da equipe está vazio.");return 0;}var c=color(name);String text=pokemon.getNickname()==null?pokemon.getSpecies().getName():pokemon.getNickname().getString();pokemon.setNickname(Component.literal(text).withStyle(c));say(p,"§aCor do nome do Pokémon atualizada.");return 1;}catch(Exception e){say(p,"§eInforme um espaço de 1 a 6 e uma cor válida.");return 0;}}
+ public static int spawns(ServerPlayer p,String bucket){if(bucket.equalsIgnoreCase("legendary")){if(!AuthModule.getAuthService().isAuthenticated(p.getUUID())||!(RankModule.getRankService().canManageRanks(p.getUUID())||io.atlas.modules.pokedex.PokedexModule.service().professor(p.getUUID()))){say(p,"§cConsulta lendária exclusiva de ADM, Dono e Professor Atlas.");return 0;}return io.atlas.modules.legendary.LegendaryModule.service().preview(p.createCommandSourceStack());}if(!check(p,3))return 0;try{var dispatcher=new CommandDispatcher<CommandSourceStack>();CheckSpawnsCommand.INSTANCE.register(dispatcher);return dispatcher.execute("checkspawn "+bucket,p.createCommandSourceStack().withPermission(4));}catch(Exception e){say(p,"§eNão foi possível consultar esse grupo de spawns. Use common, uncommon, rare ou ultra-rare.");return 0;}}
+ public static int travel(ServerPlayer p,String name){if(!check(p,1)||!battleFree(p))return 0;try{var saved=repo.warp(name);if(saved.isEmpty()){say(p,name.equals("vip")?"§eA área VIP ainda não foi configurada pela equipe.":"§eA área e o sistema de lojas ainda não foram configurados.");return 0;}var w=saved.get();var key=ResourceKey.create(Registries.DIMENSION,ResourceLocation.parse(w.world()));var world=p.getServer().getLevel(key);if(world==null){say(p,"§cDestino indisponível.");return 0;}p.closeContainer();p.teleportTo(world,w.x(),w.y(),w.z(),w.yaw(),w.pitch());return 1;}catch(Exception e){say(p,"§cDestino indisponível.");return 0;}}
+ public static int setWarp(ServerPlayer p,String name){if(!RankModule.getRankService().canManageRanks(p.getUUID())||!AuthModule.getAuthService().isAuthenticated(p.getUUID()))return 0;repo.warp(name,new VipCommandsRepository.Warp(p.level().dimension().location().toString(),p.getX(),p.getY(),p.getZ(),p.getYRot(),p.getXRot()));say(p,"§aDestino "+name+" salvo neste servidor.");return 1;}
+}

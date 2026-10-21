@@ -10,6 +10,9 @@ import io.atlas.modules.moderation.ModerationModule;
 
 public class ChatModule implements AtlasModule {
 
+    private static final ChatService SERVICE=new ChatService(RankModule.getRankService());
+    public static ChatService service(){return SERVICE;}
+
     @Override
     public String getName() {
         return "Chat";
@@ -18,10 +21,11 @@ public class ChatModule implements AtlasModule {
     @Override
     public void enable() {
         ChatListener.register(
-                new ChatService(RankModule.getRankService()),
+                SERVICE,
                 AuthModule.getProtectionService(),
                 ModerationModule.getService()
         );
+        net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents.DISCONNECT.register((handler,server)->SERVICE.remove(handler.player.getUUID()));
         AtlasMod.LOGGER.info("Chat Formatter iniciado.");
     }
 

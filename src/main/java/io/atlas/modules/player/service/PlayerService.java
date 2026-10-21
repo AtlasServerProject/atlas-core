@@ -14,7 +14,7 @@ public class PlayerService {
     private final PlayerRepository repository = new PlayerRepository();
     private final PlayerCache cache = new PlayerCache();
 
-    public void loadPlayer(UUID uuid, String username) {
+    public boolean loadPlayer(UUID uuid, String username) {
 
         if (PremiumLoginService.isVerified(uuid)) {
             repository.promotePremiumIdentity(uuid, username);
@@ -22,7 +22,8 @@ public class PlayerService {
 
         Optional<PlayerProfile> optional = repository.findByUuid(uuid);
 
-        if (optional.isEmpty()) {
+        boolean firstJoin = optional.isEmpty();
+        if (firstJoin) {
 
             AtlasMod.LOGGER.info("Novo jogador detectado: {}", username);
 
@@ -38,6 +39,18 @@ public class PlayerService {
         cache.put(profile);
 
         AtlasMod.LOGGER.info("Player {} carregado para o cache.", username);
+        return firstJoin;
+    }
+
+    public void welcome(net.minecraft.server.level.ServerPlayer player) {
+        boolean first = loadPlayer(player.getUUID(), player.getName().getString());
+        io.atlas.modules.rank.RankModule.getDisplayService().updatePlayer(player);
+        var message = net.minecraft.network.chat.Component.literal("✦ ").withStyle(net.minecraft.ChatFormatting.GOLD)
+            .append(player.getDisplayName())
+            .append(net.minecraft.network.chat.Component.literal(first
+                ? " chegou ao Atlas pela primeira vez. Boas-vindas à sua nova aventura!"
+                : " voltou ao Atlas. Sua jornada continua!").withStyle(net.minecraft.ChatFormatting.AQUA));
+        player.getServer().getPlayerList().broadcastSystemMessage(message, false);
     }
 
     public void unloadPlayer(UUID uuid) {

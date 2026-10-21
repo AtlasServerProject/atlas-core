@@ -29,6 +29,8 @@ public class ServerSelectorMenu extends ChestMenu {
     public void clicked(int slotId, int button, ClickType clickType, Player player) {
         if (slotId == EMERALD_SLOT) {
             selectorService.selectEmerald(player);
+        } else if (slotId == 6) {
+            selectorService.selectDev(player);
         }
     }
 

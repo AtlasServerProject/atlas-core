@@ -47,6 +47,11 @@ public class AtlasBootstrap {
         moduleManager.register(new io.atlas.modules.site.SiteModule());
         moduleManager.register(new io.atlas.modules.vip.VipModule());
 
+        moduleManager.register(new io.atlas.modules.legendary.LegendaryModule());
+        moduleManager.register(new io.atlas.modules.pokedex.PokedexModule());
+        moduleManager.register(new io.atlas.modules.research.ResearchModule());
+        moduleManager.register(new io.atlas.modules.market.MarketModule());
+
         // Inicialização
         moduleManager.enableModules();
 

@@ -1,0 +1,26 @@
+{
+  "enabled": true,
+  "spawnIntervalHours": 5,
+  "warningMinutes": 15,
+  "maxLegendaryPerCycle": 1,
+  "allowedWorlds": [
+    "atlas:survival_emerald",
+    "minecraft:the_nether",
+    "minecraft:the_end"
+  ],
+  "globalSpawnChance": 0.15,
+  "announceSpawn": true,
+  "announceCapture": true,
+  "enableShinyAnnouncements": true,
+  "enableSoundEffects": true,
+  "enableTitles": false,
+  "enableActionBar": false,
+  "despawnAfterMinutes": 15,
+  "maxActiveLegendaryEvents": 1,
+  "allowCreative": false,
+  "excludeBattlingPlayers": true,
+  "offlinePolicy": "SKIP",
+  "spawnMinDistance": 24,
+  "spawnMaxDistance": 64,
+  "positionAttempts": 32
+}

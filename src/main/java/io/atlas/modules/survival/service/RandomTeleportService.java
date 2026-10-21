@@ -34,8 +34,8 @@ public final class RandomTeleportService {
 
     private static final int MIN_RADIUS = 500;
     private static final int MAX_RADIUS = 5_850;
-    private static final int QUEUE_TARGET = 32;
-    private static final int REFILL_ATTEMPTS_PER_TICK = 16;
+    private static final int QUEUE_TARGET = io.atlas.modules.lobby.service.DevEnvironment.DEVELOPMENT ? 4 : 32;
+    private static final int REFILL_ATTEMPTS_PER_TICK = io.atlas.modules.lobby.service.DevEnvironment.DEVELOPMENT ? 1 : 16;
     private static final int WARMUP_TICKS = 60;
     private static final double MOVEMENT_TOLERANCE_SQUARED = 0.01;
     public boolean hasPendingTeleport(UUID uuid) { return PENDING.containsKey(uuid); }
@@ -57,6 +57,7 @@ public final class RandomTeleportService {
     }
 
     public void openMenu(ServerPlayer player) {
+        if (!validateAccess(player)) return;
         SimpleContainer container = new SimpleContainer(9);
         container.setItem(2, createOption(RtpTarget.OVERWORLD));
         container.setItem(4, createOption(RtpTarget.NETHER));
@@ -73,6 +74,7 @@ public final class RandomTeleportService {
     }
 
     public boolean request(ServerPlayer player, RtpTarget target) {
+        if (!validateAccess(player)) return false;
         UUID uuid = player.getUUID();
         if (PENDING.containsKey(uuid)) {
             player.displayClientMessage(
@@ -138,7 +140,7 @@ public final class RandomTeleportService {
                 continue;
             }
             SearchState search = entry.getValue();
-            if (!canUseRtpHere(player) || hasMoved(player, search)) {
+            if (accessProblem(player) != null || hasMoved(player, search)) {
                 cancel(player, entry.getKey(), search);
                 continue;
             }
@@ -165,6 +167,29 @@ public final class RandomTeleportService {
             PENDING.remove(entry.getKey());
             completeTeleport(player, level, destination, search.target);
         }
+    }
+
+    private String accessProblem(ServerPlayer player) {
+        if (!io.atlas.modules.auth.AuthModule.getAuthService().isAuthenticated(player.getUUID()))
+            return "Faça login antes de viajar.";
+        if (!canUseRtpHere(player)) return "Use o RTP no Lobby Emerald ou nos mundos do Survival.";
+        if (io.atlas.modules.moderation.ModerationModule.getStaffTools().isFrozen(player.getUUID()))
+            return "Você está congelado. Aguarde a staff.";
+        if (io.atlas.modules.moderation.ModerationModule.getStaffMode().isActive(player.getUUID()))
+            return "Saia do StaffMode antes de viajar.";
+        if (com.cobblemon.mod.common.battles.BattleRegistry.getBattleByParticipatingPlayer(player) != null)
+            return "Termine a batalha antes de viajar.";
+        if (player.isPassenger() || player.isSleeping()) return "Saia da montaria ou cama antes de viajar.";
+        if (io.atlas.modules.home.HomeModule.getHomeService().hasPendingTeleport(player.getUUID()))
+            return "Aguarde seu teleporte de home terminar.";
+        return null;
+    }
+
+    private boolean validateAccess(ServerPlayer player) {
+        String problem = accessProblem(player);
+        if (problem == null) return true;
+        player.displayClientMessage(Component.literal("§c" + problem), false);
+        return false;
     }
 
     private boolean hasMoved(ServerPlayer player, SearchState search) {

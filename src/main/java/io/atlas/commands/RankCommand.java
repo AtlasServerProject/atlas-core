@@ -97,6 +97,7 @@ public class RankCommand {
         ServerPlayer target = source.getServer().getPlayerList().getPlayerByName(username);
         if (target != null) {
             displayService.updatePlayer(target);
+            source.getServer().getCommands().sendCommands(target);
         }
 
         String action = assign ? "atribuído a" : "removido de";

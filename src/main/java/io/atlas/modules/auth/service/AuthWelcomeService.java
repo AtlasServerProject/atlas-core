@@ -34,6 +34,9 @@ public class AuthWelcomeService {
     }
 
     private Component subtitleFor(ServerPlayer player) {
+        if (io.atlas.modules.lobby.service.DevEnvironment.DEVELOPMENT) {
+            return Component.literal("Lobby de testes — dados separados").withStyle(ChatFormatting.GOLD);
+        }
         if (authService.isAuthenticated(player.getUUID())) {
             return Component.literal("Conta Premium autenticada")
                     .withStyle(ChatFormatting.GOLD);

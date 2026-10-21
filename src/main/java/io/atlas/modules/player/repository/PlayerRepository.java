@@ -121,6 +121,16 @@ public class PlayerRepository {
         execute(connection, "DELETE FROM player_ranks WHERE player_id = ?", offlinePlayerId);
 
         execute(connection, """
+                INSERT INTO player_permissions (player_id, permission, enabled, updated_at)
+                SELECT ?, permission, enabled, updated_at
+                FROM player_permissions WHERE player_id = ?
+                ON CONFLICT (player_id, permission) DO UPDATE
+                SET enabled = player_permissions.enabled OR EXCLUDED.enabled,
+                    updated_at = GREATEST(player_permissions.updated_at, EXCLUDED.updated_at)
+                """, officialPlayerId, offlinePlayerId);
+        execute(connection, "DELETE FROM player_permissions WHERE player_id = ?", offlinePlayerId);
+
+        execute(connection, """
                 INSERT INTO player_keys (player_id, crate_id, quantity, updated_at)
                 SELECT ?, crate_id, quantity, updated_at
                 FROM player_keys WHERE player_id = ?

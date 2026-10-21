@@ -17,11 +17,7 @@ public class PlayerJoinListener {
     public static void register() {
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-            playerService.loadPlayer(
-                    handler.player.getUUID(),
-                    handler.player.getName().getString()
-            );
-            displayService.updatePlayer(handler.player);
+            playerService.welcome(handler.player);
         });
 
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {

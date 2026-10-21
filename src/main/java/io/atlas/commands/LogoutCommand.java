@@ -26,6 +26,7 @@ public class LogoutCommand {
 
         return switch (result) {
             case SUCCESS -> {
+                source.getServer().getCommands().sendCommands(player);
                 source.sendSuccess(
                         () -> Component.literal("§aLogout realizado. Use /login para entrar novamente."),
                         false

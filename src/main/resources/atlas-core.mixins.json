@@ -4,6 +4,9 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "CommandSourceStackMixin",
+    "PlayerListSaveInvoker",
+    "CommandNodeAccessor",
+    "PlayerJoinMessageMixin",
     "ClaimExplosionMixin",
     "ClaimFireMixin",
     "ClaimFluidMixin",
@@ -11,7 +14,16 @@
     "CommandsMixin",
     "ServerGamePacketListenerImplMixin",
     "ServerLoginPacketListenerImplMixin",
-    "ClearInventoryCommandsMixin"
+    "ServerCommonConnectionAccessor",
+    "ServerHandshakeDevMixin",
+    "ClearInventoryCommandsMixin",
+    "PcDepositDiagnosticsMixin",
+    "CobblemonPcCommandMixin",
+    "PokemonStoreManagerAccessor",
+    "PokemonFileStoreAccessor",
+    "LegendaryPokemonPropertiesMixin",
+    "LegendaryPokemonLoadMixin",
+    "LegendaryPokemonStoreMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -11,7 +11,7 @@ public final class VipCommand {
     private VipCommand() {}
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("vip").requires(CommandSourceStack::isPlayer)
-                .executes(context -> {
+                .then(Commands.literal("status").executes(context -> {
                     var source = context.getSource();
                     var player = source.getPlayerOrException();
                     if (!AuthModule.getAuthService().isAuthenticated(player.getUUID())) {
@@ -26,6 +26,6 @@ public final class VipCommand {
                         source.sendFailure(Component.literal("§cNão foi possível consultar seu VIP. Tente novamente em instantes."));
                         return 0;
                     }
-                }));
+                })));
     }
 }

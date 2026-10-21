@@ -12,7 +12,7 @@ import java.util.UUID;
 public class AuthProtectionService {
 
     private static final Set<String> AUTH_COMMANDS = Set.of("login", "register");
-    private static final Set<String> DEVELOPER_COMMANDS = Set.of("dev", "op", "deop");
+    private static final Set<String> DEVELOPER_COMMANDS = Set.of("dev", "op", "deop", "atlaslegendary");
     private static final Component LOGIN_REQUIRED_MESSAGE = Component.literal(
             "§cVocê precisa se autenticar antes de fazer isso. "
                     + "§eUse /login ou /register."
@@ -43,6 +43,12 @@ public class AuthProtectionService {
         }
 
         boolean authCommand = AUTH_COMMANDS.contains(commandRoot(command));
+        if (Set.of("spawn", "compras", "lendarios").contains(commandRoot(command))) {
+            return authService.isAuthenticated(player.getUUID());
+        }
+        if (commandRoot(command).equals("mundodev")) {
+            return new io.atlas.modules.lobby.service.DevLobbyAccessService().canAccess(player);
+        }
         if (LobbyWorlds.isAuth(player.level())) {
             return authCommand
                     || isAllowedDeveloperCommand(player, command);

@@ -5,6 +5,11 @@ import com.cobblemon.mod.common.battles.BattleRegistry;
 import net.minecraft.server.level.ServerPlayer;
 
 public class BattleEndService {
+    private final BattleMusicService musicService;
+
+    public BattleEndService(BattleMusicService musicService) {
+        this.musicService = musicService;
+    }
 
     public boolean endBattle(ServerPlayer player) {
         PokemonBattle battle = BattleRegistry.getBattleByParticipatingPlayer(player);
@@ -12,8 +17,13 @@ public class BattleEndService {
             return false;
         }
 
-        battle.end();
-        BattleRegistry.closeBattle(battle);
+        var participants = java.util.List.copyOf(battle.getPlayers());
+        try {
+            // Cobblemon end() already invokes closeBattle and its end handlers.
+            battle.end();
+        } finally {
+            participants.forEach(musicService::stopBattleTheme);
+        }
         return true;
     }
 }

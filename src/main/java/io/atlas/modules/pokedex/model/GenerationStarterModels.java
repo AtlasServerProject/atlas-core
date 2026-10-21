@@ -1,0 +1,15 @@
+package io.atlas.modules.pokedex.model;
+import com.google.gson.*;
+import net.fabricmc.loader.api.FabricLoader;
+import java.nio.file.*;
+import java.util.*;
+/** Validate starter assets, including native code-defined posers, without loading client classes. */
+public final class GenerationStarterModels {
+ public static Set<String> available()throws Exception{
+  var all=GenerationRoutePlan.ROUTES.stream().flatMap(r->GenerationRoutePlan.starters(r).stream()).collect(java.util.stream.Collectors.toSet());
+  var models=new HashSet<String>();var posers=new HashSet<String>();var textures=new HashSet<String>();var resolvers=new ArrayList<Path>();
+  for(var mod:FabricLoader.getInstance().getAllMods())for(var root:mod.getRootPaths()){var assets=root.resolve("assets");if(!Files.isDirectory(assets))continue;try(var namespaces=Files.list(assets)){for(var namespace:namespaces.toList()){String ns=namespace.getFileName().toString();var base=namespace.resolve("bedrock/pokemon");if(Files.isDirectory(base))try(var walk=Files.walk(base)){for(var file:walk.filter(Files::isRegularFile).toList()){String relative=base.relativize(file).toString(),name=file.getFileName().toString();if(relative.startsWith("models/")&&name.endsWith(".json"))models.add(ns+":"+name.substring(0,name.length()-5));if(relative.startsWith("posers/")&&name.endsWith(".json"))posers.add(ns+":"+name.substring(0,name.length()-5));if(relative.startsWith("resolvers/")&&name.endsWith(".json"))resolvers.add(file);}}var tex=namespace.resolve("textures/pokemon");if(Files.isDirectory(tex))try(var walk=Files.walk(tex)){walk.filter(Files::isRegularFile).forEach(f->textures.add(ns+":"+namespace.relativize(f)));}}}}
+  var cobblemon=FabricLoader.getInstance().getModContainer("cobblemon").orElseThrow();for(String route:GenerationRoutePlan.ROUTES)for(String name:GenerationRoutePlan.starters(route)){String className=Character.toUpperCase(name.charAt(0))+name.substring(1)+"Model.class";if(cobblemon.findPath("com/cobblemon/mod/common/client/render/models/blockbench/pokemon/"+route+"/"+className).isPresent())posers.add("cobblemon:"+name);}
+  var supported=new HashSet<String>();for(var file:resolvers)try(var reader=Files.newBufferedReader(file)){var json=JsonParser.parseReader(reader).getAsJsonObject();if(!json.has("species")||!json.has("variations"))continue;String name=json.get("species").getAsString().replaceFirst("^[^:]+:","");if(!all.contains(name))continue;boolean base=false,shiny=false;for(var el:json.getAsJsonArray("variations")){var v=el.getAsJsonObject();if(!v.has("texture")||!v.get("texture").isJsonPrimitive())continue;boolean isShiny=v.has("aspects")&&v.getAsJsonArray("aspects").asList().stream().anyMatch(a->a.getAsString().equals("shiny"));if(isShiny&&textures.contains(v.get("texture").getAsString()))shiny=true;if(v.has("aspects")&&v.getAsJsonArray("aspects").isEmpty()&&v.has("model")&&v.has("poser")&&models.contains(v.get("model").getAsString())&&posers.contains(v.get("poser").getAsString())&&textures.contains(v.get("texture").getAsString()))base=true;}if(base&&shiny)supported.add(name);}catch(RuntimeException ignored){}return Set.copyOf(supported);
+ }
+}

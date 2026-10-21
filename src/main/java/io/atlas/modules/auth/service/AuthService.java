@@ -41,6 +41,16 @@ public class AuthService {
     }
 
     public void loadPlayer(UUID playerUuid, String ipAddress) {
+        if (io.atlas.modules.lobby.service.DevEnvironment.DEVELOPMENT) {
+            var identity = io.atlas.modules.lobby.service.DevTransferService.identity(playerUuid);
+            if (identity == null) throw new IllegalStateException("Homologação sem autorização de entrada.");
+            repository.createAccount(playerUuid, "!dev-transfer", ipAddress);
+            var session = repository.createSession(playerUuid, ipAddress);
+            cache.put(new AuthSessionState(session, true, false));
+            io.atlas.modules.lobby.service.DevTransferService.syncRole(playerUuid, identity.role());
+            authenticate(playerUuid, ipAddress);
+            return;
+        }
         boolean premiumVerified = PremiumLoginService.isVerified(playerUuid);
         if (premiumVerified) {
             repository.ensurePremiumAccount(playerUuid, ipAddress);

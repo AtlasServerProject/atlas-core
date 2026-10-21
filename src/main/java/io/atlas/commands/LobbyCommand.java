@@ -31,6 +31,9 @@ public class LobbyCommand {
             source.sendFailure(Component.literal("§cFaça login antes de usar /lobby."));
             return 0;
         }
+        if (io.atlas.modules.lobby.service.DevEnvironment.DEVELOPMENT) {
+            return io.atlas.modules.lobby.service.DevTransferService.returnToMain(player);
+        }
         if (!LobbyWorlds.isSurvivalEmerald(player.level())) {
             source.sendFailure(Component.literal(
                     "§eVocê só pode usar /lobby dentro do Survival Emerald."

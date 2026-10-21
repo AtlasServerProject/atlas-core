@@ -5,10 +5,14 @@ import io.atlas.AtlasMod;
 import io.atlas.modules.auth.model.PremiumProfileResolution;
 import io.atlas.modules.auth.service.PremiumLoginService;
 import io.atlas.modules.auth.service.PremiumPlayerDataMigrator;
+import io.atlas.modules.lobby.service.DevEnvironment;
+import io.atlas.modules.lobby.service.DevTransferService;
 import net.minecraft.network.Connection;
 import net.minecraft.network.DisconnectionDetails;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.login.ServerboundHelloPacket;
+import net.minecraft.network.protocol.cookie.ClientboundCookieRequestPacket;
+import net.minecraft.network.protocol.cookie.ServerboundCookieResponsePacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerLoginPacketListenerImpl;
 import org.spongepowered.asm.mixin.Final;
@@ -37,6 +41,12 @@ public abstract class ServerLoginPacketListenerImplMixin {
     @Shadow
     public abstract void disconnect(Component reason);
 
+    @Shadow private String requestedUsername;
+    @Shadow protected abstract void startClientVerification(GameProfile profile);
+
+    @Unique private boolean atlas$devCookieRequested;
+    @Unique private boolean atlas$devCookieReceived;
+
     @Unique
     private volatile PremiumProfileResolution atlas$profileResolution;
 
@@ -51,6 +61,18 @@ public abstract class ServerLoginPacketListenerImplMixin {
             ServerboundHelloPacket packet,
             CallbackInfo callback
     ) {
+        if (DevEnvironment.DEVELOPMENT) {
+            callback.cancel();
+            if (atlas$devCookieRequested) return;
+            if (!packet.name().matches("[A-Za-z0-9_]{3,16}")) {
+                disconnect(Component.literal("Nome de jogador inválido."));
+                return;
+            }
+            requestedUsername = packet.name();
+            atlas$devCookieRequested = true;
+            connection.send(new ClientboundCookieRequestPacket(DevTransferService.COOKIE));
+            return;
+        }
         if (atlas$profileResolution != null) {
             return;
         }
@@ -86,6 +108,30 @@ public abstract class ServerLoginPacketListenerImplMixin {
                     atlas$profileResolution = resolution;
                     ((ServerLoginPacketListenerImpl) (Object) this).handleHello(packet);
                 }));
+    }
+
+    @Inject(method = "handleCookieResponse", at = @At("HEAD"), cancellable = true)
+    private void atlas$validateDevAccess(ServerboundCookieResponsePacket packet, CallbackInfo callback) {
+        if (!DevEnvironment.DEVELOPMENT) return;
+        callback.cancel();
+        if (!atlas$devCookieRequested || atlas$devCookieReceived || !packet.key().equals(DevTransferService.COOKIE)) {
+            disconnect(Component.literal("Acesso ao lobby de testes exige /mundodev no Atlas."));
+            return;
+        }
+        atlas$devCookieReceived = true;
+        DevTransferService.claim(packet.payload(), requestedUsername).whenComplete((identity, error) -> server.execute(() -> {
+            if (!connection.isConnected()) return;
+            if (error != null || identity == null) {
+                Throwable cause = error;
+                while (cause != null && cause.getCause() != null) cause = cause.getCause();
+                AtlasMod.LOGGER.warn("Autorização dev falhou para {}: {}.", requestedUsername,
+                        cause == null ? "identidade ausente" : cause.getClass().getSimpleName());
+                disconnect(Component.literal("Acesso negado. Entre no Atlas, faça login e use /mundodev com cargo Dono/ADM."));
+                return;
+            }
+            DevTransferService.admit(connection, identity);
+            startClientVerification(new GameProfile(identity.uuid(), identity.username()));
+        }));
     }
 
     @Redirect(

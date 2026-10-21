@@ -17,8 +17,8 @@ public class PayCommand {
     private static final EconomyService economyService = new EconomyService();
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(
-                Commands.literal("pay")
+        for (String alias : new String[]{"pay", "pagar"}) dispatcher.register(
+                Commands.literal(alias)
                         .then(Commands.argument("player", EntityArgument.player())
                                 .then(Commands.argument("valor", LongArgumentType.longArg(1))
                                         .executes(context -> pay(

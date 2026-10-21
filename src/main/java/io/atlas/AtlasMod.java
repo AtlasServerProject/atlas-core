@@ -2,6 +2,7 @@ package io.atlas;
 
 import io.atlas.bootstrap.AtlasBootstrap;
 import io.atlas.commands.BalanceCommand;
+import io.atlas.commands.LegendaryCommand;
 import io.atlas.commands.AtlasCommand;
 import io.atlas.commands.AddMoneyCommand;
 import io.atlas.commands.RankCommand;
@@ -42,6 +43,11 @@ public class AtlasMod implements ModInitializer {
 
 CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
     AtlasCommand.register(dispatcher);
+    io.atlas.commands.MarketCommand.register(dispatcher);
+    io.atlas.commands.ResearchCommand.register(dispatcher);
+    io.atlas.commands.PokedexCommand.register(dispatcher);
+    io.atlas.commands.ChatCommands.register(dispatcher);
+    LegendaryCommand.register(dispatcher);
     BalanceCommand.register(dispatcher);
     AddMoneyCommand.register(dispatcher);
     RankCommand.register(dispatcher);
@@ -61,6 +67,7 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
     TrashCommand.register(dispatcher);
     DroppedItemsCommand.register(dispatcher);
     DevCommand.register(dispatcher);
+    io.atlas.commands.DevWorldCommand.register(dispatcher);
     EndBattleCommand.register(dispatcher);
     PayCommand.register(dispatcher);
     ModerationCommand.register(dispatcher);
@@ -69,6 +76,8 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
     BackCommand.register(dispatcher);
     FlyCommand.register(dispatcher);
     io.atlas.commands.VipCommand.register(dispatcher);
+    io.atlas.commands.PurchasesCommand.register(dispatcher);
+    io.atlas.commands.VipUtilityCommands.register(dispatcher);
     EcCommand.register(dispatcher);
     io.atlas.commands.SiteCommand.register(dispatcher);
 });

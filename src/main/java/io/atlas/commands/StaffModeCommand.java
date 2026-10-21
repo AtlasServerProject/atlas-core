@@ -10,7 +10,7 @@ public final class StaffModeCommand {
     private StaffModeCommand() {}
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         var service = ModerationModule.getStaffMode();
-        for (String root : new String[]{"staffmode", "staff"}) {
+        for (String root : new String[]{"staffmode"}) {
             dispatcher.register(Commands.literal(root).requires(service::canUse)
                     .executes(ctx -> service.toggle(ctx.getSource(), null))
                     .then(Commands.literal("on").executes(ctx -> service.toggle(ctx.getSource(), true)))

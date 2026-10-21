@@ -1,0 +1,942 @@
+{
+  "articuno": {
+    "title": "O INVERNO GANHOU ASAS!",
+    "story": "Cristais de gelo dançam sobre os picos silenciosos.",
+    "captureTitle": "O INVERNO GANHOU ASAS — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "ARTICUNO apareceu!",
+    "captureText": "ARTICUNO foi capturado!"
+  },
+  "zapdos": {
+    "title": "O TROVÃO GANHOU VIDA!",
+    "story": "Faíscas cruzam o céu e respondem ao chamado da tempestade.",
+    "captureTitle": "O TROVÃO GANHOU VIDA — LENDA CAPTURADA!",
+    "primary": "#ffaa00",
+    "secondary": "#55ff55",
+    "symbol": "❖",
+    "spawnText": "ZAPDOS apareceu!",
+    "captureText": "ZAPDOS foi capturado!"
+  },
+  "moltres": {
+    "title": "A CHAMA ETERNA DESPERTOU!",
+    "story": "Um clarão ardente ilumina as terras castigadas pelo sol.",
+    "captureTitle": "A CHAMA ETERNA DESPERTOU — LENDA CAPTURADA!",
+    "primary": "#aa55ff",
+    "secondary": "#ff77cc",
+    "symbol": "☾",
+    "spawnText": "MOLTRES apareceu!",
+    "captureText": "MOLTRES foi capturado!"
+  },
+  "mewtwo": {
+    "title": "UMA MENTE ROMPEU O SILÊNCIO!",
+    "story": "As sombras das profundezas cedem diante de uma força psíquica.",
+    "captureTitle": "UMA MENTE ROMPEU O SILÊNCIO — LENDA CAPTURADA!",
+    "primary": "#55ff55",
+    "secondary": "#55ffff",
+    "symbol": "✧",
+    "spawnText": "MEWTWO apareceu!",
+    "captureText": "MEWTWO foi capturado!"
+  },
+  "mew": {
+    "title": "UMA PRESENÇA MISTERIOSA!",
+    "story": "Uma energia ancestral e gentil percorre a floresta…",
+    "captureTitle": "UMA LENDA FOI CAPTURADA!",
+    "primary": "#ff77cc",
+    "secondary": "#aa55ff",
+    "symbol": "❀",
+    "spawnText": "MEW apareceu!",
+    "captureText": "MEW foi capturado!"
+  },
+  "raikou": {
+    "title": "O RUGIDO DA TEMPESTADE!",
+    "story": "O primeiro trovão anuncia passos velozes pelo horizonte.",
+    "captureTitle": "O RUGIDO DA TEMPESTADE — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "RAIKOU apareceu!",
+    "captureText": "RAIKOU foi capturado!"
+  },
+  "entei": {
+    "title": "O CORAÇÃO DO VULCÃO PULSA!",
+    "story": "O calor das montanhas acompanha um rugido ancestral.",
+    "captureTitle": "O CORAÇÃO DO VULCÃO PULSA — LENDA CAPTURADA!",
+    "primary": "#ffaa00",
+    "secondary": "#55ff55",
+    "symbol": "❖",
+    "spawnText": "ENTEI apareceu!",
+    "captureText": "ENTEI foi capturado!"
+  },
+  "suicune": {
+    "title": "O VENTO DO NORTE CHEGOU!",
+    "story": "As águas se tornam cristalinas sob uma brisa impossível.",
+    "captureTitle": "O VENTO DO NORTE CHEGOU — LENDA CAPTURADA!",
+    "primary": "#aa55ff",
+    "secondary": "#ff77cc",
+    "symbol": "☾",
+    "spawnText": "SUICUNE apareceu!",
+    "captureText": "SUICUNE foi capturado!"
+  },
+  "lugia": {
+    "title": "O GUARDIÃO DOS MARES EMERGIU!",
+    "story": "A chuva silencia por um instante diante de asas colossais.",
+    "captureTitle": "O GUARDIÃO DOS MARES EMERGIU — LENDA CAPTURADA!",
+    "primary": "#55ff55",
+    "secondary": "#55ffff",
+    "symbol": "✧",
+    "spawnText": "LUGIA apareceu!",
+    "captureText": "LUGIA foi capturado!"
+  },
+  "hooh": {
+    "title": "O ARCO-ÍRIS TOCOU A MONTANHA!",
+    "story": "Penas douradas refletem a última luz do horizonte.",
+    "captureTitle": "O ARCO-ÍRIS TOCOU A MONTANHA — LENDA CAPTURADA!",
+    "primary": "#ff77cc",
+    "secondary": "#ffaa00",
+    "symbol": "❀",
+    "spawnText": "HO-OH apareceu!",
+    "captureText": "HO-OH foi capturado!"
+  },
+  "celebi": {
+    "title": "O TEMPO FLORESCEU!",
+    "story": "Folhas antigas e novas dançam juntas na mesma brisa.",
+    "captureTitle": "O TEMPO FLORESCEU — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "CELEBI apareceu!",
+    "captureText": "CELEBI foi capturado!"
+  },
+  "regirock": {
+    "title": "AS PEDRAS SE ERGUERAM!",
+    "story": "Fragmentos de rocha encontram seu lugar num guardião ancestral.",
+    "captureTitle": "AS PEDRAS SE ERGUERAM — LENDA CAPTURADA!",
+    "primary": "#ffaa00",
+    "secondary": "#55ff55",
+    "symbol": "❖",
+    "spawnText": "REGIROCK apareceu!",
+    "captureText": "REGIROCK foi capturado!"
+  },
+  "regice": {
+    "title": "O GELO ANCESTRAL DESPERTOU!",
+    "story": "Um brilho azul atravessa cristais que nunca derreteram.",
+    "captureTitle": "O GELO ANCESTRAL DESPERTOU — LENDA CAPTURADA!",
+    "primary": "#aa55ff",
+    "secondary": "#ff77cc",
+    "symbol": "☾",
+    "spawnText": "REGICE apareceu!",
+    "captureText": "REGICE foi capturado!"
+  },
+  "registeel": {
+    "title": "O METAL ECOOU NAS MONTANHAS!",
+    "story": "Passos pesados ressoam como sinos nas encostas de pedra.",
+    "captureTitle": "O METAL ECOOU NAS MONTANHAS — LENDA CAPTURADA!",
+    "primary": "#55ff55",
+    "secondary": "#55ffff",
+    "symbol": "✧",
+    "spawnText": "REGISTEEL apareceu!",
+    "captureText": "REGISTEEL foi capturado!"
+  },
+  "latias": {
+    "title": "UM REFLEXO CRUZOU O MAR!",
+    "story": "Uma silhueta rubra desliza entre a luz e a brisa oceânica.",
+    "captureTitle": "UM REFLEXO CRUZOU O MAR — LENDA CAPTURADA!",
+    "primary": "#ff77cc",
+    "secondary": "#ffaa00",
+    "symbol": "❀",
+    "spawnText": "LATIAS apareceu!",
+    "captureText": "LATIAS foi capturado!"
+  },
+  "latios": {
+    "title": "O AZUL CORTOU O HORIZONTE!",
+    "story": "Uma presença veloz atravessa o céu sobre águas tranquilas.",
+    "captureTitle": "O AZUL CORTOU O HORIZONTE — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "LATIOS apareceu!",
+    "captureText": "LATIOS foi capturado!"
+  },
+  "kyogre": {
+    "title": "OS OCEANOS ESTÃO EM FÚRIA!",
+    "story": "As águas se agitam diante de uma força colossal!",
+    "captureTitle": "O PODER DOS MARES FOI DOMINADO!",
+    "primary": "#5555ff",
+    "secondary": "#55ffff",
+    "symbol": "❖",
+    "spawnText": "KYOGRE apareceu!",
+    "captureText": "KYOGRE foi capturado!"
+  },
+  "groudon": {
+    "title": "A TERRA ESTÁ TREMENDO!",
+    "story": "O solo se parte diante de um poder ancestral!",
+    "captureTitle": "O PODER DA TERRA FOI DOMINADO!",
+    "primary": "#ff5555",
+    "secondary": "#ffaa00",
+    "symbol": "⚔",
+    "spawnText": "GROUDON apareceu!",
+    "captureText": "GROUDON foi capturado!"
+  },
+  "rayquaza": {
+    "title": "OS CÉUS FORAM RASGADOS!",
+    "story": "Uma criatura ancestral desce das alturas!",
+    "captureTitle": "O SOBERANO DOS CÉUS FOI CAPTURADO!",
+    "primary": "#55ff55",
+    "secondary": "#ffaa00",
+    "symbol": "✦",
+    "spawnText": "RAYQUAZA apareceu!",
+    "captureText": "RAYQUAZA foi capturado!"
+  },
+  "jirachi": {
+    "title": "UMA ESTRELA OUVIU UM DESEJO!",
+    "story": "A primeira luz da manhã desperta um sonho muito antigo.",
+    "captureTitle": "UMA ESTRELA OUVIU UM DESEJO — LENDA CAPTURADA!",
+    "primary": "#ff77cc",
+    "secondary": "#ffaa00",
+    "symbol": "❀",
+    "spawnText": "JIRACHI apareceu!",
+    "captureText": "JIRACHI foi capturado!"
+  },
+  "deoxys": {
+    "title": "UM SINAL VEIO DAS ESTRELAS!",
+    "story": "Uma energia desconhecida atravessa o vazio e ganha forma.",
+    "captureTitle": "UM SINAL VEIO DAS ESTRELAS — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "DEOXYS apareceu!",
+    "captureText": "DEOXYS foi capturado!"
+  },
+  "uxie": {
+    "title": "O CONHECIMENTO ABRIU OS OLHOS!",
+    "story": "O silêncio da floresta parece guardar todas as respostas.",
+    "captureTitle": "O CONHECIMENTO ABRIU OS OLHOS — LENDA CAPTURADA!",
+    "primary": "#ffaa00",
+    "secondary": "#55ff55",
+    "symbol": "❖",
+    "spawnText": "UXIE apareceu!",
+    "captureText": "UXIE foi capturado!"
+  },
+  "mesprit": {
+    "title": "UMA EMOÇÃO ATRAVESSOU A FLORESTA!",
+    "story": "Uma aura rosada desperta sentimentos esquecidos entre as árvores.",
+    "captureTitle": "UMA EMOÇÃO ATRAVESSOU A FLORESTA — LENDA CAPTURADA!",
+    "primary": "#aa55ff",
+    "secondary": "#ff77cc",
+    "symbol": "☾",
+    "spawnText": "MESPRIT apareceu!",
+    "captureText": "MESPRIT foi capturado!"
+  },
+  "azelf": {
+    "title": "A VONTADE GANHOU FORMA!",
+    "story": "Uma pequena luz azul desafia a imensidão da floresta.",
+    "captureTitle": "A VONTADE GANHOU FORMA — LENDA CAPTURADA!",
+    "primary": "#55ff55",
+    "secondary": "#55ffff",
+    "symbol": "✧",
+    "spawnText": "AZELF apareceu!",
+    "captureText": "AZELF foi capturado!"
+  },
+  "dialga": {
+    "title": "O TEMPO MUDOU DE RITMO!",
+    "story": "Os ecos das montanhas chegam antes do próprio som.",
+    "captureTitle": "O TEMPO MUDOU DE RITMO — LENDA CAPTURADA!",
+    "primary": "#ff77cc",
+    "secondary": "#ffaa00",
+    "symbol": "❀",
+    "spawnText": "DIALGA apareceu!",
+    "captureText": "DIALGA foi capturado!"
+  },
+  "palkia": {
+    "title": "O ESPAÇO SE CURVOU!",
+    "story": "Distâncias impossíveis se aproximam sobre as águas profundas.",
+    "captureTitle": "O ESPAÇO SE CURVOU — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "PALKIA apareceu!",
+    "captureText": "PALKIA foi capturado!"
+  },
+  "giratina": {
+    "title": "O MUNDO REVERSO SE ABRIU!",
+    "story": "Uma sombra atravessa as fronteiras que separam dois mundos.",
+    "captureTitle": "O MUNDO REVERSO SE ABRIU — LENDA CAPTURADA!",
+    "primary": "#ffaa00",
+    "secondary": "#55ff55",
+    "symbol": "❖",
+    "spawnText": "GIRATINA apareceu!",
+    "captureText": "GIRATINA foi capturado!"
+  },
+  "heatran": {
+    "title": "O FERRO INCANDESCENTE DESPERTOU!",
+    "story": "Metal e magma respiram juntos entre as rochas vulcânicas.",
+    "captureTitle": "O FERRO INCANDESCENTE DESPERTOU — LENDA CAPTURADA!",
+    "primary": "#aa55ff",
+    "secondary": "#ff77cc",
+    "symbol": "☾",
+    "spawnText": "HEATRAN apareceu!",
+    "captureText": "HEATRAN foi capturado!"
+  },
+  "regigigas": {
+    "title": "OS CONTINENTES RECORDARAM SEU GUARDIÃO!",
+    "story": "As árvores tremem sob passos capazes de mover montanhas.",
+    "captureTitle": "OS CONTINENTES RECORDARAM SEU GUARDIÃO — LENDA CAPTURADA!",
+    "primary": "#55ff55",
+    "secondary": "#55ffff",
+    "symbol": "✧",
+    "spawnText": "REGIGIGAS apareceu!",
+    "captureText": "REGIGIGAS foi capturado!"
+  },
+  "cresselia": {
+    "title": "A LUA TROUXE SONHOS SERENOS!",
+    "story": "Um arco de luz repousa sobre flores adormecidas.",
+    "captureTitle": "A LUA TROUXE SONHOS SERENOS — LENDA CAPTURADA!",
+    "primary": "#ff77cc",
+    "secondary": "#ffaa00",
+    "symbol": "❀",
+    "spawnText": "CRESSELIA apareceu!",
+    "captureText": "CRESSELIA foi capturado!"
+  },
+  "phione": {
+    "title": "AS CORRENTES TROUXERAM UMA SURPRESA!",
+    "story": "Pequenas ondas revelam uma presença alegre do oceano.",
+    "captureTitle": "AS CORRENTES TROUXERAM UMA SURPRESA — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "PHIONE apareceu!",
+    "captureText": "PHIONE foi capturado!"
+  },
+  "manaphy": {
+    "title": "O PRÍNCIPE DOS MARES CHEGOU!",
+    "story": "Todas as correntes parecem convergir para uma única luz.",
+    "captureTitle": "O PRÍNCIPE DOS MARES CHEGOU — LENDA CAPTURADA!",
+    "primary": "#ffaa00",
+    "secondary": "#55ff55",
+    "symbol": "❖",
+    "spawnText": "MANAPHY apareceu!",
+    "captureText": "MANAPHY foi capturado!"
+  },
+  "darkrai": {
+    "title": "UM PESADELO SE APROXIMA!",
+    "story": "Uma escuridão inexplicável envolve a região…",
+    "captureTitle": "O PESADELO ENCONTROU SEU TREINADOR!",
+    "primary": "#aa00aa",
+    "secondary": "#ff5555",
+    "symbol": "☾",
+    "spawnText": "DARKRAI apareceu!",
+    "captureText": "DARKRAI foi capturado!"
+  },
+  "shaymin": {
+    "title": "A GRATIDÃO FLORESCEU!",
+    "story": "Flores se abrem numa brisa que carrega o perfume da esperança.",
+    "captureTitle": "A GRATIDÃO FLORESCEU — LENDA CAPTURADA!",
+    "primary": "#55ff55",
+    "secondary": "#55ffff",
+    "symbol": "✧",
+    "spawnText": "SHAYMIN apareceu!",
+    "captureText": "SHAYMIN foi capturado!"
+  },
+  "arceus": {
+    "title": "A ORIGEM FEZ SUA PRESENÇA SENTIR!",
+    "story": "Uma luz primordial silencia o mundo por um instante.",
+    "captureTitle": "A ORIGEM FEZ SUA PRESENÇA SENTIR — LENDA CAPTURADA!",
+    "primary": "#ff77cc",
+    "secondary": "#ffaa00",
+    "symbol": "❀",
+    "spawnText": "ARCEUS apareceu!",
+    "captureText": "ARCEUS foi capturado!"
+  },
+  "victini": {
+    "title": "A CENTELHA DA VITÓRIA BRILHOU!",
+    "story": "Uma energia calorosa reacende a coragem dos exploradores.",
+    "captureTitle": "A CENTELHA DA VITÓRIA BRILHOU — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "VICTINI apareceu!",
+    "captureText": "VICTINI foi capturado!"
+  },
+  "cobalion": {
+    "title": "A JUSTIÇA PERCORREU A TAIGA!",
+    "story": "Um olhar firme vigia os caminhos entre os pinheiros.",
+    "captureTitle": "A JUSTIÇA PERCORREU A TAIGA — LENDA CAPTURADA!",
+    "primary": "#ffaa00",
+    "secondary": "#55ff55",
+    "symbol": "❖",
+    "spawnText": "COBALION apareceu!",
+    "captureText": "COBALION foi capturado!"
+  },
+  "terrakion": {
+    "title": "A MONTANHA ENCONTROU SEU DEFENSOR!",
+    "story": "Pedras estremecem diante de uma força que protege os fracos.",
+    "captureTitle": "A MONTANHA ENCONTROU SEU DEFENSOR — LENDA CAPTURADA!",
+    "primary": "#aa55ff",
+    "secondary": "#ff77cc",
+    "symbol": "☾",
+    "spawnText": "TERRAKION apareceu!",
+    "captureText": "TERRAKION foi capturado!"
+  },
+  "virizion": {
+    "title": "A FLORESTA ERGUEU SUA LÂMINA!",
+    "story": "Folhas dançam ao redor de um guardião de passos leves.",
+    "captureTitle": "A FLORESTA ERGUEU SUA LÂMINA — LENDA CAPTURADA!",
+    "primary": "#55ff55",
+    "secondary": "#55ffff",
+    "symbol": "✧",
+    "spawnText": "VIRIZION apareceu!",
+    "captureText": "VIRIZION foi capturado!"
+  },
+  "tornadus": {
+    "title": "OS VENTOS PERDERAM AS RÉDEAS!",
+    "story": "Uma rajada poderosa dobra a pradaria sob nuvens agitadas.",
+    "captureTitle": "OS VENTOS PERDERAM AS RÉDEAS — LENDA CAPTURADA!",
+    "primary": "#ff77cc",
+    "secondary": "#ffaa00",
+    "symbol": "❀",
+    "spawnText": "TORNADUS apareceu!",
+    "captureText": "TORNADUS foi capturado!"
+  },
+  "thundurus": {
+    "title": "AS NUVENS LIBERARAM SEU PODER!",
+    "story": "Raios riscam a manhã e revelam um mestre da tempestade.",
+    "captureTitle": "AS NUVENS LIBERARAM SEU PODER — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "THUNDURUS apareceu!",
+    "captureText": "THUNDURUS foi capturado!"
+  },
+  "reshiram": {
+    "title": "A VERDADE ACENDEU UMA CHAMA!",
+    "story": "Um fogo branco ilumina os caminhos sob as árvores antigas.",
+    "captureTitle": "A VERDADE ACENDEU UMA CHAMA — LENDA CAPTURADA!",
+    "primary": "#ffaa00",
+    "secondary": "#55ff55",
+    "symbol": "❖",
+    "spawnText": "RESHIRAM apareceu!",
+    "captureText": "RESHIRAM foi capturado!"
+  },
+  "zekrom": {
+    "title": "OS IDEAIS ELETRIZARAM A NOITE!",
+    "story": "Relâmpagos azuis respondem a uma presença entre os pinheiros.",
+    "captureTitle": "OS IDEAIS ELETRIZARAM A NOITE — LENDA CAPTURADA!",
+    "primary": "#aa55ff",
+    "secondary": "#ff77cc",
+    "symbol": "☾",
+    "spawnText": "ZEKROM apareceu!",
+    "captureText": "ZEKROM foi capturado!"
+  },
+  "landorus": {
+    "title": "A TERRA RECEBEU UMA BÊNÇÃO!",
+    "story": "Uma brisa fértil percorre o solo ao nascer do dia.",
+    "captureTitle": "A TERRA RECEBEU UMA BÊNÇÃO — LENDA CAPTURADA!",
+    "primary": "#55ff55",
+    "secondary": "#55ffff",
+    "symbol": "✧",
+    "spawnText": "LANDORUS apareceu!",
+    "captureText": "LANDORUS foi capturado!"
+  },
+  "kyurem": {
+    "title": "O FRIO VAZIO DESPERTOU!",
+    "story": "Um silêncio congelante ocupa os espaços entre os picos.",
+    "captureTitle": "O FRIO VAZIO DESPERTOU — LENDA CAPTURADA!",
+    "primary": "#ff77cc",
+    "secondary": "#ffaa00",
+    "symbol": "❀",
+    "spawnText": "KYUREM apareceu!",
+    "captureText": "KYUREM foi capturado!"
+  },
+  "keldeo": {
+    "title": "UM NOVO JURAMENTO ECOOU!",
+    "story": "Passos leves encontram as águas de um rio ao sol.",
+    "captureTitle": "UM NOVO JURAMENTO ECOOU — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "KELDEO apareceu!",
+    "captureText": "KELDEO foi capturado!"
+  },
+  "meloetta": {
+    "title": "UMA MELODIA ENCANTOU A NOITE!",
+    "story": "Uma canção esquecida percorre as flores sob as estrelas.",
+    "captureTitle": "UMA MELODIA ENCANTOU A NOITE — LENDA CAPTURADA!",
+    "primary": "#ffaa00",
+    "secondary": "#55ff55",
+    "symbol": "❖",
+    "spawnText": "MELOETTA apareceu!",
+    "captureText": "MELOETTA foi capturado!"
+  },
+  "genesect": {
+    "title": "UM ECO DO PASSADO FOI RECONSTRUÍDO!",
+    "story": "Um brilho metálico revela um caçador de eras distantes.",
+    "captureTitle": "UM ECO DO PASSADO FOI RECONSTRUÍDO — LENDA CAPTURADA!",
+    "primary": "#aa55ff",
+    "secondary": "#ff77cc",
+    "symbol": "☾",
+    "spawnText": "GENESECT apareceu!",
+    "captureText": "GENESECT foi capturado!"
+  },
+  "xerneas": {
+    "title": "A VIDA ILUMINOU A FLORESTA!",
+    "story": "Luzes multicoloridas florescem entre raízes e galhos.",
+    "captureTitle": "A VIDA ILUMINOU A FLORESTA — LENDA CAPTURADA!",
+    "primary": "#55ff55",
+    "secondary": "#55ffff",
+    "symbol": "✧",
+    "spawnText": "XERNEAS apareceu!",
+    "captureText": "XERNEAS foi capturado!"
+  },
+  "yveltal": {
+    "title": "AS ASAS DO CREPÚSCULO SE ABRIRAM!",
+    "story": "A tempestade escurece diante de uma silhueta rubra.",
+    "captureTitle": "AS ASAS DO CREPÚSCULO SE ABRIRAM — LENDA CAPTURADA!",
+    "primary": "#ff77cc",
+    "secondary": "#ffaa00",
+    "symbol": "❀",
+    "spawnText": "YVELTAL apareceu!",
+    "captureText": "YVELTAL foi capturado!"
+  },
+  "zygarde": {
+    "title": "O EQUILÍBRIO SE MANIFESTOU!",
+    "story": "Pontos de luz verde convergem nas profundezas vivas.",
+    "captureTitle": "O EQUILÍBRIO SE MANIFESTOU — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "ZYGARDE apareceu!",
+    "captureText": "ZYGARDE foi capturado!"
+  },
+  "diancie": {
+    "title": "UM DIAMANTE NASCEU NAS PROFUNDEZAS!",
+    "story": "Cristais refletem uma luz delicada entre as pedras da caverna.",
+    "captureTitle": "UM DIAMANTE NASCEU NAS PROFUNDEZAS — LENDA CAPTURADA!",
+    "primary": "#ffaa00",
+    "secondary": "#55ff55",
+    "symbol": "❖",
+    "spawnText": "DIANCIE apareceu!",
+    "captureText": "DIANCIE foi capturado!"
+  },
+  "hoopa": {
+    "title": "UMA PORTA IMPOSSÍVEL SE ABRIU!",
+    "story": "Anéis dourados dobram os caminhos sobre a areia.",
+    "captureTitle": "UMA PORTA IMPOSSÍVEL SE ABRIU — LENDA CAPTURADA!",
+    "primary": "#aa55ff",
+    "secondary": "#ff77cc",
+    "symbol": "☾",
+    "spawnText": "HOOPA apareceu!",
+    "captureText": "HOOPA foi capturado!"
+  },
+  "volcanion": {
+    "title": "VAPOR E FOGO SE ENCONTRARAM!",
+    "story": "Uma nuvem fervente envolve as rochas de basalto.",
+    "captureTitle": "VAPOR E FOGO SE ENCONTRARAM — LENDA CAPTURADA!",
+    "primary": "#55ff55",
+    "secondary": "#55ffff",
+    "symbol": "✧",
+    "spawnText": "VOLCANION apareceu!",
+    "captureText": "VOLCANION foi capturado!"
+  },
+  "typenull": {
+    "title": "UM SEGREDO FOI REVELADO!",
+    "story": "Um guardião de origem desconhecida observa em silêncio.",
+    "captureTitle": "UM SEGREDO FOI REVELADO — LENDA CAPTURADA!",
+    "primary": "#ff77cc",
+    "secondary": "#ffaa00",
+    "symbol": "❀",
+    "spawnText": "TYPE: NULL apareceu!",
+    "captureText": "TYPE: NULL foi capturado!"
+  },
+  "silvally": {
+    "title": "OS LIMITES FORAM ROMPIDOS!",
+    "story": "Um poder antes contido encontrou sua verdadeira liberdade.",
+    "captureTitle": "OS LIMITES FORAM ROMPIDOS — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "SILVALLY apareceu!",
+    "captureText": "SILVALLY foi capturado!"
+  },
+  "tapukoko": {
+    "title": "O GUARDIÃO DO RELÂMPAGO CHEGOU!",
+    "story": "Faíscas amarelas atravessam a copa da selva ao amanhecer.",
+    "captureTitle": "O GUARDIÃO DO RELÂMPAGO CHEGOU — LENDA CAPTURADA!",
+    "primary": "#ffaa00",
+    "secondary": "#55ff55",
+    "symbol": "❖",
+    "spawnText": "TAPU KOKO apareceu!",
+    "captureText": "TAPU KOKO foi capturado!"
+  },
+  "tapulele": {
+    "title": "O PERFUME DOS SONHOS SE ESPALHOU!",
+    "story": "Uma névoa rosada ilumina a selva durante a noite.",
+    "captureTitle": "O PERFUME DOS SONHOS SE ESPALHOU — LENDA CAPTURADA!",
+    "primary": "#aa55ff",
+    "secondary": "#ff77cc",
+    "symbol": "☾",
+    "spawnText": "TAPU LELE apareceu!",
+    "captureText": "TAPU LELE foi capturado!"
+  },
+  "tapubulu": {
+    "title": "A SELVA OUVIU UM SINO!",
+    "story": "Bambus se curvam diante de um guardião da vegetação.",
+    "captureTitle": "A SELVA OUVIU UM SINO — LENDA CAPTURADA!",
+    "primary": "#55ff55",
+    "secondary": "#55ffff",
+    "symbol": "✧",
+    "spawnText": "TAPU BULU apareceu!",
+    "captureText": "TAPU BULU foi capturado!"
+  },
+  "tapufini": {
+    "title": "A NÉVOA PROTEGEU A SELVA!",
+    "story": "A chuva acompanha uma presença envolta em bruma violeta.",
+    "captureTitle": "A NÉVOA PROTEGEU A SELVA — LENDA CAPTURADA!",
+    "primary": "#ff77cc",
+    "secondary": "#ffaa00",
+    "symbol": "❀",
+    "spawnText": "TAPU FINI apareceu!",
+    "captureText": "TAPU FINI foi capturado!"
+  },
+  "cosmog": {
+    "title": "UMA NEBULOSA TOCOU O CAMPO!",
+    "story": "Um pequeno universo flutua sobre os girassóis adormecidos.",
+    "captureTitle": "UMA NEBULOSA TOCOU O CAMPO — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "COSMOG apareceu!",
+    "captureText": "COSMOG foi capturado!"
+  },
+  "cosmoem": {
+    "title": "UMA ESTRELA GUARDOU SUA ENERGIA!",
+    "story": "Um brilho denso conserva o segredo de uma transformação.",
+    "captureTitle": "UMA ESTRELA GUARDOU SUA ENERGIA — LENDA CAPTURADA!",
+    "primary": "#ffaa00",
+    "secondary": "#55ff55",
+    "symbol": "❖",
+    "spawnText": "COSMOEM apareceu!",
+    "captureText": "COSMOEM foi capturado!"
+  },
+  "solgaleo": {
+    "title": "O SOL ENCONTROU SEU EMISSÁRIO!",
+    "story": "Uma juba luminosa anuncia o poder de uma estrela viva.",
+    "captureTitle": "O SOL ENCONTROU SEU EMISSÁRIO — LENDA CAPTURADA!",
+    "primary": "#aa55ff",
+    "secondary": "#ff77cc",
+    "symbol": "☾",
+    "spawnText": "SOLGALEO apareceu!",
+    "captureText": "SOLGALEO foi capturado!"
+  },
+  "lunala": {
+    "title": "A LUA ABRIU SUAS ASAS!",
+    "story": "Um véu estrelado atravessa o céu de uma noite silenciosa.",
+    "captureTitle": "A LUA ABRIU SUAS ASAS — LENDA CAPTURADA!",
+    "primary": "#55ff55",
+    "secondary": "#55ffff",
+    "symbol": "✧",
+    "spawnText": "LUNALA apareceu!",
+    "captureText": "LUNALA foi capturado!"
+  },
+  "necrozma": {
+    "title": "A LUZ GANHOU ARESTAS!",
+    "story": "Fragmentos negros refletem um brilho que não pertence à floresta.",
+    "captureTitle": "A LUZ GANHOU ARESTAS — LENDA CAPTURADA!",
+    "primary": "#ff77cc",
+    "secondary": "#ffaa00",
+    "symbol": "❀",
+    "spawnText": "NECROZMA apareceu!",
+    "captureText": "NECROZMA foi capturado!"
+  },
+  "magearna": {
+    "title": "UM CORAÇÃO MECÂNICO DESPERTOU!",
+    "story": "Engrenagens delicadas acompanham uma energia compassiva.",
+    "captureTitle": "UM CORAÇÃO MECÂNICO DESPERTOU — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "MAGEARNA apareceu!",
+    "captureText": "MAGEARNA foi capturado!"
+  },
+  "marshadow": {
+    "title": "AS SOMBRAS GUARDARAM UM SEGREDO!",
+    "story": "Uma pequena chama espectral se move entre almas antigas.",
+    "captureTitle": "AS SOMBRAS GUARDARAM UM SEGREDO — LENDA CAPTURADA!",
+    "primary": "#ffaa00",
+    "secondary": "#55ff55",
+    "symbol": "❖",
+    "spawnText": "MARSHADOW apareceu!",
+    "captureText": "MARSHADOW foi capturado!"
+  },
+  "zeraora": {
+    "title": "UM RELÂMPAGO TOCOU O SOLO!",
+    "story": "A tempestade encontra passos mais rápidos que o trovão.",
+    "captureTitle": "UM RELÂMPAGO TOCOU O SOLO — LENDA CAPTURADA!",
+    "primary": "#aa55ff",
+    "secondary": "#ff77cc",
+    "symbol": "☾",
+    "spawnText": "ZERAORA apareceu!",
+    "captureText": "ZERAORA foi capturado!"
+  },
+  "meltan": {
+    "title": "O METAL LÍQUIDO SE MOVEU!",
+    "story": "Uma pequena porção de metal revela vontade própria.",
+    "captureTitle": "O METAL LÍQUIDO SE MOVEU — LENDA CAPTURADA!",
+    "primary": "#55ff55",
+    "secondary": "#55ffff",
+    "symbol": "✧",
+    "spawnText": "MELTAN apareceu!",
+    "captureText": "MELTAN foi capturado!"
+  },
+  "melmetal": {
+    "title": "O GIGANTE DE METAL SE ERGUEU!",
+    "story": "O chão responde ao peso de uma força forjada pelo tempo.",
+    "captureTitle": "O GIGANTE DE METAL SE ERGUEU — LENDA CAPTURADA!",
+    "primary": "#ff77cc",
+    "secondary": "#ffaa00",
+    "symbol": "❀",
+    "spawnText": "MELMETAL apareceu!",
+    "captureText": "MELMETAL foi capturado!"
+  },
+  "zacian": {
+    "title": "A ESPADA DA FLORESTA BRILHOU!",
+    "story": "Um guardião atravessa os caminhos iluminados pelo dia.",
+    "captureTitle": "A ESPADA DA FLORESTA BRILHOU — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "ZACIAN apareceu!",
+    "captureText": "ZACIAN foi capturado!"
+  },
+  "zamazenta": {
+    "title": "O ESCUDO DA NOITE SE ERGUEU!",
+    "story": "A floresta escura encontra uma presença que inspira proteção.",
+    "captureTitle": "O ESCUDO DA NOITE SE ERGUEU — LENDA CAPTURADA!",
+    "primary": "#ffaa00",
+    "secondary": "#55ff55",
+    "symbol": "❖",
+    "spawnText": "ZAMAZENTA apareceu!",
+    "captureText": "ZAMAZENTA foi capturado!"
+  },
+  "eternatus": {
+    "title": "UMA ENERGIA INFINITA EMERGIU!",
+    "story": "Um brilho inquietante percorre as profundezas esquecidas.",
+    "captureTitle": "UMA ENERGIA INFINITA EMERGIU — LENDA CAPTURADA!",
+    "primary": "#aa55ff",
+    "secondary": "#ff77cc",
+    "symbol": "☾",
+    "spawnText": "ETERNATUS apareceu!",
+    "captureText": "ETERNATUS foi capturado!"
+  },
+  "kubfu": {
+    "title": "UM PEQUENO GUERREIRO CHEGOU!",
+    "story": "Passos disciplinados encontram espaço entre os bambus.",
+    "captureTitle": "UM PEQUENO GUERREIRO CHEGOU — LENDA CAPTURADA!",
+    "primary": "#55ff55",
+    "secondary": "#55ffff",
+    "symbol": "✧",
+    "spawnText": "KUBFU apareceu!",
+    "captureText": "KUBFU foi capturado!"
+  },
+  "urshifu": {
+    "title": "A DISCIPLINA ALCANÇOU SEU AUGE!",
+    "story": "A serenidade de um mestre esconde uma força extraordinária.",
+    "captureTitle": "A DISCIPLINA ALCANÇOU SEU AUGE — LENDA CAPTURADA!",
+    "primary": "#ff77cc",
+    "secondary": "#ffaa00",
+    "symbol": "❀",
+    "spawnText": "URSHIFU apareceu!",
+    "captureText": "URSHIFU foi capturado!"
+  },
+  "zarude": {
+    "title": "A SELVA REVELOU SEU PROTETOR!",
+    "story": "Cipós se agitam na escuridão entre as árvores antigas.",
+    "captureTitle": "A SELVA REVELOU SEU PROTETOR — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "ZARUDE apareceu!",
+    "captureText": "ZARUDE foi capturado!"
+  },
+  "regieleki": {
+    "title": "A ELETRICIDADE GANHOU UM GUARDIÃO!",
+    "story": "Uma esfera de energia rompe o silêncio de terras distantes.",
+    "captureTitle": "A ELETRICIDADE GANHOU UM GUARDIÃO — LENDA CAPTURADA!",
+    "primary": "#ffaa00",
+    "secondary": "#55ff55",
+    "symbol": "❖",
+    "spawnText": "REGIELEKI apareceu!",
+    "captureText": "REGIELEKI foi capturado!"
+  },
+  "regidrago": {
+    "title": "A MEMÓRIA DOS DRAGÕES DESPERTOU!",
+    "story": "Um poder antigo toma forma entre rochas vulcânicas.",
+    "captureTitle": "A MEMÓRIA DOS DRAGÕES DESPERTOU — LENDA CAPTURADA!",
+    "primary": "#aa55ff",
+    "secondary": "#ff77cc",
+    "symbol": "☾",
+    "spawnText": "REGIDRAGO apareceu!",
+    "captureText": "REGIDRAGO foi capturado!"
+  },
+  "glastrier": {
+    "title": "O GELO TROUXE PASSOS FIRMES!",
+    "story": "Cristais se espalham sob um galope imponente na neve.",
+    "captureTitle": "O GELO TROUXE PASSOS FIRMES — LENDA CAPTURADA!",
+    "primary": "#55ff55",
+    "secondary": "#55ffff",
+    "symbol": "✧",
+    "spawnText": "GLASTRIER apareceu!",
+    "captureText": "GLASTRIER foi capturado!"
+  },
+  "spectrier": {
+    "title": "UM GALOPE CRUZOU A ESCURIDÃO!",
+    "story": "A névoa do pântano esconde passos que quase não fazem som.",
+    "captureTitle": "UM GALOPE CRUZOU A ESCURIDÃO — LENDA CAPTURADA!",
+    "primary": "#ff77cc",
+    "secondary": "#ffaa00",
+    "symbol": "❀",
+    "spawnText": "SPECTRIER apareceu!",
+    "captureText": "SPECTRIER foi capturado!"
+  },
+  "calyrex": {
+    "title": "O REI DAS COLHEITAS RETORNOU!",
+    "story": "Uma presença serena observa a taiga sob a luz da manhã.",
+    "captureTitle": "O REI DAS COLHEITAS RETORNOU — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "CALYREX apareceu!",
+    "captureText": "CALYREX foi capturado!"
+  },
+  "enamorus": {
+    "title": "A PRIMAVERA OUVIU UM CHAMADO!",
+    "story": "Pétalas dançam num vento gentil ao nascer do dia.",
+    "captureTitle": "A PRIMAVERA OUVIU UM CHAMADO — LENDA CAPTURADA!",
+    "primary": "#ffaa00",
+    "secondary": "#55ff55",
+    "symbol": "❖",
+    "spawnText": "ENAMORUS apareceu!",
+    "captureText": "ENAMORUS foi capturado!"
+  },
+  "wochien": {
+    "title": "AS FOLHAS ANTIGAS MURMURARAM!",
+    "story": "Um segredo selado se move entre as raízes do mangue.",
+    "captureTitle": "AS FOLHAS ANTIGAS MURMURARAM — LENDA CAPTURADA!",
+    "primary": "#aa55ff",
+    "secondary": "#ff77cc",
+    "symbol": "☾",
+    "spawnText": "WO-CHIEN apareceu!",
+    "captureText": "WO-CHIEN foi capturado!"
+  },
+  "chienpao": {
+    "title": "UMA LÂMINA ROMPEU O GELO!",
+    "story": "O vento gelado ganha um corte afiado entre os picos.",
+    "captureTitle": "UMA LÂMINA ROMPEU O GELO — LENDA CAPTURADA!",
+    "primary": "#55ff55",
+    "secondary": "#55ffff",
+    "symbol": "✧",
+    "spawnText": "CHIEN-PAO apareceu!",
+    "captureText": "CHIEN-PAO foi capturado!"
+  },
+  "tinglu": {
+    "title": "O PESO DO PASSADO SE ERGUEU!",
+    "story": "A terra cede diante de uma memória profunda e silenciosa.",
+    "captureTitle": "O PESO DO PASSADO SE ERGUEU — LENDA CAPTURADA!",
+    "primary": "#ff77cc",
+    "secondary": "#ffaa00",
+    "symbol": "❀",
+    "spawnText": "TING-LU apareceu!",
+    "captureText": "TING-LU foi capturado!"
+  },
+  "chiyu": {
+    "title": "BRASAS NADARAM NA ESCURIDÃO!",
+    "story": "Pequenas chamas se movem entre os rios de magma.",
+    "captureTitle": "BRASAS NADARAM NA ESCURIDÃO — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "CHI-YU apareceu!",
+    "captureText": "CHI-YU foi capturado!"
+  },
+  "koraidon": {
+    "title": "O PASSADO ATRAVESSOU O HORIZONTE!",
+    "story": "Uma força primordial percorre as terras áridas ao sol.",
+    "captureTitle": "O PASSADO ATRAVESSOU O HORIZONTE — LENDA CAPTURADA!",
+    "primary": "#ffaa00",
+    "secondary": "#55ff55",
+    "symbol": "❖",
+    "spawnText": "KORAIDON apareceu!",
+    "captureText": "KORAIDON foi capturado!"
+  },
+  "miraidon": {
+    "title": "O FUTURO EMITIU UM SINAL!",
+    "story": "Um brilho elétrico cruza paisagens além do mundo conhecido.",
+    "captureTitle": "O FUTURO EMITIU UM SINAL — LENDA CAPTURADA!",
+    "primary": "#aa55ff",
+    "secondary": "#ff77cc",
+    "symbol": "☾",
+    "spawnText": "MIRAIDON apareceu!",
+    "captureText": "MIRAIDON foi capturado!"
+  },
+  "okidogi": {
+    "title": "UMA FORÇA INQUIETANTE CHEGOU!",
+    "story": "A névoa do pântano envolve passos seguros e poderosos.",
+    "captureTitle": "UMA FORÇA INQUIETANTE CHEGOU — LENDA CAPTURADA!",
+    "primary": "#55ff55",
+    "secondary": "#55ffff",
+    "symbol": "✧",
+    "spawnText": "OKIDOGI apareceu!",
+    "captureText": "OKIDOGI foi capturado!"
+  },
+  "munkidori": {
+    "title": "UM OLHAR ASTUTO VIGIOU A SELVA!",
+    "story": "Uma presença calculista surge entre as sombras das folhas.",
+    "captureTitle": "UM OLHAR ASTUTO VIGIOU A SELVA — LENDA CAPTURADA!",
+    "primary": "#ff77cc",
+    "secondary": "#ffaa00",
+    "symbol": "❀",
+    "spawnText": "MUNKIDORI apareceu!",
+    "captureText": "MUNKIDORI foi capturado!"
+  },
+  "fezandipiti": {
+    "title": "AS PÉTALAS GANHARAM ASAS!",
+    "story": "Um voo elegante acompanha o brilho do bosque de cerejeiras.",
+    "captureTitle": "AS PÉTALAS GANHARAM ASAS — LENDA CAPTURADA!",
+    "primary": "#55ffff",
+    "secondary": "#aa55ff",
+    "symbol": "✦",
+    "spawnText": "FEZANDIPITI apareceu!",
+    "captureText": "FEZANDIPITI foi capturado!"
+  },
+  "ogerpon": {
+    "title": "O BOSQUE GUARDOU UM SORRISO!",
+    "story": "Uma máscara misteriosa aparece entre pétalas iluminadas.",
+    "captureTitle": "O BOSQUE GUARDOU UM SORRISO — LENDA CAPTURADA!",
+    "primary": "#ffaa00",
+    "secondary": "#55ff55",
+    "symbol": "❖",
+    "spawnText": "OGERPON apareceu!",
+    "captureText": "OGERPON foi capturado!"
+  },
+  "terapagos": {
+    "title": "OS CRISTAIS REVELARAM SEU GUARDIÃO!",
+    "story": "Uma luz prismática repousa entre as raízes da caverna.",
+    "captureTitle": "OS CRISTAIS REVELARAM SEU GUARDIÃO — LENDA CAPTURADA!",
+    "primary": "#aa55ff",
+    "secondary": "#ff77cc",
+    "symbol": "☾",
+    "spawnText": "TERAPAGOS apareceu!",
+    "captureText": "TERAPAGOS foi capturado!"
+  },
+  "pecharunt": {
+    "title": "UM SEGREDO SE ABRIU SOB AS FLORES!",
+    "story": "Uma aura violeta atravessa o bosque durante a noite.",
+    "captureTitle": "UM SEGREDO SE ABRIU SOB AS FLORES — LENDA CAPTURADA!",
+    "primary": "#55ff55",
+    "secondary": "#55ffff",
+    "symbol": "✧",
+    "spawnText": "PECHARUNT apareceu!",
+    "captureText": "PECHARUNT foi capturado!"
+  }
+}

@@ -19,6 +19,7 @@ public final class SiteService {
  private final HttpClient http=HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(3)).followRedirects(HttpClient.Redirect.NEVER).build();
  private URI endpoint;private String key;
  public void start(){
+  if(io.atlas.modules.lobby.service.DevEnvironment.DEVELOPMENT){AtlasMod.LOGGER.info("Integração com site de produção desativada em homologação.");return;}
   var file=Path.of("config/atlas-site.properties");if(!Files.isRegularFile(file)){AtlasMod.LOGGER.info("Vinculação ao site desativada: configuração ausente.");return;}
   var props=new Properties();try(var input=Files.newInputStream(file)){props.load(input);var uri=URI.create(props.getProperty("api-url","").trim());var secret=props.getProperty("key","").trim();if(!uri.toString().equals("http://127.0.0.1:8080")||secret.length()<43)throw new IllegalArgumentException();endpoint=uri.resolve("/internal/v1/minecraft/proofs");key=secret;AtlasMod.LOGGER.info("Vinculação ao site configurada (Emerald).");}catch(Exception e){AtlasMod.LOGGER.error("Configuração de vinculação ao site inválida.");}
  }

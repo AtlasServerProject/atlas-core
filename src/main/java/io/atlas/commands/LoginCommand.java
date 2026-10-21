@@ -50,6 +50,7 @@ public class LoginCommand {
         if (result == AuthService.LoginResult.SUCCESS
                 || result == AuthService.LoginResult.ALREADY_AUTHENTICATED) {
             source.sendSuccess(() -> message, false);
+            source.getServer().getCommands().sendCommands(player);
             return 1;
         }
 

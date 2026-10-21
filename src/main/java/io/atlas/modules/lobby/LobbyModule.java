@@ -42,6 +42,9 @@ public class LobbyModule implements AtlasModule {
     private static final SurvivalWorldService survivalWorldService =
             new SurvivalWorldService();
 
+    private static final io.atlas.modules.lobby.service.LobbyHudService hudService =
+            new io.atlas.modules.lobby.service.LobbyHudService(AuthModule.getAuthService(), RankModule.getRankService());
+
     public static ServerSelectorService getSelectorService() {
         return selectorService;
     }
@@ -53,6 +56,12 @@ public class LobbyModule implements AtlasModule {
 
     @Override
     public void enable() {
+        ServerLifecycleEvents.SERVER_STARTED.register(io.atlas.modules.lobby.service.DevTransferService::start);
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> io.atlas.modules.lobby.service.DevTransferService.stop());
+        ServerTickEvents.END_SERVER_TICK.register(io.atlas.modules.lobby.service.DevTransferService::tick);
+        ServerTickEvents.END_SERVER_TICK.register(hudService::tick);
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> hudService.disconnect(handler.player));
+        ServerLifecycleEvents.SERVER_STOPPING.register(server -> hudService.clear());
         LobbyProtectionListener.register(protectionService);
         ServerSelectorListener.register(selectorService);
         LobbyNpcListener.register(npcService);
@@ -77,6 +86,7 @@ public class LobbyModule implements AtlasModule {
 
     @Override
     public void disable() {
+        hudService.clear();
         protectionService.clear();
         pokemonSpawnService.disable();
         starterProtectionService.disable();

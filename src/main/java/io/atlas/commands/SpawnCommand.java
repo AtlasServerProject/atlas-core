@@ -2,19 +2,13 @@ package io.atlas.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import io.atlas.modules.auth.AuthModule;
-import io.atlas.modules.auth.service.AuthLobbySpawnService;
-import io.atlas.modules.auth.service.AuthService;
-import io.atlas.modules.survival.SurvivalModule;
+import io.atlas.modules.lobby.service.SpawnTravelService;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.phys.Vec3;
 
 public class SpawnCommand {
 
-    private static final AuthService authService = AuthModule.getAuthService();
-    private static final AuthLobbySpawnService spawnService = new AuthLobbySpawnService();
+    private static final SpawnTravelService travelService = new SpawnTravelService();
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
@@ -25,21 +19,6 @@ public class SpawnCommand {
     }
 
     private static int execute(CommandSourceStack source) throws CommandSyntaxException {
-        var player = source.getPlayerOrException();
-        if (!authService.isAuthenticated(player.getUUID())) {
-            source.sendFailure(Component.literal(
-                    "§cVocê precisa se autenticar antes de usar /spawn."
-            ));
-            return 0;
-        }
-
-        player.setDeltaMovement(Vec3.ZERO);
-        SurvivalModule.getBackService().remember(player);
-        spawnService.teleportToSpawn(player, source.getServer());
-        source.sendSuccess(
-                () -> Component.literal("§aVocê voltou ao Hub do Atlas."),
-                false
-        );
-        return 1;
+        return travelService.returnToInitialSpawn(source.getPlayerOrException());
     }
 }
