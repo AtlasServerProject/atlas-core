@@ -24,7 +24,7 @@ public final class ReconnectPositionService {
         for(var id:java.util.List.copyOf(pending.keySet())) {
             var player=server.getPlayerList().getPlayer(id);
             if(player==null){pending.remove(id);continue;}
-            if(!AuthModule.getAuthService().isAuthenticated(id))continue;
+            if(!AuthModule.getAuthService().isAuthenticated(id)||io.atlas.modules.rules.RulesModule.service().pending(id))continue;
             var pos=pending.remove(id);
             var key=ResourceLocation.tryParse(pos.dimension());
             var world=key==null?null:server.getLevel(ResourceKey.create(Registries.DIMENSION,key));

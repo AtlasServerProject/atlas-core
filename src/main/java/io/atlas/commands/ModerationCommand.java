@@ -61,6 +61,24 @@ public final class ModerationCommand {
                                             ));
                                         })))));
 
+        dispatcher.register(Commands.literal("tempban")
+                .requires(SERVICE::canModerate)
+                .then(Commands.argument("jogador", StringArgumentType.word())
+                        .then(Commands.argument("tempo", StringArgumentType.word())
+                                .then(Commands.argument("motivo", StringArgumentType.greedyString())
+                                        .executes(context -> {
+                                            var duration = ModerationDuration.parseTemporary(
+                                                    StringArgumentType.getString(context, "tempo"));
+                                            if (duration.isEmpty()) {
+                                                context.getSource().sendFailure(Component.literal(
+                                                        "§cUse um prazo entre 1s e 3650d, como 12h, 1d ou 7d. Para ban permanente, use /atlasban."));
+                                                return 0;
+                                            }
+                                            return send(context.getSource(), SERVICE.tempban(
+                                                    context.getSource(), StringArgumentType.getString(context, "jogador"),
+                                                    duration.get(), StringArgumentType.getString(context, "motivo")));
+                                        })))));
+
         dispatcher.register(Commands.literal("unmute")
                 .requires(SERVICE::canModerate)
                 .then(Commands.argument("jogador", StringArgumentType.word())

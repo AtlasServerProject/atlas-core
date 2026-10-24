@@ -22,7 +22,7 @@ public class AuthGameplayProtectionService {
     }
 
     public boolean canInteract(Player player) {
-        if (authService.isAuthenticated(player.getUUID())) {
+        if (authService.isAuthenticated(player.getUUID()) && !io.atlas.modules.rules.RulesModule.service().pending(player.getUUID())) {
             return true;
         }
 
@@ -51,7 +51,7 @@ public class AuthGameplayProtectionService {
 
         lastMessages.put(player.getUUID(), now);
         serverPlayer.displayClientMessage(
-                Component.literal("§cFaça login para usar inventário ou interagir."),
+                authService.isAuthenticated(player.getUUID()) ? io.atlas.modules.rules.RulesModule.service().requiredMessage() : Component.literal("§cFaça login para usar inventário ou interagir."),
                 true
         );
     }

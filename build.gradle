@@ -213,3 +213,71 @@ tasks.register('marketDurationTest',JavaExec) {
  mainClass='io.atlas.modules.market.MarketDurationTest'
 }
 tasks.named('build') {dependsOn marketDurationTest}
+
+tasks.register('rulesRepositoryTest', JavaExec) {
+ dependsOn testClasses
+ classpath=sourceSets.test.runtimeClasspath
+ mainClass='io.atlas.modules.rules.RulesRepositoryTest'
+ doFirst { if(!project.hasProperty('legendaryTestDir')) throw new GradleException('Isolated dev directory required'); workingDir project.property('legendaryTestDir') }
+}
+
+tasks.register('engagementPlanTest',JavaExec) {
+ dependsOn testClasses
+ classpath=sourceSets.test.runtimeClasspath
+ mainClass='io.atlas.modules.engagement.EngagementPlanTest'
+}
+tasks.named('build') { dependsOn engagementPlanTest }
+tasks.register('engagementRepositoryTest',JavaExec) {
+ dependsOn testClasses
+ classpath=sourceSets.test.runtimeClasspath
+ mainClass='io.atlas.modules.engagement.EngagementRepositoryTest'
+ doFirst { if(!project.hasProperty('legendaryTestDir'))throw new GradleException('Isolated dev directory required');workingDir project.property('legendaryTestDir') }
+}
+
+tasks.register('activityLogTest',JavaExec) {
+ dependsOn testClasses
+ classpath=sourceSets.test.runtimeClasspath
+ mainClass='io.atlas.modules.audit.ActivityLogTest'
+}
+tasks.named('build') { dependsOn activityLogTest }
+
+tasks.register('legendaryWebhookTest',JavaExec) {
+ dependsOn testClasses
+ classpath=sourceSets.test.runtimeClasspath
+ mainClass='io.atlas.modules.legendary.LegendaryWebhookTest'
+}
+tasks.named('build') { dependsOn legendaryWebhookTest }
+
+tasks.register('tournamentRepositoryTest',JavaExec) {
+ dependsOn testClasses
+ classpath=sourceSets.test.runtimeClasspath
+ mainClass='io.atlas.modules.tournament.TournamentRepositoryTest'
+ doFirst { if(!project.hasProperty('legendaryTestDir'))throw new GradleException('Isolated dev directory required');workingDir project.property('legendaryTestDir') }
+}
+
+tasks.register('rankedRepositoryTest',JavaExec) {
+ dependsOn testClasses
+ classpath=sourceSets.test.runtimeClasspath
+ mainClass='io.atlas.modules.ranked.RankedRepositoryTest'
+ doFirst { if(!project.hasProperty('legendaryTestDir'))throw new GradleException('Isolated dev directory required');workingDir project.property('legendaryTestDir') }
+}
+
+tasks.register('competitivePolicyTest',JavaExec) {
+ dependsOn testClasses
+ classpath=sourceSets.test.runtimeClasspath
+ mainClass='io.atlas.modules.competitive.CompetitivePolicyTest'
+ doFirst { if(!project.hasProperty('legendaryTestDir'))throw new GradleException('Isolated dev directory required');workingDir project.property('legendaryTestDir') }
+}
+
+tasks.register('moderationDurationTest',JavaExec) {
+ dependsOn testClasses
+ classpath=sourceSets.test.runtimeClasspath
+ mainClass='io.atlas.modules.moderation.ModerationDurationTest'
+}
+tasks.named('build') { dependsOn moderationDurationTest }
+tasks.register('temporaryBanRepositoryTest',JavaExec) {
+ dependsOn testClasses
+ classpath=sourceSets.test.runtimeClasspath
+ mainClass='io.atlas.modules.moderation.TemporaryBanRepositoryTest'
+ doFirst { if(!project.hasProperty('legendaryTestDir'))throw new GradleException('Isolated dev directory required');workingDir project.property('legendaryTestDir') }
+}

@@ -38,6 +38,7 @@ public class AtlasBootstrap {
         moduleManager.register(new ModerationModule());
         moduleManager.register(new LobbyModule());
         moduleManager.register(new AuthModule());
+        moduleManager.register(new io.atlas.modules.rules.RulesModule());
         moduleManager.register(new SurvivalModule());
         moduleManager.register(new HomeModule());
         moduleManager.register(new ClaimModule());
@@ -51,6 +52,11 @@ public class AtlasBootstrap {
         moduleManager.register(new io.atlas.modules.pokedex.PokedexModule());
         moduleManager.register(new io.atlas.modules.research.ResearchModule());
         moduleManager.register(new io.atlas.modules.market.MarketModule());
+        moduleManager.register(new io.atlas.modules.engagement.EngagementModule());
+
+        moduleManager.register(new io.atlas.modules.tournament.TournamentModule());
+        moduleManager.register(new io.atlas.modules.competitive.CompetitiveModule());
+        moduleManager.register(new io.atlas.modules.ranked.RankedModule());
 
         // Inicialização
         moduleManager.enableModules();

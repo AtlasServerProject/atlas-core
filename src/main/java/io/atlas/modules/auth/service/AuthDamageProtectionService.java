@@ -15,7 +15,7 @@ public class AuthDamageProtectionService {
     }
 
     public boolean canTakeDamage(ServerPlayer player, DamageSource source) {
-        if (!authService.isAuthenticated(player.getUUID())) {
+        if (!authService.isAuthenticated(player.getUUID()) || io.atlas.modules.rules.RulesModule.service().pending(player.getUUID())) {
             return false;
         }
 

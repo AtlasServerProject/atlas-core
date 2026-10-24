@@ -25,12 +25,14 @@ public final class LegendaryAnnouncementService {
     private Component colored(String text,String hex){return Component.literal(text).withStyle(s->s.withColor(TextColor.parseColor(hex).result().orElse(TextColor.fromRgb(0x55ffff))));}
     private void send(MinecraftServer server,String text,String color){server.getPlayerList().broadcastSystemMessage(colored(text,color),false);}
     public void warning(MinecraftServer server,int minutes){
+        LegendaryWebhookService.warning(minutes);
         send(server,"═══════ ✦ ═══════", "#ffaa00");send(server,"ATLAS COBBLEMON", "#55ffff");
         send(server,"Uma energia misteriosa começa a se espalhar pelo mundo…", "#aa55ff");
         send(server,"Uma tentativa de aparição lendária acontecerá em "+minutes+" minutos!", "#ffaa00");send(server,"Prepare-se para explorar!", "#55ff55");
     }
     public void spawn(MinecraftServer server,LegendaryConfig c,LegendaryConfig.Spawn e,Pokemon pokemon,String biome,boolean test){
         if(!c.main.announceSpawn)return;var m=c.messages.get(e.announcement);
+        LegendaryWebhookService.spawn(c,e,pokemon,biome,test);
         var players=server.getPlayerList();
         players.broadcastSystemMessage(colored("━━━━━━ ✦ ATLAS • LENDÁRIOS ✦ ━━━━━━","#F6C85F").copy().withStyle(style->style.withBold(true)),false);
         players.broadcastSystemMessage(colored((test?"[TESTE] ":"")+m.symbol+" "+m.title,"#67E8F9").copy().withStyle(style->style.withBold(true)),false);
@@ -50,6 +52,7 @@ public final class LegendaryAnnouncementService {
             case "DESPAWNED","LOST"->{title="UMA PRESENÇA LENDÁRIA DESAPARECEU";text=" já não está presente no mundo. Sua energia se dissipou.";color="#A78BFA";}
             default->{return;}
         }
+        LegendaryWebhookService.outcome(e,status,test);
         var players=server.getPlayerList();
         players.broadcastSystemMessage(colored("━━━━━━ ✦ ATLAS • LENDÁRIOS ✦ ━━━━━━","#F6C85F").copy().withStyle(style->style.withBold(true)),false);
         players.broadcastSystemMessage(colored((test?"[TESTE] ":"")+title,color).copy().withStyle(style->style.withBold(true)),false);
@@ -58,6 +61,7 @@ public final class LegendaryAnnouncementService {
     }
     public void capture(MinecraftServer server,LegendaryConfig c,LegendaryConfig.Spawn e,JsonObject data,boolean test){
         if(!c.main.announceCapture)return;var m=c.messages.get(e.announcement);
+        LegendaryWebhookService.capture(e,data,test);
         send(server,"═══════ "+m.symbol+" ═══════",m.primary);send(server,(test?"[TESTE] ":"")+m.captureTitle,m.primary);send(server,m.captureText,m.secondary);
         send(server,"Treinador: "+data.get("trainer").getAsString(),m.secondary);
         for(String stat:LABELS)send(server,stat+": "+data.get(stat).getAsInt()+" IVs",m.primary);

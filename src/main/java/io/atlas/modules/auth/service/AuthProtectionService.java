@@ -30,10 +30,14 @@ public class AuthProtectionService {
     }
 
     public boolean canChat(UUID playerUuid) {
-        return authService.isAuthenticated(playerUuid);
+        return authService.isAuthenticated(playerUuid) && !io.atlas.modules.rules.RulesModule.service().pending(playerUuid);
     }
 
     public boolean canExecuteCommand(ServerPlayer player, String command) {
+        if (authService.isAuthenticated(player.getUUID()) && io.atlas.modules.rules.RulesModule.service().pending(player.getUUID())) {
+            return Set.of("regras", "login", "register", "logout").contains(commandRoot(command));
+        }
+        if (commandRoot(command).equals("regras")) return authService.isAuthenticated(player.getUUID());
         // O Dono possui liberdade total sobre os comandos registrados pelo
         // servidor, mas ainda precisa estar autenticado para atravessar a
         // proteção inicial do Auth Lobby.
@@ -43,7 +47,7 @@ public class AuthProtectionService {
         }
 
         boolean authCommand = AUTH_COMMANDS.contains(commandRoot(command));
-        if (Set.of("spawn", "compras", "lendarios").contains(commandRoot(command))) {
+        if (Set.of("spawn", "compras", "lendarios", "diario", "profissoes", "torneio", "ranked", "ranking").contains(commandRoot(command))) {
             return authService.isAuthenticated(player.getUUID());
         }
         if (commandRoot(command).equals("mundodev")) {
@@ -61,6 +65,8 @@ public class AuthProtectionService {
     }
 
     public Component commandBlockedMessage(ServerPlayer player) {
+        if (authService.isAuthenticated(player.getUUID()) && io.atlas.modules.rules.RulesModule.service().pending(player.getUUID()))
+            return io.atlas.modules.rules.RulesModule.service().requiredMessage();
         return LobbyWorlds.isAuth(player.level())
                 ? HUB_COMMAND_BLOCKED_MESSAGE
                 : LOGIN_REQUIRED_MESSAGE;

@@ -50,6 +50,7 @@ public class CommandsMixin {
             CallbackInfo callback
     ) {
         CommandSourceStack source = parsed.getContext().getSource();
+        io.atlas.modules.audit.service.ActivityLogService.command(source,command);
         if (source.getEntity() instanceof ServerPlayer staffPlayer
                 && io.atlas.modules.moderation.ModerationModule.getStaffMode().blocksCommand(staffPlayer, command)) {
             source.sendFailure(net.minecraft.network.chat.Component.literal("§cSaia do StaffMode com /staffmode off antes de usar comandos de gameplay."));

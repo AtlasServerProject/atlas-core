@@ -34,7 +34,7 @@ public class AuthMovementLockService {
             UUID uuid = player.getUUID();
             onlinePlayers.add(uuid);
 
-            if (authService.isAuthenticated(uuid)) {
+            if (authService.isAuthenticated(uuid) && !io.atlas.modules.rules.RulesModule.service().pending(uuid)) {
                 lockedPositions.remove(uuid);
                 continue;
             }
@@ -104,6 +104,10 @@ public class AuthMovementLockService {
     }
 
     private void sendReminder(ServerPlayer player) {
+        if (authService.isAuthenticated(player.getUUID())) {
+            player.displayClientMessage(io.atlas.modules.rules.RulesModule.service().requiredMessage(), true);
+            return;
+        }
         Component message = authService.getSession(player.getUUID())
                 .map(state -> {
                     if (state.premium()) {

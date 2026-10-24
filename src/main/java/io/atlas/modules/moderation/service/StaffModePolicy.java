@@ -7,7 +7,7 @@ import java.util.Set;
 public final class StaffModePolicy {
     private StaffModePolicy() {}
     private static final Set<String> ALLOWED = Set.of("staffmode", "staff", "freeze", "invsee", "endersee",
-            "warn", "kick", "mute", "unmute", "ban", "atlasban", "unban", "atlasunban", "banip", "unbanip",
+            "warn", "kick", "tempban", "mute", "unmute", "ban", "atlasban", "unban", "atlasunban", "banip", "unbanip",
             "staffnotes", "history", "punishments", "help", "list", "msg", "tell", "w", "login", "register", "logout");
     public static boolean allows(String command) {
         if (command == null) return false;

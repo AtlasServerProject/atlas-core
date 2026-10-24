@@ -44,6 +44,9 @@ public class AtlasMod implements ModInitializer {
 CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
     AtlasCommand.register(dispatcher);
     io.atlas.commands.MarketCommand.register(dispatcher);
+    io.atlas.commands.EngagementCommands.register(dispatcher);
+    io.atlas.commands.TournamentCommand.register(dispatcher);
+            io.atlas.commands.RankedCommands.register(dispatcher);
     io.atlas.commands.ResearchCommand.register(dispatcher);
     io.atlas.commands.PokedexCommand.register(dispatcher);
     io.atlas.commands.ChatCommands.register(dispatcher);
@@ -52,6 +55,7 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
     AddMoneyCommand.register(dispatcher);
     RankCommand.register(dispatcher);
     RegisterCommand.register(dispatcher);
+    io.atlas.commands.RulesCommand.register(dispatcher);
     LoginCommand.register(dispatcher);
     LogoutCommand.register(dispatcher);
     SpawnCommand.register(dispatcher);

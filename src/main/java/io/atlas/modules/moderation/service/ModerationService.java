@@ -102,6 +102,37 @@ public class ModerationService {
         return Result.success("§aBan #" + id + " aplicado em §f" + target.get().username() + "§a.");
     }
 
+    public Result tempban(CommandSourceStack source, String username, ModerationDuration duration, String reason) {
+        if (duration == null || duration.permanent() || duration.duration() == null
+                || duration.duration().isZero() || duration.duration().isNegative()
+                || duration.duration().compareTo(java.time.Duration.ofDays(3650)) > 0) {
+            return Result.failure("§cInforme um prazo entre 1s e 3650d para o ban temporário.");
+        }
+        String cleanReason = reason == null ? "" : reason.trim();
+        if (cleanReason.isEmpty() || cleanReason.length() > 500 || cleanReason.chars().anyMatch(Character::isISOControl)) {
+            return Result.failure("§cInforme um motivo de 1 a 500 caracteres, sem caracteres de controle.");
+        }
+        Optional<ModerationRepository.PlayerRef> target = repository.findPlayer(username);
+        if (target.isEmpty()) return Result.playerNotFound(username);
+        Result permission = checkHierarchy(source, target.get());
+        if (!permission.success()) return permission;
+        if (source.getPlayer() != null && source.getPlayer().getUUID().equals(target.get().uuid())) {
+            return Result.failure("§cVocê não pode aplicar ban temporário em si mesmo.");
+        }
+        if (repository.findActivePlayerPunishment(target.get().uuid(), PunishmentType.BAN).isPresent()) {
+            return Result.failure("§cEsse jogador já possui ban ativo. Revise o histórico antes de aplicar outra medida.");
+        }
+        Instant expiresAt = Instant.now().plus(duration.duration());
+        long id = repository.create(PunishmentType.BAN, target.get(), null, actor(source), actorName(source), cleanReason, expiresAt);
+        ServerPlayer online = source.getServer().getPlayerList().getPlayer(target.get().uuid());
+        if (online != null) {
+            online.connection.disconnect(Component.literal("§cVocê foi banido temporariamente do Atlas."
+                    + "\n§7Motivo: §f" + cleanReason + "\n§7Expira: §f" + describe(expiresAt)));
+        }
+        return Result.success("§aBan temporário #" + id + " aplicado em §f" + target.get().username()
+                + "§a. Expira: §f" + describe(expiresAt) + "§a.");
+    }
+
     public Result unban(CommandSourceStack source, String username, String reason) {
         Optional<ModerationRepository.PlayerRef> target = repository.findPlayer(username);
         int atlasCount = target
@@ -171,6 +202,7 @@ public class ModerationService {
                 + " §f" + punishment.type()
                 + " §8| " + status
                 + " §8| §7por §f" + punishment.actorName()
+                + " §8| §7expira: §f" + describe(punishment.expiresAt())
                 + " §8| §7motivo: §f" + punishment.reason();
     }
 

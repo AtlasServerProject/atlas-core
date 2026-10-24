@@ -64,6 +64,7 @@ public class ChatService {
         if(channel.equals("vip")&&!vipAccess(sender)){sender.sendSystemMessage(net.minecraft.network.chat.Component.literal("§cEste canal exige VIP ativo ou cargo staff autorizado."));return 0;}
         if(channel.equals("staff")&&!staffAccess(sender)){sender.sendSystemMessage(net.minecraft.network.chat.Component.literal("§cCanal exclusivo da staff."));return 0;}
         if(text.isBlank()||text.length()>256){sender.sendSystemMessage(net.minecraft.network.chat.Component.literal("§cEnvie de 1 a 256 caracteres."));return 0;}
+        io.atlas.modules.audit.service.ActivityLogService.chat(sender,channel,text);
         var message=formatted(sender,channel.equals("local")?"Local":channel.equals("feira")?"Feira":channel.equals("vip")?"VIP":channel.equals("staff")?"Staff":"G",text);
         for(var recipient:sender.getServer().getPlayerList().getPlayers()){
             if(!io.atlas.modules.auth.AuthModule.getAuthService().isAuthenticated(recipient.getUUID()))continue;
@@ -78,6 +79,7 @@ public class ChatService {
         if(!permitted(sender))return 0;
         if(!io.atlas.modules.auth.AuthModule.getAuthService().isAuthenticated(target.getUUID())){sender.sendSystemMessage(net.minecraft.network.chat.Component.literal("§cEsse jogador ainda não está autenticado."));return 0;}
         if(text.isBlank()||text.length()>256){sender.sendSystemMessage(net.minecraft.network.chat.Component.literal("§cEnvie de 1 a 256 caracteres."));return 0;}
+        io.atlas.modules.audit.service.ActivityLogService.chat(sender,"tell → "+target.getName().getString(),text);
         var body=formatted(sender,"Tell → "+target.getName().getString(),text);
         sender.sendSystemMessage(body);if(target!=sender)target.sendSystemMessage(body);return 1;
     }

@@ -26,6 +26,7 @@ public record ModerationDuration(Duration duration, boolean permanent) {
             return Optional.empty();
         }
 
+        try {
         return switch (unit) {
             case 's' -> Optional.of(new ModerationDuration(Duration.ofSeconds(amount), false));
             case 'm' -> Optional.of(new ModerationDuration(Duration.ofMinutes(amount), false));
@@ -33,5 +34,14 @@ public record ModerationDuration(Duration duration, boolean permanent) {
             case 'd' -> Optional.of(new ModerationDuration(Duration.ofDays(amount), false));
             default -> Optional.empty();
         };
+        } catch (ArithmeticException exception) {
+            return Optional.empty();
+        }
+    }
+
+    /** Finite, database-safe duration for temporary bans. */
+    public static Optional<ModerationDuration> parseTemporary(String input) {
+        return parse(input).filter(value -> !value.permanent()
+                && value.duration().compareTo(Duration.ofDays(3650)) <= 0);
     }
 }

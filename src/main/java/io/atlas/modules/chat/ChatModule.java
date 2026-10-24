@@ -26,6 +26,10 @@ public class ChatModule implements AtlasModule {
                 ModerationModule.getService()
         );
         net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents.DISCONNECT.register((handler,server)->SERVICE.remove(handler.player.getUUID()));
+        net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents.JOIN.register((handler,sender,server)->
+            io.atlas.modules.audit.service.ActivityLogService.record("JOIN",handler.player.getName().getString(),handler.player.getUUID().toString(),"connection","Entrou no Minecraft"));
+        net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents.DISCONNECT.register((handler,server)->
+            io.atlas.modules.audit.service.ActivityLogService.record("LEAVE",handler.player.getName().getString(),handler.player.getUUID().toString(),"connection","Saiu do Minecraft"));
         AtlasMod.LOGGER.info("Chat Formatter iniciado.");
     }
 

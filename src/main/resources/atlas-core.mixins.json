@@ -23,7 +23,10 @@
     "PokemonFileStoreAccessor",
     "LegendaryPokemonPropertiesMixin",
     "LegendaryPokemonLoadMixin",
-    "LegendaryPokemonStoreMixin"
+    "LegendaryPokemonStoreMixin",
+    "ProfessionBlockPlacementMixin",
+    "ProfessionFishingMixin",
+    "ProfessionPistonMixin"
   ],
   "injectors": {
     "defaultRequire": 1
