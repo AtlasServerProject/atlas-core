@@ -39,6 +39,9 @@ public class AuthModule implements AtlasModule {
     private static final AuthGameplayProtectionService gameplayProtectionService =
             new AuthGameplayProtectionService(authService);
 
+    private static final io.atlas.modules.auth.service.AuthRecoveryService recovery=new io.atlas.modules.auth.service.AuthRecoveryService();
+    public static io.atlas.modules.auth.service.AuthRecoveryService getRecoveryService(){return recovery;}
+
     public static AuthService getAuthService() {
         return authService;
     }
@@ -58,6 +61,7 @@ public class AuthModule implements AtlasModule {
 
     @Override
     public void enable() {
+        recovery.start();
         AuthConnectionListener.register(
                 authService,
                 lobbySpawnService,
@@ -76,6 +80,7 @@ public class AuthModule implements AtlasModule {
 
     @Override
     public void disable() {
+        recovery.stop();
         authService.shutdown();
         lobbySpawnService.clear();
         movementLockService.clear();

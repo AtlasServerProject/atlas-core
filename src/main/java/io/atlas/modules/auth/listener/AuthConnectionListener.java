@@ -34,10 +34,11 @@ public class AuthConnectionListener {
             } else if (authService.isRegistered(handler.player.getUUID())) {
                 message = Component.literal("§eUse §f/login <senha> §epara autenticar.");
             } else {
-                message = Component.literal("§eUse §f/register <senha> <confirmacao> §epara registrar.");
+                message = Component.literal("§eUse §f/register <senha> <confirmacao> [email] §epara registrar.");
             }
             handler.player.sendSystemMessage(message);
             welcomeService.send(handler.player);
+            io.atlas.modules.auth.AuthModule.getRecoveryService().notifyMissingEmail(handler.player);
             server.getCommands().sendCommands(handler.player);
         });
 

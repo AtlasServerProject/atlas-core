@@ -31,6 +31,7 @@ public class RankModule implements AtlasModule {
     @Override
     public void enable() {
         rankService.loadRanks();
+        io.atlas.modules.rank.listener.WorldEditPermissionListener.register(rankService);
         RankSyncListener.register(syncService);
         AtlasMod.LOGGER.info("Rank Manager iniciado.");
     }

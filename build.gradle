@@ -43,6 +43,7 @@ dependencies {
 	modCompileOnly "maven.modrinth:MdwFAVRL:GJ2a1b8O"
 	compileOnly "org.jetbrains.kotlin:kotlin-stdlib:2.2.20"
 
+	include(modImplementation("me.lucko:fabric-permissions-api:0.3.1"))
 	include implementation("org.postgresql:postgresql:42.7.4")
 	include implementation("org.mindrot:jbcrypt:0.4")
 }
@@ -281,3 +282,37 @@ tasks.register('temporaryBanRepositoryTest',JavaExec) {
  mainClass='io.atlas.modules.moderation.TemporaryBanRepositoryTest'
  doFirst { if(!project.hasProperty('legendaryTestDir'))throw new GradleException('Isolated dev directory required');workingDir project.property('legendaryTestDir') }
 }
+
+tasks.register('worldEditPermissionTest', JavaExec) {
+ dependsOn testClasses
+ classpath = sourceSets.test.runtimeClasspath
+ mainClass = 'io.atlas.modules.rank.WorldEditPermissionTest'
+}
+tasks.named('build') { dependsOn worldEditPermissionTest }
+
+// Explicit isolated PostgreSQL integration test; never part of production startup.
+tasks.register('crateRepositoryTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'io.atlas.modules.crates.CrateRepositoryTest'
+    args providers.gradleProperty('crateTestUrl').orElse('jdbc:postgresql://127.0.0.1:55458/postgres').get()
+}
+
+tasks.register('shopOfferTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'io.atlas.modules.shopkeeper.ShopOfferTest'
+}
+tasks.named('build') { dependsOn shopOfferTest }
+tasks.register('shopkeeperRepositoryTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'io.atlas.modules.shopkeeper.ShopkeeperRepositoryTest'
+    args providers.gradleProperty('shopTestUrl').orElse('jdbc:postgresql://127.0.0.1:55458/postgres').get()
+}
+tasks.register('shopRestrictionsTest', JavaExec) {
+ dependsOn testClasses
+ classpath=sourceSets.test.runtimeClasspath
+ mainClass='io.atlas.modules.shopkeeper.ShopRestrictionsTest'
+}
+tasks.named('build') { dependsOn shopRestrictionsTest }

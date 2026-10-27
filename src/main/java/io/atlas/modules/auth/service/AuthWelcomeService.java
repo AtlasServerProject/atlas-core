@@ -45,7 +45,7 @@ public class AuthWelcomeService {
             return Component.literal("Use /login <senha> para continuar")
                     .withStyle(ChatFormatting.GOLD);
         }
-        return Component.literal("Use /register <senha> <confirmacao> para começar")
+        return Component.literal("Use /register <senha> <confirmacao> [email] para começar")
                 .withStyle(ChatFormatting.GOLD);
     }
 }

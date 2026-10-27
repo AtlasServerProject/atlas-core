@@ -13,25 +13,24 @@ public class RegisterCommand {
     private static final AuthService authService = AuthModule.getAuthService();
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(
-                Commands.literal("register")
-                        .requires(CommandSourceStack::isPlayer)
-                        .then(Commands.argument("senha", StringArgumentType.word())
-                                .then(Commands.argument("confirmacao", StringArgumentType.word())
-                                        .executes(context -> execute(
-                                                context.getSource(),
-                                                StringArgumentType.getString(context, "senha"),
-                                                StringArgumentType.getString(context, "confirmacao")
-                                        ))))
-        );
+        dispatcher.register(Commands.literal("register").requires(CommandSourceStack::isPlayer)
+          .then(Commands.argument("senha",StringArgumentType.word())
+            .then(Commands.argument("confirmacao",StringArgumentType.word())
+              .executes(context -> execute(context.getSource(),StringArgumentType.getString(context,"senha"),StringArgumentType.getString(context,"confirmacao"),null))
+              .then(Commands.argument("email",StringArgumentType.greedyString())
+                .executes(context -> execute(context.getSource(),StringArgumentType.getString(context,"senha"),StringArgumentType.getString(context,"confirmacao"),StringArgumentType.getString(context,"email")))))));
     }
 
     private static int execute(
             CommandSourceStack source,
             String password,
-            String confirmation
+            String confirmation,
+            String email
     ) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
         var player = source.getPlayerOrException();
+        if(email!=null&&!io.atlas.modules.auth.service.AuthRecoveryService.validEmail(email)){
+            source.sendFailure(Component.literal("§cEmail inválido. Use /register <senha> <confirmacao> <email>."));return 0;
+        }
         AuthService.RegistrationResult result = authService.register(
                 player.getUUID(),
                 password,
@@ -52,6 +51,8 @@ public class RegisterCommand {
         if (result == AuthService.RegistrationResult.SUCCESS) {
             source.sendSuccess(() -> message, false);
             source.getServer().getCommands().sendCommands(player);
+            if(email!=null)AuthModule.getRecoveryService().email(player,email);
+            else AuthModule.getRecoveryService().notifyMissingEmail(player);
             return 1;
         }
 

@@ -11,14 +11,14 @@ import java.util.UUID;
 
 public class AuthProtectionService {
 
-    private static final Set<String> AUTH_COMMANDS = Set.of("login", "register");
+    private static final Set<String> AUTH_COMMANDS = Set.of("login", "register", "recuperarsenha", "email");
     private static final Set<String> DEVELOPER_COMMANDS = Set.of("dev", "op", "deop", "atlaslegendary");
     private static final Component LOGIN_REQUIRED_MESSAGE = Component.literal(
             "§cVocê precisa se autenticar antes de fazer isso. "
                     + "§eUse /login ou /register."
     );
     private static final Component HUB_COMMAND_BLOCKED_MESSAGE = Component.literal(
-            "§cComandos são bloqueados no Hub. §eApenas /login e /register são permitidos."
+            "§cComandos são bloqueados no Hub. §eUse /login, /register ou /recuperarsenha; /email exige login."
     );
 
     private final AuthService authService;
@@ -35,7 +35,7 @@ public class AuthProtectionService {
 
     public boolean canExecuteCommand(ServerPlayer player, String command) {
         if (authService.isAuthenticated(player.getUUID()) && io.atlas.modules.rules.RulesModule.service().pending(player.getUUID())) {
-            return Set.of("regras", "login", "register", "logout").contains(commandRoot(command));
+            return Set.of("regras", "login", "register", "logout", "email", "recuperarsenha").contains(commandRoot(command));
         }
         if (commandRoot(command).equals("regras")) return authService.isAuthenticated(player.getUUID());
         // O Dono possui liberdade total sobre os comandos registrados pelo

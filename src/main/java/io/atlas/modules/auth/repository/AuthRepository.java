@@ -164,6 +164,25 @@ public class AuthRepository {
         }
     }
 
+    public boolean replacePassword(UUID player,String expectedHash,String newHash) {
+        String sql="""
+          WITH changed AS (
+            UPDATE auth_accounts a SET password_hash=? FROM players p
+            WHERE a.player_id=p.id AND p.uuid=? AND a.password_hash=? AND a.is_premium=false
+            RETURNING a.player_id
+          ), closed AS (
+            UPDATE player_sessions SET logged_in=false,expires_at=NOW()
+            WHERE player_id IN (SELECT player_id FROM changed)
+          )
+          INSERT INTO auth_recovery_audit(player_uuid,action)
+          SELECT ?,'PASSWORD_RESET_EMAIL' FROM changed
+          """;
+        try(var statement=DatabaseManager.getConnection().prepareStatement(sql)) {
+            statement.setString(1,newHash);statement.setObject(2,player);statement.setString(3,expectedHash);statement.setObject(4,player);
+            return statement.executeUpdate()==1;
+        }catch(SQLException e){throw new IllegalStateException("Não foi possível redefinir a senha.",e);}
+    }
+
     private AuthAccount mapAccount(ResultSet result) throws SQLException {
         return new AuthAccount(
                 result.getLong("id"),

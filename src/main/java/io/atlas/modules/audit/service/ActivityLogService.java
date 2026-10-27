@@ -7,7 +7,7 @@ import net.minecraft.commands.CommandSourceStack;
 
 public final class ActivityLogService {
     public static String redact(String text) {
-        return text.replaceAll("(?i)/(?:[\\w-]+:)?(?:login|register|changepassword|changepass|senha|site\\s+vincular)\\b[^\\r\\n]*","/[COMANDO SENSÍVEL OCULTO]")
+        return text.replaceAll("(?i)/(?:[\\w-]+:)?(?:recuperarsenha|email|login|register|changepassword|changepass|senha|site\\s+vincular)\\b[^\\r\\n]*","/[COMANDO SENSÍVEL OCULTO]")
             .replaceAll("(?i)(senha|password|token|secret|api[_ -]?key)\\s*[:=]\\s*[^\\s]+","$1=[OCULTO]")
             .replaceAll("(?i)https?://[^\\s]+/api(?:/v\\d+)?/webhooks/[^\\s]+","[WEBHOOK OCULTO]")
             .replaceAll("[\\w-]{23,}\\.[\\w-]{6}\\.[\\w-]{25,}","[TOKEN OCULTO]");

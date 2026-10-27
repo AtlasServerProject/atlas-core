@@ -26,7 +26,9 @@
     "LegendaryPokemonStoreMixin",
     "ProfessionBlockPlacementMixin",
     "ProfessionFishingMixin",
-    "ProfessionPistonMixin"
+    "ProfessionPistonMixin",
+    "RestrictedBlockPlacementMixin",
+    "RestrictedRecipeMixin"
   ],
   "injectors": {
     "defaultRequire": 1

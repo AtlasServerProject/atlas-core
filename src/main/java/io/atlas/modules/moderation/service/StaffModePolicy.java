@@ -8,7 +8,7 @@ public final class StaffModePolicy {
     private StaffModePolicy() {}
     private static final Set<String> ALLOWED = Set.of("staffmode", "staff", "freeze", "invsee", "endersee",
             "warn", "kick", "tempban", "mute", "unmute", "ban", "atlasban", "unban", "atlasunban", "banip", "unbanip",
-            "staffnotes", "history", "punishments", "help", "list", "msg", "tell", "w", "login", "register", "logout");
+            "staffnotes", "history", "punishments", "help", "list", "msg", "tell", "w", "login", "register", "logout", "email", "recuperarsenha");
     public static boolean allows(String command) {
         if (command == null) return false;
         String root = command.stripLeading().replaceFirst("^/+", "").split("\\s+", 2)[0].toLowerCase(Locale.ROOT);

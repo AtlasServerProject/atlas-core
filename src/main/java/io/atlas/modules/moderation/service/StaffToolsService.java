@@ -22,7 +22,7 @@ public final class StaffToolsService {
     private final RankService ranks;
     // Temporary moderation state: survives reconnects, cleared on server restart.
     private final Map<UUID, Anchor> frozen = java.util.Collections.synchronizedMap(new HashMap<>());
-    private static final Set<String> AUTH_COMMANDS = Set.of("login", "register", "logout");
+    private static final Set<String> AUTH_COMMANDS = Set.of("login", "register", "logout", "email", "recuperarsenha");
 
     public StaffToolsService(RankService ranks) { this.ranks = ranks; }
 

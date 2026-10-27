@@ -7,11 +7,11 @@ import net.minecraft.world.phys.Vec3;
 
 public class LobbyTravelService {
 
-    private static final double EMERALD_X = 918.5302583016859;
+    private static final double EMERALD_X = 918.526;
     private static final double EMERALD_Y = 71.0;
-    private static final double EMERALD_Z = 3838.5058040626927;
-    private static final float EMERALD_YAW = 179.39441F;
-    private static final float EMERALD_PITCH = -1.7545054F;
+    private static final double EMERALD_Z = 3808.433;
+    private static final float EMERALD_YAW = 179.6F;
+    private static final float EMERALD_PITCH = 6.5F;
 
     public boolean teleportToEmerald(ServerPlayer player) {
         ServerLevel emerald = player.getServer().getLevel(LobbyWorlds.EMERALD);

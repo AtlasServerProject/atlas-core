@@ -51,12 +51,12 @@ public final class CompetitiveService {
     String unavailable=PlayerBattleChecks.error(server,a,b);if(unavailable!=null){failure.accept(unavailable);return;}
     try{
      if(!first.stable.equals(snapshot(a).stable)||!second.stable.equals(snapshot(b).stable)){failure.accept("Uma equipe mudou durante a validação. Tente novamente.");return;}
-     var rules=new LinkedHashSet<>(List.of(CompetitivePolicy.format(tier),"Dynamax Clause","Bag Clause"));
-     var format=new BattleFormat("gen9",BattleTypes.INSTANCE.getSINGLES(),rules,9,-1);
+     var rules=new LinkedHashSet<>(List.of(CompetitivePolicy.format(tier),"Dynamax Clause","Bag Clause","!Team Preview"));
+     var format=new BattleFormat("cobblemon",BattleTypes.INSTANCE.getSINGLES(),rules,9,-1);
      // Clone teams: battle damage, transformations and consumed items do not mutate the validated source team.
      var result=BattleBuilder.INSTANCE.pvp1v1(a,b,null,null,format,true,false);
      if(result instanceof SuccessfulBattleStart started){
-      var battle=started.getBattle();var guard=new Guard(battle,a.getUUID(),b.getUUID(),tier,first,second);guards.put(battle.getBattleId(),guard);
+      var battle=started.getBattle();try{CompetitiveTeamStoreService.attach(battle,a.getUUID(),b.getUUID());}catch(RuntimeException setupError){battle.stop();throw setupError;}var guard=new Guard(battle,a.getUUID(),b.getUUID(),tier,first,second);guards.put(battle.getBattleId(),guard);
       ActivityLogService.record("COMPETITIVE_VALIDATED","Atlas",battle.getBattleId().toString(),"competitive",tier+" • "+CompetitivePolicy.VERSION);
       battle.getOnEndHandlers().add(ended->{guard.endedAt=System.nanoTime();return kotlin.Unit.INSTANCE;});success.accept(started);
      }else{
@@ -70,7 +70,7 @@ public final class CompetitiveService {
  public boolean originalLocked(Pokemon pokemon){return guards.values().stream().anyMatch(g->!g.battle.getEnded()&&g.originals.stream().anyMatch(p->p==pokemon));}
  private boolean intact(Guard g){
   var format=g.battle.getFormat();
-  if(format.getGen()!=9||!format.getRuleSet().containsAll(List.of(CompetitivePolicy.format(g.tier),"Dynamax Clause","Bag Clause")))return false;
+  if(!format.getMod().equals("cobblemon")||format.getGen()!=9||!format.getRuleSet().containsAll(List.of(CompetitivePolicy.format(g.tier),"Dynamax Clause","Bag Clause","!Team Preview")))return false;
   var a=server.getPlayerList().getPlayer(g.a);var b=server.getPlayerList().getPlayer(g.b);
   // A disconnect can produce a legitimate native forfeit; keep winner handling intact.
   try{return (a==null||g.sa.equals(snapshot(a).stable))&&(b==null||g.sb.equals(snapshot(b).stable));}catch(Exception e){return false;}

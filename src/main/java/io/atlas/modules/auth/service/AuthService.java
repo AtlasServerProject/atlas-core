@@ -249,6 +249,13 @@ public class AuthService {
                 .toList();
     }
 
+    public boolean resetPasswordWithVerifiedEmail(UUID player,String expectedHash,String newHash) {
+        if(!repository.replacePassword(player,expectedHash,newHash))return false;
+        cache.get(player).ifPresent(this::expireSession);
+        attemptLimiter.reset(player);
+        return true;
+    }
+
     public void shutdown() {
         cache.getAll().forEach(state -> repository.closeSession(state.session().id()));
         cache.clear();

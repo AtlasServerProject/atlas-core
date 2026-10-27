@@ -37,7 +37,7 @@ public class LoginCommand {
             case SUCCESS -> Component.literal("§aLogin realizado com sucesso.");
             case NOT_REGISTERED -> Component.literal("§cConta não registrada. Use /register.");
             case ALREADY_AUTHENTICATED -> Component.literal("§eVocê já está autenticado.");
-            case INVALID_PASSWORD -> Component.literal("§cSenha incorreta.");
+            case INVALID_PASSWORD -> Component.literal("§cSenha incorreta. §eEsqueceu? Use /recuperarsenha.");
             case COOLDOWN -> Component.literal(
                     "§cMuitas tentativas inválidas. Aguarde §e"
                             + formatCooldown(authService.getLoginCooldownSeconds(player.getUUID()))
@@ -51,6 +51,7 @@ public class LoginCommand {
                 || result == AuthService.LoginResult.ALREADY_AUTHENTICATED) {
             source.sendSuccess(() -> message, false);
             source.getServer().getCommands().sendCommands(player);
+            AuthModule.getRecoveryService().notifyMissingEmail(player);
             return 1;
         }
 
